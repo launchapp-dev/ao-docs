@@ -8,7 +8,7 @@ For the full tool table with parameters, see [MCP Tools Reference](../reference/
 
 ## Overview
 
-AO exposes 73 MCP tools organized into 8 groups:
+AO exposes 75 MCP tools organized into 8 groups:
 
 | Group | Tools | Purpose |
 |-------|-------|---------|
