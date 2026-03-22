@@ -2,6 +2,10 @@
 
 Practical walkthroughs for day-to-day AO operations.
 
+## Getting Started
+
+- **[First Autonomous PR in 5 Minutes](first-autonomous-pr.md)** -- The fastest path from installation to your first autonomous pull request.
+
 ## Planning and Requirements
 
 - **[Requirements Workflow](requirements-workflow.md)** -- From vision drafting through requirement decomposition into actionable tasks.
