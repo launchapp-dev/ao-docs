@@ -68,7 +68,7 @@ Every tool accepts an optional `project_root` parameter to override the default 
 
 ---
 
-## Workflow Operations (14 tools)
+## Workflow Operations (16 tools)
 
 ### Runtime Tools (9)
 
@@ -91,7 +91,7 @@ Every tool accepts an optional `project_root` parameter to override the default 
 | `ao.workflow.decisions` | List decisions made during workflow execution | `id`, `limit`, `offset`, `max_tokens` |
 | `ao.workflow.checkpoints.list` | List saved workflow state checkpoints | `id`, `limit`, `offset`, `max_tokens` |
 
-### Definition Tools (3)
+### Definition & Config Tools (5)
 
 | Tool | Description | Key Parameters |
 |---|---|---|
@@ -116,7 +116,7 @@ Every tool accepts an optional `project_root` parameter to override the default 
 
 ---
 
-## Queue Operations (6 tools)
+## Queue Operations (7 tools)
 
 | Tool | Description | Key Parameters |
 |---|---|---|
@@ -126,6 +126,7 @@ Every tool accepts an optional `project_root` parameter to override the default 
 | `ao.queue.reorder` | Set preferred dispatch order | `subject_ids[]` |
 | `ao.queue.hold` | Hold a pending subject from dispatch | `subject_id` |
 | `ao.queue.release` | Release a held subject for dispatch | `subject_id` |
+| `ao.queue.drop` | Remove a queue entry regardless of status | `subject_id` |
 
 ---
 
