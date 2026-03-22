@@ -78,10 +78,10 @@ Tasks are the primary unit of work. Each task has an ID (e.g., `TASK-001`), titl
 { "id": "TASK-001", "assignee": "agent:claude", "assignee_type": "agent", "model": "claude-sonnet-4-6" }
 
 // ao.task.set-priority
-{ "task_id": "TASK-001", "priority": "critical" }
+{ "id": "TASK-001", "priority": "critical" }
 
 // ao.task.set-deadline — set or clear (omit deadline to clear)
-{ "task_id": "TASK-001", "deadline": "2026-03-15" }
+{ "id": "TASK-001", "deadline": "2026-03-15" }
 ```
 
 ### Checklists
@@ -98,13 +98,13 @@ Tasks are the primary unit of work. Each task has an ID (e.g., `TASK-001`), titl
 
 ```json
 // ao.task.pause — prevents daemon from scheduling
-{ "task_id": "TASK-001" }
+{ "id": "TASK-001" }
 
 // ao.task.resume — re-enables scheduling
-{ "task_id": "TASK-001" }
+{ "id": "TASK-001" }
 
 // ao.task.cancel — permanently cancel
-{ "task_id": "TASK-001", "confirm": "yes" }
+{ "id": "TASK-001", "confirm": "yes" }
 ```
 
 ### Bulk Operations
