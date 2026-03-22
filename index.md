@@ -14,7 +14,7 @@ hero:
       link: /getting-started/
     - theme: alt
       text: View on GitHub
-      link: https://github.com/AudioGenius-ai/ao-cli
+      link: https://github.com/launchapp-dev/ao
 
 features:
   - icon: "\U0001F3AF"
@@ -34,7 +34,7 @@ features:
     linkText: Understand the daemon
   - icon: "\U0001F527"
     title: MCP Tools
-    details: 68 built-in MCP tools for task management, git operations, workflow control, and state mutations. Agents act through tools, not code.
+    details: 73 built-in MCP tools for task management, git operations, workflow control, and state mutations. Agents act through tools, not code.
     link: /concepts/mcp-tools
     linkText: Explore MCP tools
   - icon: "\U0001F333"

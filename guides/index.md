@@ -2,6 +2,10 @@
 
 Practical walkthroughs for day-to-day AO operations.
 
+## Getting Started
+
+- **[First Autonomous PR in 5 Minutes](first-autonomous-pr.md)** -- The fastest path from installation to your first autonomous pull request.
+
 ## Planning and Requirements
 
 - **[Requirements Workflow](requirements-workflow.md)** -- From vision drafting through requirement decomposition into actionable tasks.
@@ -15,12 +19,16 @@ Practical walkthroughs for day-to-day AO operations.
 ## Operations
 
 - **[Daemon Operations](daemon-operations.md)** -- Starting, stopping, pausing, configuring, and monitoring the autonomous daemon.
+- **[Pack Management](pack-management.md)** -- Installing, listing, configuring, and troubleshooting AO plugin packs.
+- **[Fleet Management](fleet-management.md)** -- Running parallel agents, configuring concurrency, monitoring fleet health, and coordinating multi-agent work.
 - **[Model Routing](model-routing.md)** -- How AO selects models and tools per phase, and how to override defaults.
 - **[Web Dashboard](web-dashboard.md)** -- Launching the web UI, navigating boards, and using the REST API.
 
 ## MCP & Agent Integration
 
-- **[Working with AO via MCP Tools](agents.md)** -- Complete guide to all ~68 MCP tools: JSON examples, common workflows, sequencing tips, pagination, and batch operations.
+- **[Working with AO via MCP Tools](agents.md)** -- Complete guide to all 73 MCP tools: JSON examples, common workflows, sequencing tips, pagination, and batch operations.
+- **[Agent Persona Cookbook](agent-personas.md)** -- Ready-to-use agent persona templates: code reviewer, requirements analyst, architect, QA engineer, security reviewer, documentation writer.
+- **[Skills Management](skills-management.md)** -- How to discover, install, and use agent skills. Referencing skills in personas and workflows.
 
 ## Infrastructure
 
