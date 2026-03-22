@@ -227,7 +227,7 @@ The daemon is the background scheduler that picks up ready tasks, dispatches wor
 {
   "autonomous": true,
   "interval_secs": 5,
-  "max_agents": 3,
+  "pool_size": 3,
   "auto_run_ready": true,
   "phase_timeout_secs": 1800
 }
