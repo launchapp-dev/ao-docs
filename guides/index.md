@@ -26,7 +26,7 @@ Practical walkthroughs for day-to-day AO operations.
 
 ## MCP & Agent Integration
 
-- **[Working with AO via MCP Tools](agents.md)** -- Complete guide to all ~68 MCP tools: JSON examples, common workflows, sequencing tips, pagination, and batch operations.
+- **[Working with AO via MCP Tools](agents.md)** -- Complete guide to all 75 MCP tools: JSON examples, common workflows, sequencing tips, pagination, and batch operations.
 - **[Agent Persona Cookbook](agent-personas.md)** -- Ready-to-use agent persona templates: code reviewer, requirements analyst, architect, QA engineer, security reviewer, documentation writer.
 - **[Skills Management](skills-management.md)** -- How to discover, install, and use agent skills. Referencing skills in personas and workflows.
 
