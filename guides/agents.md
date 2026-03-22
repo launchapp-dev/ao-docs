@@ -8,7 +8,7 @@ For the full tool table with parameters, see [MCP Tools Reference](../reference/
 
 ## Overview
 
-AO exposes 75 MCP tools organized into 8 groups:
+AO exposes 73 MCP tools organized into 8 groups:
 
 | Group | Tools | Purpose |
 |-------|-------|---------|
@@ -326,6 +326,9 @@ View what agents have produced during execution.
 
 // ao.output.artifacts — files generated during execution
 { "execution_id": "exec-abc123" }
+
+// ao.output.phase-outputs — persisted workflow phase outputs
+{ "workflow_id": "wf-123" }
 ```
 
 ---
@@ -399,6 +402,9 @@ The runner is a separate process that spawns CLI tools. It's managed by the daem
 
 // ao.runner.orphans-detect — find leaked processes
 {}
+
+// ao.runner.orphans-cleanup — clean up leaked processes
+{ "run_id": ["abc123"] }
 
 // ao.runner.restart-stats — uptime and restart history
 {}
