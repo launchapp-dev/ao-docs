@@ -17,7 +17,7 @@ Before starting, ensure you have the following ready. Each item includes a time 
 
 ### Prerequisite Details
 
-1. **AO Binary**: Download from [releases](https://github.com/your-org/ao-cli/releases) or [build from source](../getting-started/installation.md).
+1. **AO Binary**: Download from [releases](https://github.com/launchapp-dev/ao/releases) or [build from source](../getting-started/installation.md).
 
 2. **Git Repository**: AO works within a Git repository. Create one if needed:
    ```bash
