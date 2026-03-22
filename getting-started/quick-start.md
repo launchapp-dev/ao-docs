@@ -3,7 +3,26 @@
 This guide takes you from a fresh repository to AO-managed workflows running in
 that project.
 
+**⏱️ Total estimated time: ~6 minutes**
+
+## Timeline Overview
+
+```
+┌─────────────┐    ┌──────────────┐    ┌─────────────────┐    ┌────────────────┐    ┌─────────────┐    ┌──────────────┐
+│  Initialize │───▶│ Draft Vision │───▶│ Generate Reqs   │───▶│ Materialize    │───▶│   Start     │───▶│   Monitor    │
+│   (~1 min)  │    │  (~1 min)    │    │   (~2 min)      │    │ Tasks (~1 min) │    │Daemon (~30s)│    │  (~30 sec)   │
+└─────────────┘    └──────────────┘    └─────────────────┘    └────────────────┘    └─────────────┘    └──────────────┘
+       │                   │                     │                      │                   │                  │
+       └───────────────────┴─────────────────────┴──────────────────────┴───────────────────┴──────────────────┘
+                                                               │
+                                                        Autonomous PR Flow
+```
+
+For the fastest path to your first autonomous PR in **5 minutes**, see the **[First Autonomous PR Guide (5 min)](../guides/first-autonomous-pr.md)**.
+
 ## 1. Initialize the Project
+
+**⏱️ Time: ~1 min**
 
 ```bash
 cd /path/to/your/project
@@ -16,6 +35,8 @@ bundled and active pack inventory available to the project.
 
 ## 2. Draft a Vision
 
+**⏱️ Time: ~1 min**
+
 ```bash
 ao vision draft
 ```
@@ -25,6 +46,8 @@ artifact through AO-managed state.
 
 ## 3. Generate Requirements
 
+**⏱️ Time: ~2 min**
+
 ```bash
 ao requirements draft --include-codebase-scan
 ```
@@ -33,6 +56,8 @@ This resolves `ao.requirement/draft`. Requirement planning is now described as
 a workflow surface, with compatibility aliases for the older `builtin/*` refs.
 
 ## 4. Materialize Tasks
+
+**⏱️ Time: ~1 min**
 
 ```bash
 ao requirements execute
@@ -44,6 +69,8 @@ business logic.
 
 ## 5. Start the Daemon
 
+**⏱️ Time: ~30 sec**
+
 ```bash
 ao daemon start --autonomous
 ```
@@ -52,6 +79,8 @@ The daemon handles queueing, capacity, and subprocess supervision only. Task and
 requirement behavior comes from workflows, packs, MCP, and subject adapters.
 
 ## 6. Monitor Progress
+
+**⏱️ Time: ~30 sec**
 
 ```bash
 ao task stats
