@@ -26,3 +26,13 @@ Practical walkthroughs for day-to-day AO operations.
 
 - **[CI/CD](ci-cd.md)** -- CI workflows, release pipelines, build commands, and test targets.
 - **[Troubleshooting](troubleshooting.md)** -- Common issues, diagnostics, and fixes.
+
+## Tutorials & Quick References
+
+For hands-on tutorials and quick-reference guides, see **[Tutorials](../tutorials/)**:
+
+- **[CLI Cheat Sheet](../tutorials/cli-cheat-sheet.md)** -- One-page quick reference for all essential commands
+- **[Common Command Sequences](../tutorials/common-sequences.md)** -- Everyday command patterns and one-liners
+- **[Task Lifecycle Walkthrough](../tutorials/task-lifecycle.md)** -- Follow a task from creation to completion
+- **[Workflow Execution Reference](../tutorials/workflow-execution.md)** -- Running and monitoring workflows
+- **[Daemon Operations Quick Reference](../tutorials/daemon-quick-ref.md)** -- Essential daemon commands
