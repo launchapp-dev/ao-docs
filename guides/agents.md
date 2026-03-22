@@ -8,18 +8,18 @@ For the full tool table with parameters, see [MCP Tools Reference](../reference/
 
 ## Overview
 
-AO exposes ~68 MCP tools organized into 8 groups:
+AO exposes 75 MCP tools organized into 8 groups:
 
 | Group | Tools | Purpose |
 |-------|-------|---------|
 | `ao.task.*` | 20 | Task lifecycle management |
-| `ao.workflow.*` | 14 | Workflow execution and control |
+| `ao.workflow.*` | 16 | Workflow execution and control |
 | `ao.daemon.*` | 11 | Background scheduler management |
 | `ao.requirements.*` | 6 | Requirements tracking |
-| `ao.queue.*` | 6 | Dispatch queue management |
-| `ao.output.*` | 5 | Agent output and monitoring |
+| `ao.queue.*` | 7 | Dispatch queue management |
+| `ao.output.*` | 6 | Agent output and monitoring |
 | `ao.agent.*` | 3 | Direct agent execution |
-| `ao.runner.*` | 3 | Runner process health |
+| `ao.runner.*` | 4 | Runner process health |
 
 Every tool accepts an optional `project_root` parameter to specify which project to operate on. If omitted, the current working directory is used.
 
@@ -382,6 +382,9 @@ The dispatch queue controls the order in which the daemon picks up work.
 
 // ao.queue.reorder — set preferred dispatch order
 { "subject_ids": ["TASK-003", "TASK-001", "TASK-002"] }
+
+// ao.queue.drop — remove a queue entry regardless of status
+{ "subject_id": "TASK-001" }
 ```
 
 ---
