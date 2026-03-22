@@ -6,8 +6,8 @@ AO is a Rust workspace. You need a working Rust toolchain (1.75+ recommended).
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/ao-cli.git
-cd ao-cli
+git clone https://github.com/launchapp-dev/ao.git
+cd ao
 
 # Build all runtime binaries (release mode)
 cargo ao-bin-build-release
@@ -38,7 +38,7 @@ cargo ao-bin-check
 
 ## Release Binaries
 
-Pre-built binaries are available on the [GitHub Releases](https://github.com/your-org/ao-cli/releases) page for the following targets:
+Pre-built binaries are available on the [GitHub Releases](https://github.com/launchapp-dev/ao/releases) page for the following targets:
 
 | Target | Platform |
 |--------|----------|
