@@ -8,7 +8,7 @@ For the full tool table with parameters, see [MCP Tools Reference](../reference/
 
 ## Overview
 
-AO exposes 73 MCP tools organized into 8 groups:
+AO exposes 72 MCP tools organized into 8 groups:
 
 | Group | Tools | Purpose |
 |-------|-------|---------|
@@ -16,7 +16,7 @@ AO exposes 73 MCP tools organized into 8 groups:
 | `ao.workflow.*` | 16 | Workflow execution and control |
 | `ao.daemon.*` | 11 | Background scheduler management |
 | `ao.requirements.*` | 6 | Requirements tracking |
-| `ao.queue.*` | 7 | Dispatch queue management |
+| `ao.queue.*` | 6 | Dispatch queue management |
 | `ao.output.*` | 6 | Agent output and monitoring |
 | `ao.agent.*` | 3 | Direct agent execution |
 | `ao.runner.*` | 4 | Runner process health |
