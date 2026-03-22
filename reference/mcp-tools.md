@@ -34,7 +34,7 @@ Every tool accepts an optional `project_root` parameter to override the default 
 
 ---
 
-## Task Operations (20 tools)
+## Task Operations (22 tools)
 
 ### Query Tools (6)
 
@@ -47,7 +47,7 @@ Every tool accepts an optional `project_root` parameter to override the default 
 | `ao.task.stats` | Aggregate task metrics by status, priority, type | `project_root` |
 | `ao.task.history` | View workflow dispatch history for a task | `id` |
 
-### Mutation Tools (14)
+### Mutation Tools (16)
 
 | Tool | Description | Key Parameters |
 |---|---|---|
@@ -65,6 +65,8 @@ Every tool accepts an optional `project_root` parameter to override the default 
 | `ao.task.checklist-update` | Toggle checklist item completion | `id`, `item_id`, `completed` |
 | `ao.task.bulk-status` | Batch-update status for multiple tasks | `updates[]` (each: `id`, `status`), `on_error` |
 | `ao.task.bulk-update` | Batch-update fields for multiple tasks | `updates[]` (each: `id` + fields), `on_error` |
+| `ao.task.dependency-add` | Add a dependency edge between tasks | `id`, `depends_on` |
+| `ao.task.dependency-remove` | Remove a dependency edge between tasks | `id`, `depends_on` |
 
 ---
 
