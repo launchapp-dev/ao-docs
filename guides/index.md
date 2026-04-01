@@ -12,6 +12,7 @@ Practical walkthroughs for day-to-day AO operations.
 
 ## Task and Execution
 
+- **[ao now — Work Inbox](ao-now.md)** -- Your command-line work inbox: next task, active workflows, blocked and stale items at a glance.
 - **[Task Management](task-management.md)** -- Creating, prioritizing, assigning, and tracking tasks through their full lifecycle.
 - **[Writing Custom Workflows](writing-workflows.md)** -- YAML workflow authoring: agents, phases, pipelines, MCP servers, and post-success hooks.
 - **[Self-Hosting Workflow](self-hosting.md)** -- How AO tracks its own development through `ao` commands.
