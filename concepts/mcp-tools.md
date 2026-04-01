@@ -25,6 +25,41 @@ Many of those tools are now conceptually owned by bundled first-party packs
 such as `ao.task` and `ao.requirement`, even though they are exposed through
 the AO MCP server.
 
+## MCP Server Transports
+
+Workflow YAML supports two transport types for `mcp_servers` entries.
+
+**stdio** (default) — AO spawns the server as a local subprocess and
+communicates over stdin/stdout. Use for any MCP server distributed as a CLI
+package:
+
+```yaml
+mcp_servers:
+  ao:
+    command: ao
+    args: ["mcp", "serve"]
+```
+
+**HTTP/SSE** — AO connects to a running remote MCP server over HTTP. Use
+`transport: http` and supply the server `url`. AO does not manage the server
+process; it must already be reachable at the given URL. Optional `headers` let
+you pass authentication tokens using `${VAR}` interpolation:
+
+```yaml
+mcp_servers:
+  remote-api:
+    transport: http
+    url: "https://mcp.example.com/sse"
+    headers:
+      Authorization: "Bearer ${REMOTE_API_TOKEN}"
+```
+
+Both transport types support the `tools` allowlist field to restrict which tool
+names are exposed to agents.
+
+See [Workflow YAML Schema](../reference/workflow-yaml.md) for the full field
+reference.
+
 ## Pack-Owned MCP Descriptors
 
 Packs can also ship MCP descriptors under pack assets. AO loads those

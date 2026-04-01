@@ -69,7 +69,13 @@ The `tool` field specifies which CLI tool runs the agent: `claude`, `codex`, `ge
 
 ## MCP Servers
 
-Declare MCP servers that agents can use as external tools:
+Declare MCP servers that agents can use as external tools. AO supports two
+transport types: **stdio** (local subprocess) and **HTTP** (remote server over
+HTTP/SSE).
+
+### stdio (local subprocess)
+
+The default transport. AO spawns the server as a child process:
 
 ```yaml
 mcp_servers:
@@ -87,9 +93,28 @@ mcp_servers:
       - contacts.get
 ```
 
-Environment variables use `${VAR}` interpolation syntax. The `tools` field is optional and restricts which tools from the server are exposed to agents.
+### HTTP/SSE (remote server)
 
-Agents reference MCP servers by name:
+Connect to an MCP server running over HTTP. Use `transport: http` and supply a
+`url`. AO connects to the running server instead of spawning a subprocess:
+
+```yaml
+mcp_servers:
+  remote-tools:
+    transport: http
+    url: "https://mcp.example.com/sse"
+    headers:
+      Authorization: "Bearer ${REMOTE_API_TOKEN}"
+    tools:
+      - data.query
+      - data.update
+```
+
+Both `env` values (stdio) and `headers` values (HTTP) support `${VAR}`
+interpolation from the host environment. The `tools` field is optional and
+restricts which tools from the server are exposed to agents.
+
+Agents reference MCP servers by name regardless of transport:
 
 ```yaml
 agents:
@@ -99,6 +124,7 @@ agents:
     mcp_servers:
       - ao
       - hubspot
+      - remote-tools
 ```
 
 ## Phase Catalog

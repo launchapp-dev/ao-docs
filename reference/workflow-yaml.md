@@ -26,14 +26,20 @@ and project YAML can override or wrap pack-owned workflow refs.
 
 ## mcp_servers
 
-Declares external MCP servers that agents can connect to during execution.
+Declares external MCP servers that agents can connect to during execution. AO
+supports two transport types: **stdio** (local subprocess) and **HTTP/SSE**
+(remote server over HTTP).
+
+### stdio transport (local subprocess)
+
+The default transport. AO spawns the server as a child process and communicates
+over stdin/stdout.
 
 ```yaml
 mcp_servers:
   <server_name>:
-    command: <string>           # Required. Binary to execute.
+    command: <string>           # Required for stdio. Binary to execute.
     args: [<string>, ...]       # Optional. Command arguments.
-    transport: <string>         # Optional. Transport type (default: stdio).
     env:                        # Optional. Environment variables.
       KEY: "value"
     tools:                      # Optional. Allowed tool name prefixes.
@@ -42,28 +48,55 @@ mcp_servers:
       key: value
 ```
 
+### HTTP/SSE transport (remote server)
+
+Connect to an MCP server running over HTTP. Use `transport: http` and supply a
+`url`. AO does not spawn a subprocess — it connects to the running server.
+
+```yaml
+mcp_servers:
+  <server_name>:
+    transport: http             # Required to select HTTP transport.
+    url: <string>               # Required. HTTP endpoint for the MCP server.
+    headers:                    # Optional. HTTP headers sent with every request.
+      Authorization: "Bearer ${TOKEN}"
+    tools:                      # Optional. Allowed tool name prefixes.
+      - "tool.prefix"
+```
+
 ### Fields
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `command` | string | yes | Executable command (e.g., `npx`, `ao`, `python`) |
+| `command` | string | stdio only | Executable command (e.g., `npx`, `ao`, `python`) |
 | `args` | string[] | no | Arguments passed to the command |
-| `transport` | string | no | MCP transport protocol (default: stdio) |
-| `env` | map\<string, string\> | no | Environment variables for the server process |
+| `transport` | string | no | Transport type: `stdio` (default) or `http` |
+| `url` | string | http only | HTTP endpoint for the remote MCP server |
+| `headers` | map\<string, string\> | no | HTTP headers sent with every request (HTTP transport only) |
+| `env` | map\<string, string\> | no | Environment variables for the server process (stdio only) |
 | `tools` | string[] | no | Tool name prefixes to allow from this server |
 | `config` | map\<string, any\> | no | Arbitrary configuration passed to the server |
 
 ### Variable Interpolation
 
-Environment values support `${VAR}` interpolation from the host environment:
+Both `env` values (stdio) and `headers` values (HTTP) support `${VAR}`
+interpolation from the host environment:
 
 ```yaml
 mcp_servers:
+  # stdio — env var passed to subprocess
   hubspot:
     command: npx
     args: ["-y", "@hubspot/mcp-server"]
     env:
       HUBSPOT_ACCESS_TOKEN: "${HUBSPOT_ACCESS_TOKEN}"
+
+  # HTTP — token in Authorization header
+  remote-api:
+    transport: http
+    url: "https://mcp.example.com/sse"
+    headers:
+      Authorization: "Bearer ${REMOTE_API_TOKEN}"
 ```
 
 ---
