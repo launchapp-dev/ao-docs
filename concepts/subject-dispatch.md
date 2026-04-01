@@ -57,7 +57,7 @@ SubjectDispatch {
 | `input` | Optional JSON payload for the workflow |
 | `vars` | Explicit string variables passed to the workflow |
 | `priority` | Optional queue priority hint |
-| `trigger_source` | Dispatch origin such as `manual`, `ready-queue`, `schedule`, or `mcp` |
+| `trigger_source` | Dispatch origin such as `manual`, `ready-queue`, `schedule`, `mcp`, `file-watch`, or `webhook` |
 | `requested_at` | UTC timestamp for auditability and queue ordering |
 
 ## Canonical Workflow Refs
