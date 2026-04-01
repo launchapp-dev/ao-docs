@@ -16,6 +16,7 @@ Complete reference of every `ao` command, subcommand, and key flag. This tree is
 ```
 ao
 ├── version                  Show installed ao version
+├── now                      Unified work inbox (next task, active workflows, blocked/stale)
 ├── status                   Unified project status dashboard
 ├── setup                    Guided onboarding wizard
 ├── doctor                   Environment diagnostics (--fix)
@@ -279,7 +280,7 @@ ao
 
 | Metric | Count |
 |---|---|
-| Top-level commands | 26 |
+| Top-level commands | 27 |
 | Total subcommands (all levels) | ~130+ |
 | Commands with `--confirmation` pattern | 8 |
 | Commands with `--input-json` | 15+ |
