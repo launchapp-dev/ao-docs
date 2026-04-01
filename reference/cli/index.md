@@ -330,6 +330,14 @@ ao
 │       ├── get              Get metrics snapshot
 │       └── watch            Watch metrics continuously
 │
+├── cloud                    Cloud deployment and daemon management
+│   ├── login                Authenticate with AO cloud
+│   ├── push                 Push project to AO cloud
+│   ├── start                Start the cloud-hosted daemon
+│   ├── stop                 Stop the cloud-hosted daemon
+│   ├── status               Show cloud deployment status
+│   └── logs                 Stream or read cloud daemon logs
+│
 ├── mcp                      MCP server
 │   └── serve                Start MCP server
 │
@@ -342,8 +350,8 @@ ao
 
 | Metric | Count |
 |---|---|
-| Top-level commands | 28 |
-| Total subcommands (all levels) | ~180+ |
+| Top-level commands | 29 |
+| Total subcommands (all levels) | ~190+ |
 | `ao fleet` subcommands | 51 |
 | Commands with `--confirmation` pattern | 11 |
 | Commands with `--input-json` | 15+ |
