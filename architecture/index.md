@@ -80,6 +80,10 @@ graph TD
 
 **orchestrator-cli** sits at the top as the main `ao` binary, composing all other crates into the user-facing command surface.
 
+## Fleet Architecture
+
+- [Fleet Coordination](fleet.md) -- Multi-node fleet coordinator: node registry, heartbeats, work distribution, agent migration, and failure handling
+
 ## Architecture Decision Records
 
 - [Plugin Pack Kernel](plugin-pack-kernel.md) -- Package-style plugin architecture for workflows, MCP servers, and bundled domain modules

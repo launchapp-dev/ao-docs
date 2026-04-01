@@ -7,6 +7,7 @@ Formal specifications and exhaustive listings for the AO CLI.
 | Page | Description |
 |---|---|
 | [CLI Command Surface](cli/index.md) | Complete command tree with all subcommands and flags |
+| [Fleet CLI Reference](cli/fleet.md) | All 51 `ao fleet` commands with flags and examples |
 | [Global Flags](cli/global-flags.md) | Flags available on every command |
 | [Exit Codes](cli/exit-codes.md) | Process exit codes and error classification |
 | [JSON Envelope Contract](json-envelope.md) | The `ao.cli.v1` success/error envelope schema |

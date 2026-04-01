@@ -268,6 +268,68 @@ ao
 │   ├── monitor              Monitor run output
 │   └── cli                  Infer CLI provider
 │
+├── fleet                    Multi-node fleet coordination
+│   ├── status               Fleet-wide status dashboard
+│   ├── health               Aggregated health across all nodes
+│   ├── info                 Fleet configuration summary
+│   ├── init                 Initialize fleet for the current project
+│   ├── node                 Node lifecycle and routing
+│   │   ├── list             List all registered nodes
+│   │   ├── get              Get node details by ID
+│   │   ├── register         Register a new node
+│   │   ├── remove           Remove a node (--confirmation)
+│   │   ├── status           Node running status
+│   │   ├── health           Node health check
+│   │   ├── ping             Test connectivity to a node
+│   │   ├── tag              Add tag(s) to a node
+│   │   ├── untag            Remove tag(s) from a node
+│   │   ├── drain            Drain a node (reject new work)
+│   │   └── resume           Resume a drained node
+│   ├── agent                Agent assignment and control
+│   │   ├── list             List all fleet agents
+│   │   ├── get              Get agent details by run ID
+│   │   ├── assign           Assign agent to a specific node
+│   │   ├── evict            Evict agent from its current node
+│   │   ├── migrate          Move agent to another node
+│   │   ├── pause            Pause a running agent
+│   │   └── resume           Resume a paused agent
+│   ├── pool                 Pool sizing and capacity
+│   │   ├── get              Get pool configuration
+│   │   ├── set              Update pool size or limits
+│   │   ├── stats            Pool utilization statistics
+│   │   ├── scale            Scale pool capacity dynamically
+│   │   └── reset            Reset pool to project defaults
+│   ├── queue                Distributed dispatch queue
+│   │   ├── list             List queued dispatches
+│   │   ├── stats            Queue statistics
+│   │   ├── hold             Hold a queued dispatch
+│   │   ├── release          Release a held dispatch
+│   │   └── drain            Drain all queued dispatches (--confirmation)
+│   ├── schedule             Automated work scheduling
+│   │   ├── list             List configured schedules
+│   │   ├── get              Get schedule details by ID
+│   │   ├── create           Create a schedule
+│   │   ├── update           Update a schedule
+│   │   ├── remove           Remove a schedule (--confirmation)
+│   │   └── trigger          Manually trigger a schedule
+│   ├── config               Fleet configuration
+│   │   ├── get              Read fleet configuration
+│   │   ├── set              Update fleet configuration
+│   │   ├── validate         Validate configuration
+│   │   ├── export           Export config to a file
+│   │   └── import           Import config from a file
+│   ├── sync                 State synchronisation across nodes
+│   │   ├── status           Sync status across all nodes
+│   │   ├── trigger          Force immediate synchronisation
+│   │   └── cancel           Cancel an in-progress sync
+│   ├── events               Fleet event log
+│   │   ├── list             List recent fleet events
+│   │   ├── stream           Stream live events
+│   │   └── clear            Clear event history
+│   └── metrics              Fleet observability
+│       ├── get              Get metrics snapshot
+│       └── watch            Watch metrics continuously
+│
 ├── mcp                      MCP server
 │   └── serve                Start MCP server
 │
@@ -280,8 +342,9 @@ ao
 
 | Metric | Count |
 |---|---|
-| Top-level commands | 27 |
-| Total subcommands (all levels) | ~130+ |
-| Commands with `--confirmation` pattern | 8 |
+| Top-level commands | 28 |
+| Total subcommands (all levels) | ~180+ |
+| `ao fleet` subcommands | 51 |
+| Commands with `--confirmation` pattern | 11 |
 | Commands with `--input-json` | 15+ |
-| Commands with `--dry-run` | 6 |
+| Commands with `--dry-run` | 8 |
