@@ -293,6 +293,30 @@ ao web open                             # Open in browser
 
 ---
 
+## Cloud Deployment
+
+```bash
+ao cloud login                          # Authenticate (browser OAuth)
+ao cloud login --token $AO_CLOUD_TOKEN  # Authenticate with PAT (CI)
+ao cloud push                           # Push project config to cloud
+ao cloud push --env staging             # Push to staging environment
+ao cloud push --dry-run                 # Validate without uploading
+ao cloud start                          # Start cloud-hosted daemon
+ao cloud start --wait                   # Block until daemon is running
+ao cloud stop                           # Graceful drain and stop
+ao cloud stop --force                   # Immediate termination
+ao cloud status                         # Show deployment + daemon status
+ao cloud status --json                  # Machine-readable status
+ao cloud logs                           # Read recent log history
+ao cloud logs --follow                  # Stream logs in real time
+ao cloud logs --tail 200 --follow       # Tail 200 lines then stream
+ao cloud logs --level error             # Filter to errors only
+ao cloud logs --run-id run_1234         # Scope to one agent run
+ao cloud logs --since 1h --json         # Logs as newline-delimited JSON
+```
+
+---
+
 ## MCP Server
 
 ```bash
