@@ -42,6 +42,11 @@ features:
     details: Each task gets an isolated git worktree. Parallel execution without branch conflicts. Clean merges back to main.
     link: /concepts/worktrees
     linkText: Learn about isolation
+  - icon: "\U0001F510"
+    title: Privacy-First
+    details: No AO telemetry. No AO training on your code. All state stays in your local .ao/ directory. You control which AI provider — or none — receives your code.
+    link: /guides/privacy
+    linkText: Read our data policy
   - icon: "\U0001F680"
     title: Built in Rust
     details: 16-crate workspace with atomic state persistence, async Tokio runtime, and zero desktop dependencies. Fast and reliable.

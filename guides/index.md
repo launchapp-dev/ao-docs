@@ -33,6 +33,10 @@ Practical walkthroughs for day-to-day AO operations.
 - **[Skills Management](skills-management.md)** -- How to discover, install, and use agent skills. Referencing skills in personas and workflows.
 - **[Skill Marketplace](skill-marketplace.md)** -- Browsing the skill catalog, managing registries, authoring skill packages, and publishing to a registry.
 
+## Privacy & Security
+
+- **[Privacy & Data Policy](privacy.md)** -- AO's data guarantees, AI provider data policies, local-model operation, and how AO differs from cloud AI assistants that collect code for training.
+
 ## Infrastructure
 
 - **[CI/CD](ci-cd.md)** -- CI workflows, release pipelines, build commands, and test targets.
