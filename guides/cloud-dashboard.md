@@ -95,6 +95,83 @@ Click a project name to open the **Project Detail** view, which shows:
 
 ---
 
+## Workflow Detail Page
+
+Click any workflow name in the active workflow table (or in the Agents → History run list) to open the **Workflow Detail** page for that workflow definition.
+
+### Overview Tab
+
+The Overview tab shows static metadata from the workflow YAML:
+
+| Field | Description |
+|---|---|
+| Name | Workflow definition name (matches the YAML `name` field) |
+| Phases | Ordered list of phase names and their assigned agent persona |
+| Triggers | File watchers and webhook triggers attached to this workflow |
+| Packs | Pack dependencies declared in the workflow |
+| Last updated | Timestamp of the most recent deployment that included this workflow |
+
+### Runs Tab
+
+The Runs tab lists all historical and live agent runs dispatched from this workflow definition:
+
+| Column | Description |
+|---|---|
+| Run ID | Unique identifier; click to open [Run Detail](#run-detail) |
+| Status | `running`, `done`, `failed`, or `cancelled` |
+| Started | Absolute timestamp |
+| Duration | Wall-clock run time |
+| Phases completed | Count of phases that reached `done` status |
+| Tokens | Total token usage across all phases |
+
+Filter the runs table by status, date range, or environment using the toolbar above the table.
+
+### YAML Tab
+
+The YAML tab renders the current workflow definition as syntax-highlighted YAML. The definition shown reflects the latest active deployment; use the deployment selector in the toolbar to compare against an earlier version.
+
+---
+
+## Project Settings
+
+Per-project settings are managed at **Settings → Project** inside any project's detail view. Requires **Member** role or above.
+
+### General
+
+| Setting | Description |
+|---|---|
+| Display name | Human-readable label shown in the dashboard (independent of the project slug) |
+| Default environment | The environment opened by default when viewing the project (`production`, `staging`, or `preview`) |
+| Description | Optional free-text notes |
+
+### Log Retention
+
+| Setting | Description |
+|---|---|
+| Log retention window | How long raw log lines are stored (7 days default; up to 90 days on Pro, 1 year on Team/Enterprise) |
+| Structured export | Enables automatic nightly export of log lines to the configured S3-compatible bucket |
+
+Changing the retention window takes effect for new log lines only. Existing lines are not retroactively purged or extended.
+
+### Environment Variables
+
+Runtime environment variables injected into every agent run for this project. Variables are stored encrypted at rest and are not visible after initial entry — only the variable name is shown in the list.
+
+| Action | Description |
+|---|---|
+| **Add variable** | Opens an inline form: key, value, optional description |
+| **Edit** | Re-enters the value for an existing key |
+| **Delete** | Removes the variable; takes effect on the next run |
+
+### Danger Zone
+
+| Action | Description |
+|---|---|
+| **Pause project** | Stops the daemon and prevents new runs from starting; deployments and data are preserved |
+| **Delete project** | Permanently removes all deployments, artifacts, logs, and run history; requires typing the project slug to confirm |
+
+---
+
 ## Deployments
 
 The Deployments page lists every `ao cloud push` event across all projects. Columns:
@@ -420,6 +497,63 @@ At the mobile breakpoint:
 - Project cards replace the projects table. Each card shows the project name, daemon status badge, and quick-action buttons.
 - Run Detail panels open as full-screen bottom sheets instead of side panels.
 - The command palette opens via the search icon in the top nav bar.
+
+---
+
+## Loading States
+
+The dashboard uses skeleton screens to indicate that content is loading. Each skeleton mirrors the shape of the content it replaces so the layout does not shift when data arrives.
+
+| Location | Skeleton description |
+|---|---|
+| Projects list | Three card-shaped skeletons with a status-badge placeholder and two lines of text |
+| Run Detail panel | Phase timeline items as grey bars; output area as a blinking cursor line |
+| Workflow Detail YAML | Full-height code block with alternating short and long grey lines |
+| Audit log table | Six rows with cells of varying widths |
+| Notification panel | Three notification-shaped rows with an icon circle and two text lines each |
+
+Skeletons are dismissed as soon as the first data payload arrives from the API; partial data is displayed immediately rather than waiting for the full response.
+
+---
+
+## Empty States
+
+When a list or table has no data to show, the dashboard renders an illustrated empty state with a short explanation and a primary action button.
+
+| Page / section | Illustration | Primary action |
+|---|---|---|
+| Projects (no projects yet) | Server with a blinking light | **Push your first project** (links to [Cloud Deployment](cloud-deployment.md)) |
+| Agents → Live (no active runs) | Robot sitting idle | **Start daemon** (opens a project selector then calls `ao cloud start`) |
+| Agents → History (no completed runs) | Timeline with no entries | **View workflows** (navigates to the Workflow Detail page) |
+| Audit Log (no events in range) | Magnifying glass over an empty page | **Expand date range** (resets the date filter to the last 30 days) |
+| Notifications panel (all read) | Bell with a checkmark | No action — confirming all notifications are cleared |
+| API keys (none created) | Key on a table | **Create token** (opens the new API key dialog) |
+| Webhooks (none configured) | Plug with no socket | **Add endpoint** (opens the new webhook form) |
+
+---
+
+## Error Boundaries
+
+Each major dashboard section is wrapped in a React error boundary. If a component throws an unhandled error, the boundary catches it and renders a contained error panel without crashing the entire application.
+
+### Error Panel Contents
+
+- A short title (e.g. "Could not load run detail")
+- The error message — sanitised before display
+- A **Retry** button that remounts the failed component
+- A **Report issue** link that prefills a GitHub issue with the error message, current URL, and a browser info summary
+
+### Scope of Boundaries
+
+| Boundary | Scope |
+|---|---|
+| Root boundary | Catches errors that escape all inner boundaries; shows a full-page error screen |
+| Sidebar | Isolates sidebar rendering failures from the main content area |
+| Each dashboard section | Projects, Agents, Logs, Audit Log, Billing, Notifications — each is individually bounded |
+| Run Detail panel | The SSE stream and phase timeline are bounded separately so a stream error does not remove the static phase list |
+| Modals | Each dialog is bounded so a modal crash does not close the underlying page |
+
+Error details are also sent to the cloud error-tracking service with the authenticated user's organisation ID for triage. No source code or personal data beyond the organisation ID is transmitted.
 
 ---
 
