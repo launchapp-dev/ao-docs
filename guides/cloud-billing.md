@@ -101,13 +101,30 @@ Expanding any project row reveals a per-agent breakdown:
 | Avg minutes / run | Mean run duration |
 | Compute cost | Proportional compute charge allocated to this workflow |
 
+### Model Cost Breakdown
+
+Switch the **Group by** selector to **Model** to see how token costs are distributed across AI models for the selected billing cycle.
+
+| Column | Description |
+|---|---|
+| Model | Model identifier (e.g. `claude-sonnet-4-6`, `claude-opus-4-6`, `claude-haiku-4-5`) |
+| Input tokens | Total prompt tokens sent to this model during the cycle |
+| Output tokens | Total completion tokens received from this model |
+| Token cost | Charge for tokens at the per-model rate (input and output priced separately) |
+| Runs | Number of agent runs that invoked this model at least once |
+| % of total cost | Share of total AI cost attributed to this model |
+
+Model costs are separate from compute minutes (infrastructure cost). An agent run accrues both: compute minutes for the wall-clock time the run is active and token costs for each model call made during that run.
+
+**Model rate card:** Individual per-token prices are listed in the **Settings → Billing → Rate Card** panel and update whenever Anthropic publishes new pricing. The rate card shows the price at time of billing, not the current price, so exported CSVs remain auditable.
+
 ### Date Range Selector
 
 The cost breakdown defaults to the current billing cycle. Use the cycle selector (top-right) to view any prior month. Cross-cycle comparisons are not currently supported; export both cycles to CSV and diff offline.
 
 ### Export
 
-Click **Export CSV** to download the full cost breakdown as a flat file with one row per project-environment pair. The CSV includes all columns from the project cost table plus the `billing_cycle_start` and `billing_cycle_end` date fields.
+Click **Export CSV** to download the full cost breakdown as a flat file with one row per project-environment pair. The CSV includes all columns from the project cost table plus the `billing_cycle_start` and `billing_cycle_end` date fields. When grouped by model, each row represents one model used within a project-environment pair.
 
 ### Cost Breakdown API
 
@@ -124,9 +141,46 @@ Optional query parameters:
 |---|---|
 | `cycle` | Billing cycle in `YYYY-MM` format. Defaults to the current cycle. |
 | `project` | Filter to a specific project slug. |
-| `group_by` | `project` (default) or `workflow` |
+| `group_by` | `project` (default), `workflow`, or `model` |
 
-Example response:
+Example response with `group_by=model`:
+
+```json
+{
+  "cycle": "2026-04",
+  "currency": "usd",
+  "group_by": "model",
+  "total_token_cost_cents": 1240,
+  "items": [
+    {
+      "model": "claude-sonnet-4-6",
+      "input_tokens": 4200000,
+      "output_tokens": 380000,
+      "token_cost_cents": 820,
+      "runs": 187,
+      "pct_of_total": 66.1
+    },
+    {
+      "model": "claude-opus-4-6",
+      "input_tokens": 510000,
+      "output_tokens": 95000,
+      "token_cost_cents": 380,
+      "runs": 27,
+      "pct_of_total": 30.6
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "input_tokens": 1800000,
+      "output_tokens": 210000,
+      "token_cost_cents": 40,
+      "runs": 214,
+      "pct_of_total": 3.2
+    }
+  ]
+}
+```
+
+Default response (without `group_by=model`):
 
 ```json
 {

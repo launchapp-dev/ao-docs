@@ -8,6 +8,8 @@ Practical, hands-on tutorials for mastering the AO CLI. These guides focus on re
 
 ## Step-by-Step Tutorials
 
+- **[Cloud Getting Started](cloud-getting-started.md)** -- End-to-end walkthrough from account creation to your first live cloud agent run, including dashboard tour and cost monitoring.
+
 - **[Common Command Sequences](common-sequences.md)** -- Everyday command sequences and one-liners for typical workflows: starting a project, checking status, debugging issues.
 
 - **[Task Lifecycle Walkthrough](task-lifecycle.md)** -- Follow a task from creation to completion. Learn status transitions, assignments, dependencies, and checklist management.
@@ -18,7 +20,8 @@ Practical, hands-on tutorials for mastering the AO CLI. These guides focus on re
 
 ## Who These Tutorials Are For
 
-- **New users** -- Start with the [Task Lifecycle Walkthrough](task-lifecycle.md) to understand core concepts.
+- **New cloud users** -- Start with [Cloud Getting Started](cloud-getting-started.md) to deploy your first project and explore the dashboard.
+- **New users** -- Follow the [Task Lifecycle Walkthrough](task-lifecycle.md) to understand core concepts.
 - **Daily users** -- Keep the [CLI Cheat Sheet](cli-cheat-sheet.md) open for quick lookups.
 - **Operators** -- Use the [Daemon Quick Reference](daemon-quick-ref.md) for runtime management.
 - **Automation authors** -- Reference [Common Sequences](common-sequences.md) for scripting patterns.

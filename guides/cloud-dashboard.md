@@ -30,6 +30,61 @@ Press **Cmd+K** (macOS) or **Ctrl+K** (Windows / Linux) at any time to open the 
 
 ---
 
+## Workflow Template Gallery
+
+The **Template Gallery** at `app.ao.dev/templates` provides a curated library of pre-built workflow definitions that can be deployed into any of your projects with a single click.
+
+### Browsing the Gallery
+
+Templates are organised into categories in the left filter panel:
+
+| Category | Examples |
+|---|---|
+| **Development** | Code review, automated PR description, dependency audit |
+| **Quality** | Test generation, linting fix, coverage report |
+| **Documentation** | API docs generation, changelog draft, README refresh |
+| **Operations** | Incident triage, alert summarisation, runbook execution |
+| **Data** | ETL pipeline, data validation, schema migration |
+| **Custom** | Templates published by your organisation |
+
+Type in the search box to filter by keyword. Results update as you type and match against template name, description, and tags.
+
+### Template Card
+
+Each card in the gallery shows:
+
+- Template name and one-line description
+- Author (AO team or organisation name for custom templates)
+- Category tags
+- Star count (community favourites)
+- **Preview** button — opens a read-only view of the workflow YAML
+- **Deploy** button — starts the deployment flow
+
+### Deploying a Template
+
+1. Click **Deploy** on any template card.
+2. A modal asks you to select:
+   - **Target project** — choose an existing project or create a new one inline.
+   - **Environment** — `production`, `staging`, or `preview`.
+   - **Variable overrides** — any `{{ variable }}` placeholders in the template YAML are listed with editable fields; defaults from the template are pre-filled.
+3. Click **Deploy**. The dashboard calls `ao cloud push` internally with the resolved YAML and selected target.
+4. On success, you are taken directly to the **Workflow Detail** page for the newly deployed workflow.
+
+Deployed templates behave identically to workflows you push manually with the CLI. The source template is noted in the workflow metadata (`template_id` field) but does not create a dependency — you can edit the YAML freely after deployment.
+
+### Publishing Custom Templates
+
+Organisation templates are available only to members of your organisation. To publish a custom template:
+
+1. Navigate to **Settings → Templates → Publish**.
+2. Paste or upload the workflow YAML.
+3. Fill in the name, description, category tags, and variable placeholder descriptions.
+4. Click **Publish**. The template appears in the gallery under the **Custom** category for all members.
+
+Requires **Admin** role or above to publish. Members can deploy but not publish or delete organisation templates.
+
+---
+
 ## Notification Bell
 
 The notification bell icon in the top-right header displays a badge with the count of unread notifications. Clicking the bell opens a slide-out panel listing recent events in reverse chronological order.
