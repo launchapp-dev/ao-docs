@@ -35,6 +35,8 @@ The web dashboard provides:
 
 The web server exposes a REST API at `/api/v1/`. All responses follow the standard `ao.cli.v1` JSON envelope format:
 
+An interactive OpenAPI / Swagger UI is available at `/api/docs` when the server is running. It lets you browse all endpoints, read request and response schemas, and execute requests directly from the browser. See [OpenAPI / Swagger UI](../reference/openapi.md) for full details.
+
 ```json
 {
   "schema": "ao.cli.v1",
