@@ -30,6 +30,10 @@ Practical walkthroughs for day-to-day AO operations.
 - **[Model Routing](model-routing.md)** -- How AO selects models and tools per phase, and how to override defaults.
 - **[Web Dashboard](web-dashboard.md)** -- Launching the local web UI, navigating boards, and using the REST API.
 
+## Integrations
+
+- **[GitHub App Integration](github-app.md)** -- Connecting GitHub repositories to AO Cloud: installation flow, repository selector, managed webhook receiver, and posting check runs back to GitHub.
+
 ## MCP & Agent Integration
 
 - **[Working with AO via MCP Tools](agents.md)** -- Complete guide to all 73 MCP tools: JSON examples, common workflows, sequencing tips, pagination, and batch operations.
