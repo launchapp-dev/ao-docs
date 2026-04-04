@@ -28,12 +28,21 @@ All paid plans include:
 
 ## Changing Plans
 
-1. Navigate to **Settings → Billing → Plan**.
-2. Click **Change Plan**.
-3. Select the new plan from the selector.
-4. Confirm the change. Upgrades take effect immediately; downgrades take effect at the start of the next billing cycle.
+### Upgrading via Stripe Checkout
 
-Plan changes are prorated: upgrading mid-cycle credits unused time on the old plan against the new plan charge.
+Upgrades use a Stripe-hosted Checkout session:
+
+1. Navigate to **Settings → Billing → Plan**.
+2. Click **Change Plan** and select the new plan from the selector.
+3. Click **Upgrade**. The dashboard creates a Stripe Checkout session and redirects you to the Stripe-hosted page.
+4. On the Stripe page, confirm the plan and enter or select a payment method.
+5. After a successful payment, Stripe redirects back to `app.ao.dev/settings/billing`. The dashboard polls for session completion and displays a confirmation banner once the plan is active.
+
+Upgrades take effect immediately. The charge is prorated: unused time on the old plan is credited against the new plan charge.
+
+### Downgrading
+
+Downgrades do not go through Stripe Checkout. Select the lower plan in the in-app selector and confirm in the modal. The downgrade takes effect at the start of the next billing cycle; your current plan remains active at full capacity until then.
 
 ---
 
@@ -71,10 +80,10 @@ Navigate to **Settings → Billing → Payment** to manage cards.
 ### Adding a Card
 
 1. Click **Add Payment Method**.
-2. The Stripe payment element loads. Enter card details.
-3. Click **Save**. The card is validated with a $0 authorisation.
+2. The Stripe Elements payment form loads inline. Enter the card number, expiry date, and CVC.
+3. Click **Save**. Stripe validates the card with a $0 authorisation before storing it.
 
-Card numbers, CVVs, and expiry dates are handled entirely by Stripe and are never transmitted to AO servers.
+Card numbers, CVVs, and expiry dates are handled entirely by Stripe's PCI-DSS Level 1 infrastructure and are never transmitted to AO servers. The AO backend receives only a Stripe payment method ID.
 
 ### Setting the Default Card
 
