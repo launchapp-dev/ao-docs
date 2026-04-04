@@ -40,6 +40,9 @@ Practical walkthroughs for day-to-day AO operations.
 ## Privacy & Security
 
 - **[Privacy & Data Policy](privacy.md)** -- AO's data guarantees, AI provider data policies, local-model operation, and how AO differs from cloud AI assistants that collect code for training.
+- **[Security Headers](security-headers.md)** -- Content-Security-Policy, HSTS, X-Frame-Options, and other HTTP security headers applied to the AO cloud dashboard in production.
+- **[Custom Error Pages](custom-error-pages.md)** -- Branded 404 and 500 error pages: what they show, how they behave in a single-page application, and self-hosted web server configuration.
+- **[SEO and Site Metadata](seo-and-site-metadata.md)** -- HTML meta tags, Open Graph, Twitter Card, canonical URLs, favicon set, and manifest.json configuration.
 
 ## Infrastructure
 
