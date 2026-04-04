@@ -24,9 +24,9 @@ Practical walkthroughs for day-to-day AO operations.
 - **[Pack Management](pack-management.md)** -- Installing, listing, configuring, and troubleshooting AO plugin packs.
 - **[Fleet Management](fleet-management.md)** -- Getting started with `ao fleet`: registering nodes, sizing pools, running parallel agents, scheduling, and observability across a distributed fleet.
 - **[Cloud Deployment](cloud-deployment.md)** -- Logging in, pushing project configuration, and managing the cloud-hosted daemon with `ao cloud`.
-- **[Cloud Dashboard](cloud-dashboard.md)** -- Navigating the React web app at app.ao.dev: projects, agent monitoring, log search, and team access.
-- **[Cloud Billing](cloud-billing.md)** -- Subscription plans, compute usage, Stripe payment methods, and invoices.
-- **[AO Cloud Beta Signup](cloud-beta-signup.md)** -- Joining the beta, onboarding steps, included features, and limitations.
+- **[Cloud Dashboard](cloud-dashboard.md)** -- Navigating the React web app at app.ao.dev: projects, agent monitoring, dark mode, webhook delivery, and team access.
+- **[Cloud Billing](cloud-billing.md)** -- Subscription plans, usage metering, per-project cost breakdown, Stripe payment methods, and invoices.
+- **[AO Cloud Beta Signup](cloud-beta-signup.md)** -- Joining the beta, onboarding wizard walkthrough, included features, and limitations.
 - **[Model Routing](model-routing.md)** -- How AO selects models and tools per phase, and how to override defaults.
 - **[Web Dashboard](web-dashboard.md)** -- Launching the local web UI, navigating boards, and using the REST API.
 

@@ -73,6 +73,147 @@ Storage is sampled daily and averaged across the billing cycle. The following co
 
 ---
 
+## Cost Breakdown
+
+The **Cost Breakdown** tab at **Settings → Billing → Cost Breakdown** shows how charges accumulate at a granular level — by project, environment, and agent — for the current and past billing cycles.
+
+### Project Cost Table
+
+| Column | Description |
+|---|---|
+| Project | Project name and slug |
+| Environment | `production`, `staging`, or `preview` |
+| Compute minutes | Minutes consumed during the selected cycle |
+| Compute cost | Charge for compute minutes at the plan rate or overage rate |
+| Storage GB-days | Average storage sampled daily, in GB-days |
+| Storage cost | Charge for storage at the plan rate or overage rate |
+| Total | Sum of compute and storage charges for this project |
+
+### Agent Cost Rows
+
+Expanding any project row reveals a per-agent breakdown:
+
+| Column | Description |
+|---|---|
+| Workflow | Workflow definition name |
+| Runs | Number of completed agent runs |
+| Total minutes | Sum of agent run wall-clock times |
+| Avg minutes / run | Mean run duration |
+| Compute cost | Proportional compute charge allocated to this workflow |
+
+### Date Range Selector
+
+The cost breakdown defaults to the current billing cycle. Use the cycle selector (top-right) to view any prior month. Cross-cycle comparisons are not currently supported; export both cycles to CSV and diff offline.
+
+### Export
+
+Click **Export CSV** to download the full cost breakdown as a flat file with one row per project-environment pair. The CSV includes all columns from the project cost table plus the `billing_cycle_start` and `billing_cycle_end` date fields.
+
+### Cost Breakdown API
+
+The cost breakdown data is also available over the REST API:
+
+```
+GET /api/v1/billing/cost-breakdown
+Authorization: Bearer <api-key>
+```
+
+Optional query parameters:
+
+| Parameter | Description |
+|---|---|
+| `cycle` | Billing cycle in `YYYY-MM` format. Defaults to the current cycle. |
+| `project` | Filter to a specific project slug. |
+| `group_by` | `project` (default) or `workflow` |
+
+Example response:
+
+```json
+{
+  "cycle": "2026-04",
+  "currency": "usd",
+  "total_compute_minutes": 4820,
+  "total_compute_cost_cents": 482,
+  "total_storage_gb_days": 12.4,
+  "total_storage_cost_cents": 6,
+  "items": [
+    {
+      "project": "my-project",
+      "environment": "production",
+      "compute_minutes": 3100,
+      "compute_cost_cents": 310,
+      "storage_gb_days": 8.2,
+      "storage_cost_cents": 4,
+      "total_cost_cents": 314
+    }
+  ]
+}
+```
+
+---
+
+## Usage Metering API
+
+Usage data is available in real time over the REST API, authenticated with an [API key](cloud-dashboard.md#api-key-management) with at least `read` scope.
+
+### Current Cycle Usage
+
+```
+GET /api/v1/billing/usage
+Authorization: Bearer <api-key>
+```
+
+Returns the current billing cycle's aggregate usage:
+
+```json
+{
+  "cycle_start": "2026-04-01T00:00:00Z",
+  "cycle_end": "2026-04-30T23:59:59Z",
+  "compute_minutes_used": 4820,
+  "compute_minutes_limit": 10000,
+  "compute_minutes_overage": 0,
+  "storage_gb_used": 3.1,
+  "storage_gb_limit": 10,
+  "agents_active_peak": 3,
+  "agents_limit": 5,
+  "runs_total": 214,
+  "updated_at": "2026-04-04T09:45:00Z"
+}
+```
+
+### Daily Usage Series
+
+```
+GET /api/v1/billing/usage/daily
+Authorization: Bearer <api-key>
+```
+
+Returns one entry per calendar day in the current billing cycle, useful for plotting usage charts:
+
+```json
+{
+  "cycle_start": "2026-04-01T00:00:00Z",
+  "days": [
+    {
+      "date": "2026-04-01",
+      "compute_minutes": 220,
+      "storage_gb_snapshot": 2.9,
+      "runs": 11
+    },
+    {
+      "date": "2026-04-02",
+      "compute_minutes": 195,
+      "storage_gb_snapshot": 3.0,
+      "runs": 9
+    }
+  ]
+}
+```
+
+Pass `?cycle=YYYY-MM` to query a previous billing cycle. Data is available for all cycles since account creation.
+
+---
+
 ## Payment Methods
 
 Navigate to **Settings → Billing → Payment** to manage cards.

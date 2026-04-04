@@ -16,7 +16,7 @@ If you do not receive the confirmation email within 10 minutes, check your spam 
 
 ---
 
-## Onboarding
+## Onboarding Wizard
 
 After verifying your email and setting a password:
 
@@ -29,6 +29,74 @@ After verifying your email and setting a password:
 3. The wizard completes when your first daemon reports `running` status.
 
 You can skip steps in the wizard and complete them later from the CLI.
+
+### Wizard Steps in Detail
+
+The wizard is a six-step modal that persists across page reloads. Progress is stored server-side so you can close the browser and resume from any device.
+
+#### Step 1 — Create Organisation
+
+Enter an organisation name and optional slug (auto-generated from the name if left blank). The slug appears in your dashboard URL (`app.ao.dev/org/<slug>`) and cannot be changed after creation.
+
+#### Step 2 — Install the CLI
+
+The wizard detects your operating system and shows the appropriate install command. After running it in your terminal, click **Check version** — the wizard polls `GET /api/v1/onboarding/cli-check` every 5 seconds until it confirms `ao version` is `0.5.0` or later.
+
+If the version check does not pass within 2 minutes, a fallback **Proceed anyway** link becomes available.
+
+#### Step 3 — Log In via CLI
+
+The wizard generates a one-time login URL and displays the corresponding CLI command:
+
+```
+ao cloud login --url https://app.ao.dev/auth/device/<code>
+```
+
+Running this command opens a browser tab and completes the device auth flow. Once the CLI has received a token, the wizard advances automatically.
+
+Alternatively, click **Copy login command** and paste it into your terminal.
+
+#### Step 4 — Create a Sample Project
+
+The wizard provides a minimal sample project you can copy or download:
+
+```
+ao cloud push --project my-first-project
+```
+
+The project only requires a single workflow YAML in `.ao/workflows/`. Once the push succeeds the wizard advances and the project appears in the dashboard.
+
+#### Step 5 — Start the Daemon
+
+```
+ao cloud start my-first-project
+```
+
+The wizard polls daemon status every 3 seconds. A progress bar and status badge update in real time as the daemon transitions through `starting` → `running`.
+
+#### Step 6 — Done
+
+A full-screen celebration screen confirms the setup is complete. It includes:
+
+- A link to the **Projects** overview for your new project
+- Quick-start suggestions: schedule your first workflow run, invite a team member, or explore billing
+- A **Dismiss wizard** button — the wizard does not reappear but remains accessible at **Settings → Onboarding**
+
+### Reopening the Wizard
+
+If you dismissed the wizard before completing all steps, reopen it from **Settings → Onboarding**. Completed steps are shown with a green checkmark and skipped steps have a grey circle. You can re-run any step individually by clicking its **Redo** link.
+
+### Wizard Completion Criteria
+
+The wizard tracks completion state server-side. Each step is marked complete when:
+
+| Step | Completion trigger |
+|---|---|
+| Create Organisation | Organisation record created in the database |
+| Install CLI | `cli-check` API returns a version `≥ 0.5.0` |
+| Log In via CLI | Device auth flow returns a valid access token |
+| Create Sample Project | Deployment artifact received for the project |
+| Start Daemon | Daemon status transitions to `running` |
 
 ---
 

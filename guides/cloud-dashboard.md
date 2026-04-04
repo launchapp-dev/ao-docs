@@ -441,6 +441,52 @@ Navigate to **Settings → Notifications → Webhooks** to configure webhook end
 
 Webhook payloads follow the `ao.cli.v1` JSON envelope format.
 
+### Webhook Delivery Mechanics
+
+Each event triggers an immediate HTTP POST to all matching active endpoints. Delivery is best-effort with automatic retries on failure.
+
+**Retry schedule:**
+
+| Attempt | Delay after previous attempt |
+|---|---|
+| 1 (initial) | Immediately |
+| 2 | 30 seconds |
+| 3 | 5 minutes |
+| 4 | 30 minutes |
+| 5 | 2 hours |
+
+After five failed attempts the delivery is marked **failed** and no further retries are scheduled. A failed delivery is visible in the endpoint's delivery history with status `failed`. Use the **Redeliver** button to trigger a manual retry at any time.
+
+A delivery is considered successful when the endpoint returns any `2xx` HTTP status code within 10 seconds. Non-`2xx` responses (including `3xx` redirects) and connection timeouts count as failures.
+
+**Delivery timeout:** 10 seconds per attempt. Responses that arrive after this window are discarded and the attempt is counted as failed.
+
+**Delivery headers sent with every request:**
+
+| Header | Value |
+|---|---|
+| `Content-Type` | `application/json` |
+| `X-AO-Event` | Event type string (e.g. `daemon.stopped`) |
+| `X-AO-Delivery` | Unique delivery ID (stable across retries for the same event) |
+| `X-AO-Signature` | `sha256=<hmac_hex>` — HMAC-SHA256 of the raw request body |
+| `User-Agent` | `ao-cloud-webhook/1` |
+
+### Webhook Delivery Log
+
+The delivery log for each endpoint is accessible at **Settings → Notifications → Webhooks → [endpoint] → Deliveries**. The table shows:
+
+| Column | Description |
+|---|---|
+| Delivery ID | Stable across retries; use for deduplication |
+| Event | Event type that triggered the delivery |
+| Attempt | Attempt number (1–5) |
+| Status | `success`, `failed`, or `pending` |
+| HTTP status | The HTTP response code returned by your endpoint, or `—` on timeout |
+| Duration | Response time in milliseconds |
+| Timestamp | When this attempt was made |
+
+Delivery records are retained for 30 days. Click any row to see the full request body and response body (truncated to 4 KB).
+
 ---
 
 ## Command Palette
@@ -497,6 +543,37 @@ At the mobile breakpoint:
 - Project cards replace the projects table. Each card shows the project name, daemon status badge, and quick-action buttons.
 - Run Detail panels open as full-screen bottom sheets instead of side panels.
 - The command palette opens via the search icon in the top nav bar.
+
+---
+
+## Dark Mode
+
+The dashboard ships with a light theme by default and a full dark theme that inverts surface, border, and text colours. Syntax-highlighted YAML, log lines, and code blocks use separate dark-variant palettes optimised for readability.
+
+### Toggling the Theme
+
+Click the **sun / moon icon** in the top-right header to switch between light and dark mode. The preference is stored in `localStorage` under the key `ao.theme` and persists across sessions in the same browser.
+
+To let the browser choose automatically based on the operating-system colour preference, select **System** from the theme picker dropdown (accessible by long-pressing the toggle on desktop, or via **Settings → Appearance → Theme**).
+
+| Setting | Description |
+|---|---|
+| **Light** | White surfaces, dark text, blue accent colours |
+| **Dark** | Near-black surfaces (`#0d1117`), off-white text, lighter blue accents |
+| **System** | Follows `prefers-color-scheme` media query — switches automatically when the OS theme changes |
+
+### Appearance Settings
+
+Navigate to **Settings → Appearance** for additional display preferences:
+
+| Preference | Options | Default |
+|---|---|---|
+| Theme | Light, Dark, System | System |
+| Font size | Small (13 px), Medium (14 px), Large (16 px) | Medium |
+| Reduced motion | Off, On | Off (respects OS `prefers-reduced-motion`) |
+| Dense tables | Off, On | Off — normal row height; On reduces row padding for more data on screen |
+
+Appearance settings are per-browser and are not synchronised across devices or stored in the cloud.
 
 ---
 
