@@ -1,4 +1,4 @@
-# A Typical Day Using AO
+# A Typical Day Using Animus
 
 This is the common end-to-end loop: define intent, generate requirements,
 materialize tasks, and let the daemon execute task workflows.
@@ -27,9 +27,9 @@ flowchart TB
 ### 1. Define intent
 
 ```bash
-ao vision draft
-ao requirements draft --include-codebase-scan
-ao requirements refine --id REQ-001
+animus vision draft
+animus requirements draft --include-codebase-scan
+animus requirements refine --id REQ-001
 ```
 
 Canonical refs for those commands are:
@@ -41,16 +41,16 @@ Canonical refs for those commands are:
 ### 2. Turn requirements into work
 
 ```bash
-ao requirements execute
+animus requirements execute
 ```
 
 This runs `ao.requirement/execute`, which plans and materializes task work
-through AO mutation surfaces.
+through Animus mutation surfaces.
 
 ### 3. Let task workflows run
 
 ```bash
-ao daemon start --autonomous
+animus daemon start --autonomous
 ```
 
 Project-local task refs such as `standard-workflow` usually delegate to bundled
@@ -59,10 +59,10 @@ pack refs like `ao.task/standard`.
 ### 4. Watch the system
 
 ```bash
-ao task stats
-ao workflow list
-ao daemon health
-ao output tail
+animus task stats
+animus workflow list
+animus daemon health
+animus output tail
 ```
 
 ## What the Daemon Actually Does
@@ -78,7 +78,7 @@ The daemon does not own task semantics, requirement semantics, or pack logic.
 
 ## Why This Matters
 
-That split lets AO support:
+That split lets Animus support:
 
 - bundled first-party packs such as `ao.task` and `ao.requirement`
 - installed machine packs under `~/.ao/packs/`

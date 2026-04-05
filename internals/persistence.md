@@ -1,6 +1,6 @@
 # Persistence
 
-AO persists all state as JSON files using atomic writes. The `orchestrator-store` crate provides the low-level primitives, while `orchestrator-core` builds domain-specific persistence on top.
+Animus persists all state as JSON files using atomic writes. The `orchestrator-store` crate provides the low-level primitives, while `orchestrator-core` builds domain-specific persistence on top.
 
 ## Atomic Writes
 

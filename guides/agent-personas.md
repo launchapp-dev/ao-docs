@@ -53,7 +53,7 @@ When reviewing:
 3. Check that tests exist and cover the changes
 4. Verify the implementation matches the task requirements
 
-Use AO MCP tools to:
+Use Animus MCP tools to:
 - Read task details: ao.task.get
 - Update checklists: ao.task.checklist-add, ao.task.checklist-update
 - Check workflow state: ao.workflow.get
@@ -94,7 +94,7 @@ agents:
       3. Check that tests exist and cover the changes
       4. Verify the implementation matches the task requirements
 
-      Use AO MCP tools to:
+      Use Animus MCP tools to:
       - Read task details: ao.task.get
       - Update checklists: ao.task.checklist-add, ao.task.checklist-update
       - Check workflow state: ao.workflow.get
@@ -150,7 +150,7 @@ Acceptance Criteria Guidelines:
 - Include edge cases and boundary conditions
 - Consider accessibility and internationalization
 
-Use AO MCP tools to:
+Use Animus MCP tools to:
 - Create requirements: ao.requirements.create
 - Refine requirements: ao.requirements.refine
 - Link tasks: ao.task.create with linked_requirement
@@ -196,7 +196,7 @@ agents:
       - Include edge cases and boundary conditions
       - Consider accessibility and internationalization
 
-      Use AO MCP tools to:
+      Use Animus MCP tools to:
       - Create requirements: ao.requirements.create
       - Refine requirements: ao.requirements.refine
       - Link tasks: ao.task.create with linked_requirement
@@ -262,7 +262,7 @@ Architecture Decision Records (ADRs):
 - Consequences: What are the trade-offs?
 - Alternatives: What else was considered?
 
-Use AO MCP tools to:
+Use Animus MCP tools to:
 - Read existing architecture docs: search for .adr/ or architecture/
 - Create tasks for implementation: ao.task.create
 - Link architecture entities: ao.task.update with linked_architecture_entity
@@ -309,7 +309,7 @@ agents:
       - Consequences: What are the trade-offs?
       - Alternatives: What else was considered?
 
-      Use AO MCP tools to:
+      Use Animus MCP tools to:
       - Read existing architecture docs: search for .adr/ or architecture/
       - Create tasks for implementation: ao.task.create
       - Link architecture entities: ao.task.update with linked_architecture_entity
@@ -373,7 +373,7 @@ Test Quality Criteria:
 - Clear: Easy to understand what's being tested
 - Meaningful: Fails for the right reasons
 
-Use AO MCP tools to:
+Use Animus MCP tools to:
 - Read task acceptance criteria: ao.task.get
 - Add testing checklist items: ao.task.checklist-add
 - Report test findings: ao.task.checklist-update
@@ -423,7 +423,7 @@ agents:
       - Clear: Easy to understand what's being tested
       - Meaningful: Fails for the right reasons
 
-      Use AO MCP tools to:
+      Use Animus MCP tools to:
       - Read task acceptance criteria: ao.task.get
       - Add testing checklist items: ao.task.checklist-add
       - Report test findings: ao.task.checklist-update
@@ -493,7 +493,7 @@ Security Code Review Checklist:
 - [ ] Rate limiting is implemented
 - [ ] Security headers are set correctly
 
-Use AO MCP tools to:
+Use Animus MCP tools to:
 - Read code changes: use file reading tools
 - Report findings: ao.task.checklist-add
 - Block if critical: return fail verdict with reason
@@ -548,7 +548,7 @@ agents:
       - [ ] Rate limiting is implemented
       - [ ] Security headers are set correctly
 
-      Use AO MCP tools to:
+      Use Animus MCP tools to:
       - Read code changes: use file reading tools
       - Report findings: ao.task.checklist-add
       - Block if critical: return fail verdict with reason
@@ -623,7 +623,7 @@ Documentation Structure:
 5. Troubleshooting (common issues)
 6. Next steps / related resources
 
-Use AO MCP tools to:
+Use Animus MCP tools to:
 - Read code for accuracy: use file reading tools
 - Check related docs: search for existing documentation
 - Update task status: ao.task.checklist-update
@@ -680,7 +680,7 @@ agents:
       5. Troubleshooting (common issues)
       6. Next steps / related resources
 
-      Use AO MCP tools to:
+      Use Animus MCP tools to:
       - Read code for accuracy: use file reading tools
       - Check related docs: search for existing documentation
       - Update task status: ao.task.checklist-update
@@ -819,7 +819,7 @@ agents:
     model: claude-sonnet-4-6
     tool: claude
     mcp_servers:
-      - ao           # AO orchestration tools
+      - animus           # Animus orchestration tools
       - github       # GitHub integration
       - postgres     # Database queries
 ```
@@ -871,5 +871,5 @@ phases:
 
 - **[Writing Custom Workflows](writing-workflows.md)** -- Full workflow YAML reference
 - **[Workflow YAML Schema](../reference/workflow-yaml.md)** -- Complete schema documentation
-- **[MCP Tools Reference](../reference/mcp-tools.md)** -- All available AO tools
-- **[Working with AO via MCP Tools](agents.md)** -- Using MCP tools in workflows
+- **[MCP Tools Reference](../reference/mcp-tools.md)** -- All available Animus tools
+- **[Working with Animus via MCP Tools](agents.md)** -- Using MCP tools in workflows

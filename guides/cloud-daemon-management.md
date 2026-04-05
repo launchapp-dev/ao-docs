@@ -1,6 +1,6 @@
 # Cloud Daemon Management
 
-The AO Cloud dashboard provides a dedicated interface for managing cloud-hosted daemon instances — starting, stopping, restarting, scaling, and configuring auto-restart policies — without leaving the browser or using the CLI.
+The Animus Cloud dashboard provides a dedicated interface for managing cloud-hosted daemon instances — starting, stopping, restarting, scaling, and configuring auto-restart policies — without leaving the browser or using the CLI.
 
 This guide covers the daemon management features shipped in v42. For CLI-based daemon control see [Cloud Deployment](cloud-deployment.md) and [Daemon Operations](daemon-operations.md).
 
@@ -36,7 +36,7 @@ Click **Start** in the summary panel or from the project card on the Projects ov
 Equivalent CLI command:
 
 ```bash
-ao cloud start
+animus cloud start
 ```
 
 ### Stopping the Daemon
@@ -53,8 +53,8 @@ The graceful stop mode displays a progress indicator and lists active runs as th
 Equivalent CLI commands:
 
 ```bash
-ao cloud stop            # graceful
-ao cloud stop --force    # immediate
+animus cloud stop            # graceful
+animus cloud stop --force    # immediate
 ```
 
 ### Restarting
@@ -161,7 +161,7 @@ Click any dispatch to see its full subject and variable payload.
 The concurrency limit defaults to the maximum for the selected instance tier. To set a lower limit:
 
 ```bash
-ao cloud project config --set daemon.max_concurrent_runs=3
+animus cloud project config --set daemon.max_concurrent_runs=3
 ```
 
 Or update it from the **Daemon → Settings** sub-tab in the dashboard. The new limit takes effect immediately without restarting the daemon.
@@ -185,7 +185,7 @@ Drain mode pauses new dispatch pickup without stopping the daemon process. In-pr
 Click **Drain** in the summary panel, or:
 
 ```bash
-ao cloud pause
+animus cloud pause
 ```
 
 The daemon status changes to `draining`. The status badge turns yellow. New dispatches are accepted and queued but not started.
@@ -195,7 +195,7 @@ The daemon status changes to `draining`. The status badge turns yellow. New disp
 Click **Resume**, or:
 
 ```bash
-ao cloud resume
+animus cloud resume
 ```
 
 The daemon immediately resumes picking up queued dispatches.
@@ -224,7 +224,7 @@ Configure notification delivery for daemon status changes at **Settings → Noti
 | Event | Description |
 |---|---|
 | `daemon.started` | Daemon successfully started |
-| `daemon.stopped` | Daemon stopped after an explicit `ao cloud stop` or dashboard stop |
+| `daemon.stopped` | Daemon stopped after an explicit `animus cloud stop` or dashboard stop |
 | `daemon.crashed` | Daemon exited with a non-zero exit code |
 | `daemon.restart_limit_reached` | Auto-restart gave up after `max_attempts` consecutive failures |
 | `daemon.queue_depth_threshold` | Queue depth exceeded the configured warning threshold |

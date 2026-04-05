@@ -1,6 +1,6 @@
-# AO Cloud Beta: Landing Page and Signup
+# Animus Cloud Beta: Landing Page and Signup
 
-AO cloud is currently in public beta. This guide explains how to join the beta, what is included, and what to expect during the beta period.
+Animus cloud is currently in public beta. This guide explains how to join the beta, what is included, and what to expect during the beta period.
 
 ---
 
@@ -23,9 +23,9 @@ After verifying your email and setting a password:
 1. Log in at `app.ao.dev`.
 2. The onboarding wizard walks you through:
    - Creating your first organisation
-   - Installing the AO CLI (`ao version` must be `0.5.0` or later for cloud support)
-   - Running `ao cloud login` to link the CLI to your new account
-   - Pushing a sample project with `ao cloud push`
+   - Installing the Animus CLI (`animus version` must be `0.5.0` or later for cloud support)
+   - Running `animus cloud login` to link the CLI to your new account
+   - Pushing a sample project with `animus cloud push`
 3. The wizard completes when your first daemon reports `running` status.
 
 You can skip steps in the wizard and complete them later from the CLI.
@@ -40,7 +40,7 @@ Enter an organisation name and optional slug (auto-generated from the name if le
 
 #### Step 2 — Install the CLI
 
-The wizard detects your operating system and shows the appropriate install command. After running it in your terminal, click **Check version** — the wizard polls `GET /api/v1/onboarding/cli-check` every 5 seconds until it confirms `ao version` is `0.5.0` or later.
+The wizard detects your operating system and shows the appropriate install command. After running it in your terminal, click **Check version** — the wizard polls `GET /api/v1/onboarding/cli-check` every 5 seconds until it confirms `animus version` is `0.5.0` or later.
 
 If the version check does not pass within 2 minutes, a fallback **Proceed anyway** link becomes available.
 
@@ -49,7 +49,7 @@ If the version check does not pass within 2 minutes, a fallback **Proceed anyway
 The wizard generates a one-time login URL and displays the corresponding CLI command:
 
 ```
-ao cloud login --url https://app.ao.dev/auth/device/<code>
+animus cloud login --url https://app.ao.dev/auth/device/<code>
 ```
 
 Running this command opens a browser tab and completes the device auth flow. Once the CLI has received a token, the wizard advances automatically.
@@ -61,7 +61,7 @@ Alternatively, click **Copy login command** and paste it into your terminal.
 The wizard provides a minimal sample project you can copy or download:
 
 ```
-ao cloud push --project my-first-project
+animus cloud push --project my-first-project
 ```
 
 The project only requires a single workflow YAML in `.ao/workflows/`. Once the push succeeds the wizard advances and the project appears in the dashboard.
@@ -69,7 +69,7 @@ The project only requires a single workflow YAML in `.ao/workflows/`. Once the p
 #### Step 5 — Start the Daemon
 
 ```
-ao cloud start my-first-project
+animus cloud start my-first-project
 ```
 
 The wizard polls daemon status every 3 seconds. A progress bar and status badge update in real time as the daemon transitions through `starting` → `running`.
@@ -119,8 +119,8 @@ The beta includes the full Phase A–F feature set:
 
 | Phase | Features |
 |---|---|
-| **A** | `ao cloud login`, `ao cloud push`, `ao cloud start`, `ao cloud stop` |
-| **B** | `ao cloud status`, `ao cloud logs` — deployment and log management |
+| **A** | `animus cloud login`, `animus cloud push`, `animus cloud start`, `animus cloud stop` |
+| **B** | `animus cloud status`, `animus cloud logs` — deployment and log management |
 | **C** | React dashboard — projects, deployments, agent monitoring, log search |
 | **D** | Stripe billing integration — plan management, usage tracking, invoices |
 | **E** | CLI sync protocol — hot-reload, event-driven daemon configuration updates |
@@ -150,25 +150,25 @@ Beta feedback is critical to shaping the general availability release. There are
 | **GitHub Issues** (`github.com/ao-dev/ao/issues`) | Bug reports and reproducible errors |
 | **Beta community (Discord)** — link in your welcome email | Discussion, questions, feature requests |
 
-When filing a bug report, include the output of `ao version` and `ao cloud status --json` to help the team reproduce the issue.
+When filing a bug report, include the output of `animus version` and `animus cloud status --json` to help the team reproduce the issue.
 
 ---
 
 ## Leaving the Beta
 
-To stop using AO cloud:
+To stop using Animus cloud:
 
-1. Run `ao cloud stop` to drain and stop all cloud daemons.
+1. Run `animus cloud stop` to drain and stop all cloud daemons.
 2. Navigate to **Settings → Billing → Cancel Subscription** if you are on a paid plan.
 3. To delete your organisation and all associated data, go to **Settings → Organisation → Delete Organisation**. This action is irreversible.
 
-After cancellation, all local AO CLI functionality (local daemon, offline workflows) continues to work without a cloud account.
+After cancellation, all local Animus CLI functionality (local daemon, offline workflows) continues to work without a cloud account.
 
 ---
 
 ## General Availability
 
-AO cloud is expected to exit beta when:
+Animus cloud is expected to exit beta when:
 
 - Multi-region deployments are stable
 - SOC 2 Type II certification is complete

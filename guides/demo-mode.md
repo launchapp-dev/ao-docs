@@ -1,6 +1,6 @@
 # Demo Mode
 
-Demo mode lets you explore AO Cloud with a fully populated sandbox environment — no GitHub account, no API keys, and no billing information required. It is the fastest way to see what the dashboard looks like with real-looking data before committing to an account.
+Demo mode lets you explore Animus Cloud with a fully populated sandbox environment — no GitHub account, no API keys, and no billing information required. It is the fastest way to see what the dashboard looks like with real-looking data before committing to an account.
 
 Demo mode was introduced in v43.
 
@@ -84,7 +84,7 @@ Your demo session is not migrated; the onboarding wizard starts you with an empt
 For offline exploration or a self-hosted evaluation, you can run a local demo instance:
 
 ```bash
-ao demo start
+animus demo start
 ```
 
 This starts a local server at `http://localhost:4200` pre-loaded with the same synthetic dataset used by the hosted demo. The local demo supports all read and write operations but operates entirely in memory — data does not persist between restarts.
@@ -92,10 +92,10 @@ This starts a local server at `http://localhost:4200` pre-loaded with the same s
 Stop the local demo with:
 
 ```bash
-ao demo stop
+animus demo stop
 ```
 
-The local demo requires AO version 0.43.0 or later. It does not require an AO Cloud account or internet access.
+The local demo requires Animus version 0.43.0 or later. It does not require an Animus Cloud account or internet access.
 
 ### Local Demo Flags
 
@@ -109,22 +109,22 @@ The local demo requires AO version 0.43.0 or later. It does not require an AO Cl
 
 ## Demo Mode and the CLI
 
-The `ao demo` command group manages local demo sessions:
+The `animus demo` command group manages local demo sessions:
 
 ```bash
-ao demo start            # Start local demo server
-ao demo stop             # Stop local demo server
-ao demo status           # Show whether the local demo is running
-ao demo reset            # Wipe in-memory state and reinitialise from seed
+animus demo start            # Start local demo server
+animus demo stop             # Stop local demo server
+animus demo status           # Show whether the local demo is running
+animus demo reset            # Wipe in-memory state and reinitialise from seed
 ```
 
-The local demo exposes the same REST API as AO Cloud, so you can point `ao cloud login` at it for CLI exploration:
+The local demo exposes the same REST API as Animus Cloud, so you can point `animus cloud login` at it for CLI exploration:
 
 ```bash
-ao cloud login --host http://localhost:4200
+animus cloud login --host http://localhost:4200
 ```
 
-All `ao cloud` commands — `push`, `start`, `stop`, `logs` — work against the local demo. Changes are in-memory only.
+All `animus cloud` commands — `push`, `start`, `stop`, `logs` — work against the local demo. Changes are in-memory only.
 
 ---
 
@@ -132,5 +132,5 @@ All `ao cloud` commands — `push`, `start`, `stop`, `logs` — work against the
 
 - [Cloud Getting Started](../tutorials/cloud-getting-started.md) — end-to-end walkthrough for real accounts
 - [Cloud Dashboard](cloud-dashboard.md) — full dashboard feature reference
-- [AO Cloud Beta Signup](cloud-beta-signup.md) — joining the cloud beta
+- [Animus Cloud Beta Signup](cloud-beta-signup.md) — joining the cloud beta
 - [Cloud Deployment](cloud-deployment.md) — pushing your first real project

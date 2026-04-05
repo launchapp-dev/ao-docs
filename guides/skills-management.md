@@ -1,8 +1,8 @@
 # Skills Management Guide
 
-Skills are reusable capability modules that enhance agent behavior in AO workflows. They inject prompt fragments, model/tool policy overrides, MCP attachments, timeout overrides, and capability flags into agent execution contexts.
+Skills are reusable capability modules that enhance agent behavior in Animus workflows. They inject prompt fragments, model/tool policy overrides, MCP attachments, timeout overrides, and capability flags into agent execution contexts.
 
-This guide covers how to discover, install, list, and use skills in your AO workflows and agent personas.
+This guide covers how to discover, install, list, and use skills in your Animus workflows and agent personas.
 
 ---
 
@@ -27,17 +27,17 @@ Skills can provide:
 
 ### Searching the Skill Catalog
 
-Use `ao skill search` to discover available skills from configured registries:
+Use `animus skill search` to discover available skills from configured registries:
 
 ```bash
 # Search for skills by keyword
-ao skill search "code-review"
+animus skill search "code-review"
 
 # Search for skills by category
-ao skill search "security"
+animus skill search "security"
 
 # List all available skills
-ao skill search ""
+animus skill search ""
 ```
 
 ### Skill Registries
@@ -46,16 +46,16 @@ Skills are published to registries. Manage your registries with:
 
 ```bash
 # List configured registries
-ao pack registry list
+animus pack registry list
 
 # Add a new registry
-ao pack registry add https://github.com/example/ao-skills-registry.git
+animus pack registry add https://github.com/example/ao-skills-registry.git
 
 # Sync a registry for latest catalog
-ao pack registry sync <registry-name>
+animus pack registry sync <registry-name>
 ```
 
-The official AO skills are available at [github.com/launchapp-dev/ao-skills](https://github.com/launchapp-dev/ao-skills).
+The official Animus skills are available at [github.com/launchapp-dev/ao-skills](https://github.com/launchapp-dev/ao-skills).
 
 ---
 
@@ -67,10 +67,10 @@ Install a skill by name from a configured registry:
 
 ```bash
 # Install a specific skill
-ao skill install code-review
+animus skill install code-review
 
 # Install multiple skills
-ao skill install code-review security-review test-strategy
+animus skill install code-review security-review test-strategy
 ```
 
 ### Install from Local Path
@@ -79,12 +79,12 @@ Install a skill from a local directory:
 
 ```bash
 # Install from local path
-ao skill install ./path/to/my-skill
+animus skill install ./path/to/my-skill
 ```
 
 ### Skill Installation Location
 
-Installed skills are stored in AO's state directory and become available for reference in workflow YAML files.
+Installed skills are stored in Animus's state directory and become available for reference in workflow YAML files.
 
 ---
 
@@ -94,7 +94,7 @@ View all installed skills:
 
 ```bash
 # List all installed skills
-ao skill list
+animus skill list
 ```
 
 The output shows:
@@ -111,10 +111,10 @@ Update skills to their latest versions:
 
 ```bash
 # Update all installed skills
-ao skill update
+animus skill update
 
 # Update a specific skill
-ao skill update code-review
+animus skill update code-review
 ```
 
 ---
@@ -125,7 +125,7 @@ If you've created a custom skill, publish it to a registry:
 
 ```bash
 # Publish a skill version
-ao skill publish ./my-skill --version 1.0.0
+animus skill publish ./my-skill --version 1.0.0
 ```
 
 ### Skill Package Structure
@@ -292,7 +292,7 @@ Later sources can override earlier ones for conflicting settings.
 
 ### Built-in Skills
 
-AO may bundle certain skills that are always available:
+Animus may bundle certain skills that are always available:
 
 | Skill | Description |
 |-------|-------------|
@@ -353,11 +353,11 @@ Create custom skills for project-specific capabilities:
 
 | Command | Description |
 |---------|-------------|
-| `ao skill search <query>` | Search skill catalog |
-| `ao skill install <name>` | Install skill from registry or path |
-| `ao skill list` | List installed skills |
-| `ao skill update [name]` | Update skills to latest versions |
-| `ao skill publish <path>` | Publish skill to registry |
+| `animus skill search <query>` | Search skill catalog |
+| `animus skill install <name>` | Install skill from registry or path |
+| `animus skill list` | List installed skills |
+| `animus skill update [name]` | Update skills to latest versions |
+| `animus skill publish <path>` | Publish skill to registry |
 
 ---
 
@@ -375,7 +375,7 @@ Create custom skills for project-specific capabilities:
 
 6. **Use phase skills sparingly** -- Most capabilities should be attached to agents. Only use phase-level skills for phase-specific overrides.
 
-7. **Validate after installation** -- Run `ao workflow config validate` after installing new skills to ensure they integrate correctly.
+7. **Validate after installation** -- Run `animus workflow config validate` after installing new skills to ensure they integrate correctly.
 
 ---
 
@@ -384,5 +384,5 @@ Create custom skills for project-specific capabilities:
 - **[Agent Persona Cookbook](agent-personas.md)** -- Ready-to-use agent templates with skill references
 - **[Writing Custom Workflows](writing-workflows.md)** -- Complete workflow YAML reference
 - **[Workflow YAML Schema](../reference/workflow-yaml.md)** -- Full schema documentation including skills fields
-- **[MCP Tools Reference](../reference/mcp-tools.md)** -- All available AO tools
+- **[MCP Tools Reference](../reference/mcp-tools.md)** -- All available Animus tools
 - **[CLI Command Reference](../reference/cli/index.md)** -- Complete CLI surface including skill commands

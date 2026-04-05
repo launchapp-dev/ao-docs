@@ -1,35 +1,35 @@
 # Troubleshooting Guide
 
-Common issues and their fixes when working with AO.
+Common issues and their fixes when working with Animus.
 
 ## Environment Diagnostics
 
 Run the built-in doctor command first:
 
 ```bash
-ao doctor
+animus doctor
 ```
 
 This checks for required tools, API keys, configuration files, and common misconfigurations. Use `--fix` to attempt automatic repairs:
 
 ```bash
-ao doctor --fix
+animus doctor --fix
 ```
 
 ## Daemon Won't Start
 
-**Symptoms**: `ao daemon start --autonomous` exits immediately or `ao daemon status` shows not running.
+**Symptoms**: `animus daemon start --autonomous` exits immediately or `animus daemon status` shows not running.
 
 **Steps**:
 
 1. Check daemon status:
    ```bash
-   ao daemon status
+   animus daemon status
    ```
 
 2. Read the daemon log:
    ```bash
-   ao daemon logs
+   animus daemon logs
    ```
    Or read the log file directly:
    ```bash
@@ -38,7 +38,7 @@ ao doctor --fix
 
 3. Try running in foreground for immediate error output:
    ```bash
-   ao daemon run
+   animus daemon run
    ```
 
 4. Check if another daemon instance is already running (port conflict).
@@ -53,13 +53,13 @@ ao doctor --fix
 
 ```bash
 unset CLAUDECODE
-ao daemon start --autonomous
+animus daemon start --autonomous
 ```
 
 Or use an env prefix:
 
 ```bash
-env -u CLAUDECODE ao daemon start --autonomous
+env -u CLAUDECODE animus daemon start --autonomous
 ```
 
 ## Agent Runtime Config Overriding Compiled Defaults
@@ -71,13 +71,13 @@ env -u CLAUDECODE ao daemon start --autonomous
 **Fix**: Set the fields to `null` to let compiled defaults take over:
 
 ```bash
-ao workflow agent-runtime get    # Inspect current config
+animus workflow agent-runtime get    # Inspect current config
 ```
 
 Then update:
 
 ```bash
-ao workflow agent-runtime set --input-json '{"agents":{"default":{"model":null,"tool":null}}}'
+animus workflow agent-runtime set --input-json '{"agents":{"default":{"model":null,"tool":null}}}'
 ```
 
 Or read the config cascade documentation in the [Model Routing Guide](model-routing.md).
@@ -88,10 +88,10 @@ Or read the config cascade documentation in the [Model Routing Guide](model-rout
 
 **Cause**: When tasks are blocked, `paused=true` is set internally. The daemon skips paused tasks during scheduling. Direct JSON edits or incomplete status transitions can leave ghost state.
 
-**Fix**: Always reset via `ao task status` which clears all blocking metadata:
+**Fix**: Always reset via `animus task status` which clears all blocking metadata:
 
 ```bash
-ao task status --id TASK-XXX --status ready
+animus task status --id TASK-XXX --status ready
 ```
 
 This clears `paused`, `blocked_at`, `blocked_reason`, and `blocked_by`. Never hand-edit `.ao/*.json` files.
@@ -104,27 +104,27 @@ This clears `paused`, `blocked_at`, `blocked_reason`, and `blocked_by`. Never ha
 
 1. Check runner health:
    ```bash
-   ao runner health
+   animus runner health
    ```
 
 2. Detect orphaned runner processes:
    ```bash
-   ao runner orphans detect
+   animus runner orphans detect
    ```
 
 3. Clean up orphans if found:
    ```bash
-   ao runner orphans cleanup
+   animus runner orphans cleanup
    ```
 
 4. Check restart statistics:
    ```bash
-   ao runner restart-stats
+   animus runner restart-stats
    ```
 
 5. Verify API keys are set:
    ```bash
-   ao model status
+   animus model status
    ```
 
 ## Build Cache Stale
@@ -147,13 +147,13 @@ The daemon writes logs to `.ao/daemon.log` relative to the project root. Log rot
 Read logs:
 
 ```bash
-ao daemon logs
+animus daemon logs
 ```
 
 Clear logs:
 
 ```bash
-ao daemon clear-logs
+animus daemon clear-logs
 ```
 
 Tail in real time:
@@ -168,28 +168,28 @@ tail -f .ao/daemon.log
 
 1. List workflows to find the problematic one:
    ```bash
-   ao workflow list
+   animus workflow list
    ```
 
 2. Inspect the workflow:
    ```bash
-   ao workflow get --id WF-001
+   animus workflow get --id WF-001
    ```
 
 3. Check decisions made during execution:
    ```bash
-   ao workflow decisions --id WF-001
+   animus workflow decisions --id WF-001
    ```
 
 4. View the agent output:
    ```bash
-   ao output run --id RUN-001
+   animus output run --id RUN-001
    ```
 
 5. If the workflow is stuck, you can cancel and retry:
    ```bash
-   ao workflow cancel --id WF-001
-   ao task status --id TASK-XXX --status ready
+   animus workflow cancel --id WF-001
+   animus task status --id TASK-XXX --status ready
    ```
 
 ## Missing API Keys
@@ -199,7 +199,7 @@ tail -f .ao/daemon.log
 **Check**:
 
 ```bash
-ao model status
+animus model status
 ```
 
 Required keys by tool:

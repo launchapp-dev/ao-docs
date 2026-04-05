@@ -14,8 +14,8 @@ Complete reference of every `ao` command, subcommand, and key flag. This tree is
 ## Top-Level Command Tree
 
 ```
-ao
-├── version                  Show installed ao version
+animus
+├── version                  Show installed animus version
 ├── now                      Unified work inbox (next task, active workflows, blocked/stale)
 ├── status                   Unified project status dashboard
 ├── setup                    Guided onboarding wizard
@@ -331,8 +331,8 @@ ao
 │       └── watch            Watch metrics continuously
 │
 ├── cloud                    Cloud deployment and daemon management
-│   ├── login                Authenticate with AO cloud
-│   ├── push                 Push project to AO cloud
+│   ├── login                Authenticate with Animus cloud
+│   ├── push                 Push project to Animus cloud
 │   ├── start                Start the cloud-hosted daemon
 │   ├── stop                 Stop the cloud-hosted daemon
 │   ├── status               Show cloud deployment status
@@ -352,7 +352,7 @@ ao
 |---|---|
 | Top-level commands | 29 |
 | Total subcommands (all levels) | ~190+ |
-| `ao fleet` subcommands | 51 |
+| `animus fleet` subcommands | 51 |
 | Commands with `--confirmation` pattern | 11 |
 | Commands with `--input-json` | 15+ |
 | Commands with `--dry-run` | 8 |

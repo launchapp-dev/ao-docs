@@ -2,12 +2,12 @@
 layout: home
 
 hero:
-  name: AO
+  name: Animus
   text: Agent Orchestrator CLI
   tagline: Orchestrate AI agent workflows from your terminal. Define YAML workflows, dispatch to any LLM, and ship code autonomously.
   image:
     src: /logo.svg
-    alt: AO
+    alt: Animus
   actions:
     - theme: brand
       text: Get Started
@@ -44,7 +44,7 @@ features:
     linkText: Learn about isolation
   - icon: "\U0001F510"
     title: Privacy-First
-    details: No AO telemetry. No AO training on your code. All state stays in your local .ao/ directory. You control which AI provider — or none — receives your code.
+    details: No Animus telemetry. No Animus training on your code. All state stays in your local .ao/ directory. You control which AI provider — or none — receives your code.
     link: /guides/privacy
     linkText: Read our data policy
   - icon: "\U0001F680"

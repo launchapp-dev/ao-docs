@@ -1,6 +1,6 @@
 # Cloud Deployment Guide
 
-AO cloud lets you run the AO daemon in a managed cloud environment — no server to provision, no daemon process to babysit locally. You push your project configuration once and the cloud handles scheduling, agent execution, and log storage.
+Animus cloud lets you run the Animus daemon in a managed cloud environment — no server to provision, no daemon process to babysit locally. You push your project configuration once and the cloud handles scheduling, agent execution, and log storage.
 
 For the full command reference see [ao cloud — CLI Reference](../reference/cli/cloud.md).
 
@@ -8,18 +8,18 @@ For the full command reference see [ao cloud — CLI Reference](../reference/cli
 
 ## Prerequisites
 
-- AO CLI installed (`ao version` should return `0.x.x` or later)
-- An AO cloud account — sign up at the AO website
-- Your project initialised locally (`ao setup` or an existing `.ao/` directory)
+- Animus CLI installed (`animus version` should return `0.x.x` or later)
+- An Animus cloud account — sign up at the Animus website
+- Your project initialised locally (`animus setup` or an existing `.ao/` directory)
 
 ---
 
 ## 1 — Log In
 
-Authenticate the CLI against your AO cloud account:
+Authenticate the CLI against your Animus cloud account:
 
 ```bash
-ao cloud login
+animus cloud login
 ```
 
 A browser window opens. Complete the OAuth flow and return to the terminal. The session is stored in `~/.ao/cloud/credentials.json`.
@@ -27,7 +27,7 @@ A browser window opens. Complete the OAuth flow and return to the terminal. The 
 **CI / non-interactive environments:** generate a personal access token in the cloud dashboard and pass it directly:
 
 ```bash
-ao cloud login --token $AO_CLOUD_TOKEN
+animus cloud login --token $AO_CLOUD_TOKEN
 ```
 
 ---
@@ -37,21 +37,21 @@ ao cloud login --token $AO_CLOUD_TOKEN
 Upload your project's workflow definitions, personas, and pack configuration to the cloud:
 
 ```bash
-ao cloud push
+animus cloud push
 ```
 
-`ao cloud push` packages `.ao/` metadata — it does **not** upload source code. Your repository stays local (or in your own VCS).
+`animus cloud push` packages `.ao/` metadata — it does **not** upload source code. Your repository stays local (or in your own VCS).
 
 Validate what would be pushed without uploading:
 
 ```bash
-ao cloud push --dry-run
+animus cloud push --dry-run
 ```
 
 Target a non-production environment:
 
 ```bash
-ao cloud push --env staging
+animus cloud push --env staging
 ```
 
 ---
@@ -61,13 +61,13 @@ ao cloud push --env staging
 Once the project is pushed, start the remote daemon:
 
 ```bash
-ao cloud start
+animus cloud start
 ```
 
 Use `--wait` to block until the daemon is fully running before returning:
 
 ```bash
-ao cloud start --wait
+animus cloud start --wait
 ```
 
 The daemon is now active in the cloud and will pick up work as soon as tasks are ready.
@@ -79,7 +79,7 @@ The daemon is now active in the cloud and will pick up work as soon as tasks are
 Verify the deployment is healthy:
 
 ```bash
-ao cloud status
+animus cloud status
 ```
 
 Sample output:
@@ -94,7 +94,7 @@ region      us-east-1
 Use `--json` for machine-readable output, e.g. in a deploy script:
 
 ```bash
-ao cloud status --json | jq '.daemon_status'
+animus cloud status --json | jq '.daemon_status'
 ```
 
 ---
@@ -104,31 +104,31 @@ ao cloud status --json | jq '.daemon_status'
 Follow live output from the cloud daemon:
 
 ```bash
-ao cloud logs --follow
+animus cloud logs --follow
 ```
 
 Show the last 200 lines and then stream:
 
 ```bash
-ao cloud logs --tail 200 --follow
+animus cloud logs --tail 200 --follow
 ```
 
 Filter to errors only:
 
 ```bash
-ao cloud logs --level error
+animus cloud logs --level error
 ```
 
 Scope to a single agent run:
 
 ```bash
-ao cloud logs --run-id run_1234
+animus cloud logs --run-id run_1234
 ```
 
 Fetch logs from the past hour as newline-delimited JSON:
 
 ```bash
-ao cloud logs --since 1h --json
+animus cloud logs --since 1h --json
 ```
 
 ---
@@ -138,13 +138,13 @@ ao cloud logs --since 1h --json
 Gracefully drain active agents and stop:
 
 ```bash
-ao cloud stop
+animus cloud stop
 ```
 
 Force-terminate immediately (skips drain):
 
 ```bash
-ao cloud stop --force
+animus cloud stop --force
 ```
 
 ---
@@ -154,7 +154,7 @@ ao cloud stop --force
 ### Deploy and Start in One Step
 
 ```bash
-ao cloud push && ao cloud start --wait
+animus cloud push && animus cloud start --wait
 ```
 
 ### Rolling Redeploy
@@ -162,9 +162,9 @@ ao cloud push && ao cloud start --wait
 Push updated configuration and restart the daemon:
 
 ```bash
-ao cloud push
-ao cloud stop --wait
-ao cloud start --wait
+animus cloud push
+animus cloud stop --wait
+animus cloud start --wait
 ```
 
 ### Check Daemon Health in CI
@@ -180,14 +180,14 @@ fi
 ### Tail Errors After a Deploy
 
 ```bash
-ao cloud logs --follow --level error --since 10m
+animus cloud logs --follow --level error --since 10m
 ```
 
 ---
 
 ## Environments
 
-AO cloud supports isolated environments on the same project. Pass `--env` to any command:
+Animus cloud supports isolated environments on the same project. Pass `--env` to any command:
 
 | Environment | Use |
 |---|---|
@@ -198,47 +198,47 @@ AO cloud supports isolated environments on the same project. Pass `--env` to any
 Switching between environments:
 
 ```bash
-ao cloud push --env staging
-ao cloud start --env staging
-ao cloud status --env staging
+animus cloud push --env staging
+animus cloud start --env staging
+animus cloud status --env staging
 ```
 
 ---
 
 ## Troubleshooting
 
-**`ao cloud login` hangs at browser prompt in a headless environment**
+**`animus cloud login` hangs at browser prompt in a headless environment**
 
 Pass `--token` to skip the browser flow:
 
 ```bash
-ao cloud login --token $AO_CLOUD_TOKEN
+animus cloud login --token $AO_CLOUD_TOKEN
 ```
 
-**`ao cloud push` fails with "no project found"**
+**`animus cloud push` fails with "no project found"**
 
 Ensure you are running from a directory with an `.ao/` folder or use `--project-root`:
 
 ```bash
-ao cloud push --project-root /path/to/project
+animus cloud push --project-root /path/to/project
 ```
 
 **Daemon stuck in `starting`**
 
-Check logs immediately after issuing `ao cloud start`:
+Check logs immediately after issuing `animus cloud start`:
 
 ```bash
-ao cloud logs --since 5m --level warn
+animus cloud logs --since 5m --level warn
 ```
 
 A missing model API key or misconfigured MCP server is a common cause. See [Troubleshooting](troubleshooting.md) for further diagnostics.
 
-**`ao cloud stop` does not complete**
+**`animus cloud stop` does not complete**
 
 If the daemon is unresponsive, force-stop:
 
 ```bash
-ao cloud stop --force
+animus cloud stop --force
 ```
 
 ---
@@ -248,4 +248,4 @@ ao cloud stop --force
 - [ao cloud — CLI Reference](../reference/cli/cloud.md) — full flag and output reference
 - [Daemon Operations](daemon-operations.md) — local daemon equivalent
 - [Fleet Management](fleet-management.md) — multi-node distributed deployments
-- [Privacy & Data Policy](privacy.md) — what AO cloud does and does not store
+- [Privacy & Data Policy](privacy.md) — what Animus cloud does and does not store

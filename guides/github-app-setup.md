@@ -1,6 +1,6 @@
 # GitHub App Registration and Setup
 
-This guide walks through installing the Animus GitHub App from scratch, configuring organisation or repository permissions, and completing the connection to Animus Cloud. By the end you will have GitHub events flowing into your AO project and a working webhook receiver.
+This guide walks through installing the Animus GitHub App from scratch, configuring organisation or repository permissions, and completing the connection to Animus Cloud. By the end you will have GitHub events flowing into your Animus project and a working webhook receiver.
 
 For a reference of all GitHub App features (repository selector filters, delivery log, trigger syntax, posting check runs), see [GitHub App Integration](github-app.md).
 
@@ -11,20 +11,20 @@ For a reference of all GitHub App features (repository selector filters, deliver
 **Animus Cloud account**
 
 - You must be logged in to Animus Cloud. If you have not set up an account yet, complete [Cloud Deployment](cloud-deployment.md) first.
-- Your role in the AO Cloud organisation must be **Admin** or higher. See [Cloud Dashboard — Team and Access](cloud-dashboard.md#team-and-access) to check your role.
+- Your role in the Animus Cloud organisation must be **Admin** or higher. See [Cloud Dashboard — Team and Access](cloud-dashboard.md#team-and-access) to check your role.
 
 **GitHub account**
 
 - You must be an **Owner** of the GitHub organisation you want to connect, or the **owner** of your personal GitHub account.
 - If you are installing on a GitHub organisation owned by someone else, ask them to complete this guide or to grant you Owner role first.
 
-**AO project**
+**Animus project**
 
-- You need at least one AO project to connect the app to. Create one with:
+- You need at least one Animus project to connect the app to. Create one with:
 
 ```bash
-ao project create my-project
-ao cloud push
+animus project create my-project
+animus cloud push
 ```
 
 ---
@@ -94,11 +94,11 @@ Click **Install & Authorize** to confirm.
 
 ## Step 5 — Complete the Cloud Connection
 
-After you confirm on GitHub, you are redirected back to the Animus Cloud dashboard. AO:
+After you confirm on GitHub, you are redirected back to the Animus Cloud dashboard. Animus:
 
 1. Receives the temporary `installation_id` from GitHub's redirect.
 2. Exchanges it for a long-lived installation token.
-3. Stores the mapping between the installation and your AO Cloud organisation.
+3. Stores the mapping between the installation and your Animus Cloud organisation.
 4. Displays a success state on the **Settings → Integrations → GitHub** page.
 
 The Integrations page now shows your installation:
@@ -117,7 +117,7 @@ If the redirect does not complete (browser closed, session expired), return to *
 
 ## Step 6 — Activate Repositories in Your Project
 
-The GitHub App installation grants AO access to repositories at the account level. You must also **activate** each repository within your AO project before events from that repository can trigger workflows.
+The GitHub App installation grants Animus access to repositories at the account level. You must also **activate** each repository within your Animus project before events from that repository can trigger workflows.
 
 ### Activate via dashboard
 
@@ -130,10 +130,10 @@ The GitHub App installation grants AO access to repositories at the account leve
 
 ```bash
 # List all repositories accessible through your installations
-ao cloud repo list
+animus cloud repo list
 
 # Activate a repository for the current project
-ao cloud repo activate my-org/my-repo
+animus cloud repo activate my-org/my-repo
 ```
 
 A repository must be both accessible (via the installation) and activated (within a project) for triggers to fire.
@@ -142,7 +142,7 @@ A repository must be both accessible (via the installation) and activated (withi
 
 ## Step 7 — Configure the Webhook
 
-Animus Cloud manages the webhook receiver automatically — you do not need to create a webhook URL or generate a signing secret. When you installed the GitHub App, GitHub began forwarding events to AO's managed receiver endpoint.
+Animus Cloud manages the webhook receiver automatically — you do not need to create a webhook URL or generate a signing secret. When you installed the GitHub App, GitHub began forwarding events to Animus's managed receiver endpoint.
 
 To verify webhook delivery is working:
 
@@ -194,10 +194,10 @@ git commit -m "feat: add PR review trigger"
 git push
 ```
 
-AO picks up the change automatically. Confirm the trigger is registered:
+Animus picks up the change automatically. Confirm the trigger is registered:
 
 ```bash
-ao trigger list
+animus trigger list
 ```
 
 For full trigger field reference and supported event types, see [GitHub App Integration — Configuring Triggers](github-app.md#configuring-triggers-for-github-events).
@@ -212,7 +212,7 @@ For full trigger field reference and supported event types, see [GitHub App Inte
 2. Click the **edit** icon next to the installation.
 3. Click **Configure on GitHub**.
 4. Under **Repository access**, add or remove repositories.
-5. Click **Save**. GitHub sends an `installation_repositories` event to AO and the dashboard updates within a few seconds.
+5. Click **Save**. GitHub sends an `installation_repositories` event to Animus and the dashboard updates within a few seconds.
 
 You can also navigate directly to GitHub's installation settings:
 
@@ -272,12 +272,12 @@ If the dashboard shows a `pending` status for more than 30 seconds:
 
 1. Hard-refresh the page (`Cmd+Shift+R` / `Ctrl+Shift+R`).
 2. If the status does not update, click **Retry Installation** on the integrations page.
-3. If the issue persists, check AO Cloud service status at [status.ao.dev](https://status.ao.dev).
+3. If the issue persists, check Animus Cloud service status at [status.ao.dev](https://status.ao.dev).
 
 ### Trigger fires but workflow does not start
 
-- Confirm the daemon is running: `ao daemon status` (local) or check the **Daemon** panel in the cloud dashboard.
-- Run `ao trigger list` and check that the trigger status is `active`, not `paused`.
+- Confirm the daemon is running: `animus daemon status` (local) or check the **Daemon** panel in the cloud dashboard.
+- Run `animus trigger list` and check that the trigger status is `active`, not `paused`.
 - Open **Settings → Integrations → GitHub → [installation] → Deliveries**, find the relevant delivery, and click through to the linked dispatch. The dispatch detail shows any startup errors.
 
 ### Cannot see the expected organisation in GitHub's install flow
@@ -289,6 +289,6 @@ You must be an Owner of the organisation. If the org is not listed, ask a curren
 ## Next Steps
 
 - [GitHub App Integration](github-app.md) — Full reference: repository selector filters, delivery log, payload interpolation, check run posting
-- [GitHub Checks](github-checks.md) — Publishing check run results from AO workflows
+- [GitHub Checks](github-checks.md) — Publishing check run results from Animus workflows
 - [Event Triggers](event-triggers.md) — All trigger kinds: file watchers, webhooks, and GitHub events
 - [Writing Custom Workflows](writing-workflows.md) — Authoring the workflows that triggers dispatch

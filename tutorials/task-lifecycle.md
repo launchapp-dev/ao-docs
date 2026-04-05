@@ -4,7 +4,7 @@ Follow a task from creation to completion. This tutorial covers status transitio
 
 ## Overview
 
-Every task in AO goes through a defined lifecycle:
+Every task in Animus goes through a defined lifecycle:
 
 ```
 Created → Backlog → Ready → In-Progress → Done
@@ -25,7 +25,7 @@ Let's walk through each stage with practical examples.
 Create a new task with minimal information:
 
 ```bash
-ao task create --title "Implement user profile page"
+animus task create --title "Implement user profile page"
 ```
 
 Output shows the new task ID (e.g., `TASK-042`).
@@ -33,7 +33,7 @@ Output shows the new task ID (e.g., `TASK-042`).
 ### Creation with Full Details
 
 ```bash
-ao task create \
+animus task create \
   --title "Implement password reset" \
   --type feature \
   --priority high \
@@ -64,16 +64,16 @@ ao task create \
 
 ### Link to Requirements
 
-Tasks are often created from requirements. If you've run `ao requirements execute`, tasks are auto-created. You can also link manually:
+Tasks are often created from requirements. If you've run `animus requirements execute`, tasks are auto-created. You can also link manually:
 
 ```bash
-ao task update --id TASK-042 --linked-requirement REQ-001
+animus task update --id TASK-042 --linked-requirement REQ-001
 ```
 
 ### Verify Creation
 
 ```bash
-ao task get --id TASK-042
+animus task get --id TASK-042
 ```
 
 This shows all task details including:
@@ -93,7 +93,7 @@ New tasks start in `backlog` status. Before work can begin, move them to `ready`
 ### Move to Ready
 
 ```bash
-ao task status --id TASK-042 --status ready
+animus task status --id TASK-042 --status ready
 ```
 
 ### What "Ready" Means
@@ -111,7 +111,7 @@ The daemon only picks up tasks with status `ready`.
 See where this task sits in the priority queue:
 
 ```bash
-ao task prioritized
+animus task prioritized
 ```
 
 This shows all ready tasks sorted by priority, then by dependency order.
@@ -125,7 +125,7 @@ Assign tasks to specify who (or what) will do the work.
 ### Assign to Agent
 
 ```bash
-ao task assign --id TASK-042 --type agent --model claude-sonnet-4-6
+animus task assign --id TASK-042 --type agent --model claude-sonnet-4-6
 ```
 
 This tells the daemon to use a Claude agent with Sonnet 4.6 when executing this task.
@@ -133,7 +133,7 @@ This tells the daemon to use a Claude agent with Sonnet 4.6 when executing this 
 ### Assign to Human
 
 ```bash
-ao task assign --id TASK-042 --type human --assignee "alice@example.com"
+animus task assign --id TASK-042 --type human --assignee "alice@example.com"
 ```
 
 Human-assigned tasks won't be picked up by the daemon automatically.
@@ -141,7 +141,7 @@ Human-assigned tasks won't be picked up by the daemon automatically.
 ### Check Assignment
 
 ```bash
-ao task get --id TASK-042 | grep -A5 "assignee"
+animus task get --id TASK-042 | grep -A5 "assignee"
 ```
 
 ### Unassign
@@ -149,7 +149,7 @@ ao task get --id TASK-042 | grep -A5 "assignee"
 To clear assignment:
 
 ```bash
-ao task update --id TASK-042 --assignee ""
+animus task update --id TASK-042 --assignee ""
 ```
 
 ---
@@ -163,7 +163,7 @@ Dependencies ensure tasks execute in the correct order.
 TASK-043 should wait for TASK-042:
 
 ```bash
-ao task dependency-add --id TASK-043 --depends-on TASK-042
+animus task dependency-add --id TASK-043 --depends-on TASK-042
 ```
 
 Now TASK-043 cannot move to `in-progress` until TASK-042 is `done`.
@@ -171,7 +171,7 @@ Now TASK-043 cannot move to `in-progress` until TASK-042 is `done`.
 ### Check Dependencies
 
 ```bash
-ao task get --id TASK-043
+animus task get --id TASK-043
 ```
 
 Look for the `dependencies` field.
@@ -182,29 +182,29 @@ Create a sequence:
 
 ```bash
 # Setup task
-ao task create --title "Create database schema" --type feature
+animus task create --title "Create database schema" --type feature
 # Returns TASK-050
 
 # Implementation task
-ao task create --title "Implement API endpoints" --type feature
+animus task create --title "Implement API endpoints" --type feature
 # Returns TASK-051
 
 # Test task
-ao task create --title "Write integration tests" --type test
+animus task create --title "Write integration tests" --type test
 # Returns TASK-052
 
 # Set up chain: TASK-050 → TASK-051 → TASK-052
-ao task dependency-add --id TASK-051 --depends-on TASK-050
-ao task dependency-add --id TASK-052 --depends-on TASK-051
+animus task dependency-add --id TASK-051 --depends-on TASK-050
+animus task dependency-add --id TASK-052 --depends-on TASK-051
 
 # Verify
-ao task get --id TASK-052
+animus task get --id TASK-052
 ```
 
 ### Remove Dependency
 
 ```bash
-ao task dependency-remove --id TASK-043 --depends-on TASK-042
+animus task dependency-remove --id TASK-043 --depends-on TASK-042
 ```
 
 ---
@@ -216,19 +216,19 @@ Checklists track subtasks and acceptance criteria within a task.
 ### Add Checklist Items
 
 ```bash
-ao task checklist-add --id TASK-042 --item "Create password reset token table"
-ao task checklist-add --id TASK-042 --item "Implement /auth/reset-request endpoint"
-ao task checklist-add --id TASK-042 --item "Send reset email with token link"
-ao task checklist-add --id TASK-042 --item "Implement /auth/reset-password endpoint"
-ao task checklist-add --id TASK-042 --item "Add rate limiting (5 requests/hour)"
-ao task checklist-add --id TASK-042 --item "Write unit tests"
-ao task checklist-add --id TASK-042 --item "Write integration tests"
+animus task checklist-add --id TASK-042 --item "Create password reset token table"
+animus task checklist-add --id TASK-042 --item "Implement /auth/reset-request endpoint"
+animus task checklist-add --id TASK-042 --item "Send reset email with token link"
+animus task checklist-add --id TASK-042 --item "Implement /auth/reset-password endpoint"
+animus task checklist-add --id TASK-042 --item "Add rate limiting (5 requests/hour)"
+animus task checklist-add --id TASK-042 --item "Write unit tests"
+animus task checklist-add --id TASK-042 --item "Write integration tests"
 ```
 
 ### View Checklist
 
 ```bash
-ao task get --id TASK-042
+animus task get --id TASK-042
 ```
 
 The checklist appears in the task details.
@@ -238,8 +238,8 @@ The checklist appears in the task details.
 As work progresses:
 
 ```bash
-ao task checklist-update --id TASK-042 --index 0 --done true
-ao task checklist-update --id TASK-042 --index 1 --done true
+animus task checklist-update --id TASK-042 --index 0 --done true
+animus task checklist-update --id TASK-042 --index 1 --done true
 ```
 
 Indices are 0-based in the order items were added.
@@ -259,7 +259,7 @@ When work begins (either by daemon or human), the task moves to `in-progress`.
 ### Manual Transition
 
 ```bash
-ao task status --id TASK-042 --status in-progress
+animus task status --id TASK-042 --status in-progress
 ```
 
 ### Daemon Transition
@@ -274,13 +274,13 @@ When the daemon picks up a ready task, it automatically:
 
 ```bash
 # List all in-progress
-ao task list --status in-progress
+animus task list --status in-progress
 
 # Check workflow status
-ao workflow list --status running
+animus workflow list --status running
 
 # Watch daemon activity
-ao daemon events
+animus daemon events
 ```
 
 ---
@@ -292,7 +292,7 @@ Sometimes tasks get stuck.
 ### Block a Task
 
 ```bash
-ao task status --id TASK-042 --status blocked --reason "Waiting on API credentials from ops team"
+animus task status --id TASK-042 --status blocked --reason "Waiting on API credentials from ops team"
 ```
 
 Blocked tasks:
@@ -303,7 +303,7 @@ Blocked tasks:
 ### Unblock a Task
 
 ```bash
-ao task status --id TASK-042 --status ready
+animus task status --id TASK-042 --status ready
 ```
 
 This clears the `blocked_at`, `blocked_reason`, and `blocked_by` fields automatically.
@@ -313,20 +313,20 @@ This clears the `blocked_at`, `blocked_reason`, and `blocked_by` fields automati
 Pause prevents scheduling without marking as blocked:
 
 ```bash
-ao task pause --id TASK-042
+animus task pause --id TASK-042
 ```
 
 ### Resume a Paused Task
 
 ```bash
-ao task resume --id TASK-042
+animus task resume --id TASK-042
 ```
 
 ### Query Blocked/Paused
 
 ```bash
-ao task list --status blocked
-ao task list --status on_hold
+animus task list --status blocked
+animus task list --status on_hold
 ```
 
 ---
@@ -338,7 +338,7 @@ When work is done, mark the task complete.
 ### Mark as Done
 
 ```bash
-ao task status --id TASK-042 --status done
+animus task status --id TASK-042 --status done
 ```
 
 ### What Happens on Completion
@@ -351,7 +351,7 @@ ao task status --id TASK-042 --status done
 ### Verify Completion
 
 ```bash
-ao task get --id TASK-042
+animus task get --id TASK-042
 ```
 
 Check that:
@@ -368,13 +368,13 @@ Sometimes tasks are no longer needed.
 ### Cancel a Task
 
 ```bash
-ao task cancel --id TASK-042
+animus task cancel --id TASK-042
 ```
 
 This requires confirmation:
 
 ```bash
-ao task cancel --id TASK-042 --confirmation yes
+animus task cancel --id TASK-042 --confirmation yes
 ```
 
 ### When to Cancel
@@ -400,7 +400,7 @@ Let's trace a complete feature from start to finish.
 ### Step 1: Create the Task
 
 ```bash
-ao task create \
+animus task create \
   --title "Add two-factor authentication" \
   --type feature \
   --priority high \
@@ -411,54 +411,54 @@ ao task create \
 ### Step 2: Add Checklist
 
 ```bash
-ao task checklist-add --id TASK-100 --item "Add TOTP secret column to users table"
-ao task checklist-add --id TASK-100 --item "Create /auth/2fa/setup endpoint"
-ao task checklist-add --id TASK-100 --item "Generate QR code for authenticator apps"
-ao task checklist-add --id TASK-100 --item "Create /auth/2fa/verify endpoint"
-ao task checklist-add --id TASK-100 --item "Add recovery code generation"
-ao task checklist-add --id TASK-100 --item "Update login flow to check 2FA"
-ao task checklist-add --id TASK-100 --item "Write unit tests"
-ao task checklist-add --id TASK-100 --item "Write integration tests"
-ao task checklist-add --id TASK-100 --item "Update user documentation"
+animus task checklist-add --id TASK-100 --item "Add TOTP secret column to users table"
+animus task checklist-add --id TASK-100 --item "Create /auth/2fa/setup endpoint"
+animus task checklist-add --id TASK-100 --item "Generate QR code for authenticator apps"
+animus task checklist-add --id TASK-100 --item "Create /auth/2fa/verify endpoint"
+animus task checklist-add --id TASK-100 --item "Add recovery code generation"
+animus task checklist-add --id TASK-100 --item "Update login flow to check 2FA"
+animus task checklist-add --id TASK-100 --item "Write unit tests"
+animus task checklist-add --id TASK-100 --item "Write integration tests"
+animus task checklist-add --id TASK-100 --item "Update user documentation"
 ```
 
 ### Step 3: Set Up Dependencies
 
 ```bash
 # This task depends on the user model refactor
-ao task dependency-add --id TASK-100 --depends-on TASK-095
+animus task dependency-add --id TASK-100 --depends-on TASK-095
 ```
 
 ### Step 4: Move to Ready
 
 ```bash
 # After TASK-095 is done
-ao task status --id TASK-100 --status ready
+animus task status --id TASK-100 --status ready
 ```
 
 ### Step 5: Assign
 
 ```bash
-ao task assign --id TASK-100 --type agent --model claude-sonnet-4-6
+animus task assign --id TASK-100 --type agent --model claude-sonnet-4-6
 ```
 
 ### Step 6: Start Daemon (if not running)
 
 ```bash
-ao daemon start --autonomous
+animus daemon start --autonomous
 ```
 
 ### Step 7: Monitor Progress
 
 ```bash
 # Check task status
-ao task get --id TASK-100
+animus task get --id TASK-100
 
 # Watch workflow
-ao workflow list --status running
+animus workflow list --status running
 
 # Stream output
-ao output monitor --run-id <run-id>
+animus output monitor --run-id <run-id>
 ```
 
 ### Step 8: Handle Blocking (if needed)
@@ -466,23 +466,23 @@ ao output monitor --run-id <run-id>
 If the task gets blocked:
 
 ```bash
-ao task status --id TASK-100 --status blocked --reason "Need TOTP library approval"
+animus task status --id TASK-100 --status blocked --reason "Need TOTP library approval"
 
 # After approval
-ao task status --id TASK-100 --status ready
+animus task status --id TASK-100 --status ready
 ```
 
 ### Step 9: Verify Completion
 
 ```bash
 # Check task is done
-ao task get --id TASK-100
+animus task get --id TASK-100
 
 # Verify all checklist items
 # (should show all complete)
 
 # Check linked requirement updated
-ao requirements get --id REQ-050
+animus requirements get --id REQ-050
 ```
 
 ---
@@ -492,7 +492,7 @@ ao requirements get --id REQ-050
 View everything that happened to a task:
 
 ```bash
-ao task history --id TASK-100
+animus task history --id TASK-100
 ```
 
 This shows:
@@ -508,42 +508,42 @@ This shows:
 ### By Status
 
 ```bash
-ao task list --status ready
-ao task list --status in-progress
-ao task list --status blocked
-ao task list --status done
+animus task list --status ready
+animus task list --status in-progress
+animus task list --status blocked
+animus task list --status done
 ```
 
 ### By Priority
 
 ```bash
-ao task list --priority critical
-ao task list --priority high
+animus task list --priority critical
+animus task list --priority high
 ```
 
 ### By Type
 
 ```bash
-ao task list --type feature
-ao task list --type bugfix
+animus task list --type feature
+animus task list --type bugfix
 ```
 
 ### By Assignee
 
 ```bash
-ao task list --assignee "alice@example.com"
+animus task list --assignee "alice@example.com"
 ```
 
 ### Combined Filters
 
 ```bash
-ao task list --status ready --priority high --type feature
+animus task list --status ready --priority high --type feature
 ```
 
 ### JSON Output for Processing
 
 ```bash
-ao task list --status ready --json | jq '.data[] | {id, title, priority}'
+animus task list --status ready --json | jq '.data[] | {id, title, priority}'
 ```
 
 ---

@@ -1,6 +1,6 @@
 # Exit Codes
 
-AO uses a fixed set of exit codes to classify errors. These codes are stable across versions and safe to match in scripts and CI pipelines.
+Animus uses a fixed set of exit codes to classify errors. These codes are stable across versions and safe to match in scripts and CI pipelines.
 
 ## Exit Code Table
 
@@ -69,7 +69,7 @@ The `error` object may include an optional `details` field with structured conte
 ## Usage in Scripts
 
 ```bash
-ao task get --id TASK-001 --json 2>/dev/null
+animus task get --id TASK-001 --json 2>/dev/null
 case $? in
   0) echo "success" ;;
   2) echo "invalid input" ;;

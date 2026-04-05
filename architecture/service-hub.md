@@ -1,6 +1,6 @@
 # ServiceHub Pattern
 
-The `ServiceHub` trait is AO's dependency injection mechanism. It provides a uniform interface for accessing all domain service APIs, allowing production code and tests to share the same business logic with different backing implementations.
+The `ServiceHub` trait is Animus's dependency injection mechanism. It provides a uniform interface for accessing all domain service APIs, allowing production code and tests to share the same business logic with different backing implementations.
 
 ## The ServiceHub Trait
 

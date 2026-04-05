@@ -2,7 +2,7 @@
 
 ## Purpose
 
-AO needs one execution model for schedules, ready-queue work, manual starts, and
+Animus needs one execution model for schedules, ready-queue work, manual starts, and
 API or MCP-triggered work. The daemon should not be a task-centric state
 machine or a feature host. It should be a dumb, pluggable runtime that accepts
 dispatchable work, manages capacity and subprocesses, and emits execution

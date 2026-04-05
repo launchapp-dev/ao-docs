@@ -1,6 +1,6 @@
-# AO CLI Cheat Sheet
+# Animus CLI Cheat Sheet
 
-Quick reference for the most essential AO commands. Organized by category with common flags and examples.
+Quick reference for the most essential Animus commands. Organized by category with common flags and examples.
 
 ## Global Flags
 
@@ -15,10 +15,10 @@ PROJECT_ROOT=/path        # Alternative via environment variable
 ## Quick Status
 
 ```bash
-ao status                 # Unified project dashboard
-ao version                # Show installed version
-ao doctor                 # Environment diagnostics
-ao doctor --fix           # Auto-fix common issues
+animus status                 # Unified project dashboard
+animus version                # Show installed version
+animus doctor                 # Environment diagnostics
+animus doctor --fix           # Auto-fix common issues
 ```
 
 ---
@@ -28,27 +28,27 @@ ao doctor --fix           # Auto-fix common issues
 ### Lifecycle
 
 ```bash
-ao daemon start --autonomous    # Start background daemon
-ao daemon run                   # Run in foreground (debugging)
-ao daemon stop                  # Stop daemon gracefully
-ao daemon status                # Check if running
-ao daemon health                # Detailed health metrics
+animus daemon start --autonomous    # Start background daemon
+animus daemon run                   # Run in foreground (debugging)
+animus daemon stop                  # Stop daemon gracefully
+animus daemon status                # Check if running
+animus daemon health                # Detailed health metrics
 ```
 
 ### Scheduler Control
 
 ```bash
-ao daemon pause                 # Pause scheduling (in-progress continues)
-ao daemon resume                # Resume scheduling
+animus daemon pause                 # Pause scheduling (in-progress continues)
+animus daemon resume                # Resume scheduling
 ```
 
 ### Monitoring
 
 ```bash
-ao daemon logs                  # Read daemon logs
-ao daemon events                # Stream event history
-ao daemon agents                # List active agents
-ao daemon config                # View/update automation settings
+animus daemon logs                  # Read daemon logs
+animus daemon events                # Stream event history
+animus daemon agents                # List active agents
+animus daemon config                # View/update automation settings
 ```
 
 ---
@@ -58,9 +58,9 @@ ao daemon config                # View/update automation settings
 ### Creating Tasks
 
 ```bash
-ao task create --title "Add feature X"                    # Basic task
-ao task create --title "Fix bug" --type bugfix --priority high
-ao task create --title "Docs" --type docs --priority low
+animus task create --title "Add feature X"                    # Basic task
+animus task create --title "Fix bug" --type bugfix --priority high
+animus task create --title "Docs" --type docs --priority low
 ```
 
 **Task Types**: `feature`, `bugfix`, `hotfix`, `refactor`, `docs`, `test`, `chore`, `experiment`
@@ -70,23 +70,23 @@ ao task create --title "Docs" --type docs --priority low
 ### Querying Tasks
 
 ```bash
-ao task list                           # All tasks
-ao task list --status ready            # Filter by status
-ao task list --priority high           # Filter by priority
-ao task list --type feature            # Filter by type
-ao task prioritized                    # Sorted by priority
-ao task next                           # Next ready task
-ao task stats                          # Statistics summary
-ao task get --id TASK-001              # Single task details
+animus task list                           # All tasks
+animus task list --status ready            # Filter by status
+animus task list --priority high           # Filter by priority
+animus task list --type feature            # Filter by type
+animus task prioritized                    # Sorted by priority
+animus task next                           # Next ready task
+animus task stats                          # Statistics summary
+animus task get --id TASK-001              # Single task details
 ```
 
 ### Task Status
 
 ```bash
-ao task status --id TASK-001 --status ready
-ao task status --id TASK-001 --status in-progress
-ao task status --id TASK-001 --status done
-ao task status --id TASK-001 --status blocked --reason "Waiting on X"
+animus task status --id TASK-001 --status ready
+animus task status --id TASK-001 --status in-progress
+animus task status --id TASK-001 --status done
+animus task status --id TASK-001 --status blocked --reason "Waiting on X"
 ```
 
 **Statuses**: `backlog`, `todo`, `ready`, `in_progress`, `blocked`, `on_hold`, `done`, `cancelled`
@@ -94,40 +94,40 @@ ao task status --id TASK-001 --status blocked --reason "Waiting on X"
 ### Assignment
 
 ```bash
-ao task assign --id TASK-001 --type agent --model claude-sonnet-4-6
-ao task assign --id TASK-001 --type human --assignee "alice"
+animus task assign --id TASK-001 --type agent --model claude-sonnet-4-6
+animus task assign --id TASK-001 --type human --assignee "alice"
 ```
 
 ### Priority & Deadlines
 
 ```bash
-ao task set-priority --id TASK-001 --priority critical
-ao task set-deadline --id TASK-001 --deadline "2025-03-15"
-ao task set-deadline --id TASK-001 --clear    # Remove deadline
-ao task rebalance-priority                    # Rebalance all by budget
+animus task set-priority --id TASK-001 --priority critical
+animus task set-deadline --id TASK-001 --deadline "2025-03-15"
+animus task set-deadline --id TASK-001 --clear    # Remove deadline
+animus task rebalance-priority                    # Rebalance all by budget
 ```
 
 ### Dependencies
 
 ```bash
-ao task dependency-add --id TASK-002 --depends-on TASK-001
-ao task dependency-remove --id TASK-002 --depends-on TASK-001
+animus task dependency-add --id TASK-002 --depends-on TASK-001
+animus task dependency-remove --id TASK-002 --depends-on TASK-001
 ```
 
 ### Checklists
 
 ```bash
-ao task checklist-add --id TASK-001 --item "Write unit tests"
-ao task checklist-update --id TASK-001 --index 0 --done true
+animus task checklist-add --id TASK-001 --item "Write unit tests"
+animus task checklist-update --id TASK-001 --index 0 --done true
 ```
 
 ### Control
 
 ```bash
-ao task pause --id TASK-001          # Prevent scheduling
-ao task resume --id TASK-001         # Resume scheduling
-ao task cancel --id TASK-001         # Cancel (needs confirmation)
-ao task history --id TASK-001        # View workflow history
+animus task pause --id TASK-001          # Prevent scheduling
+animus task resume --id TASK-001         # Resume scheduling
+animus task cancel --id TASK-001         # Cancel (needs confirmation)
+animus task history --id TASK-001        # View workflow history
 ```
 
 ---
@@ -137,37 +137,37 @@ ao task history --id TASK-001        # View workflow history
 ### Running Workflows
 
 ```bash
-ao workflow run --task-id TASK-001                    # Async via daemon
-ao workflow run --task-id TASK-001 --workflow-ref custom-workflow
-ao workflow execute --task-id TASK-001                # Sync, blocking
+animus workflow run --task-id TASK-001                    # Async via daemon
+animus workflow run --task-id TASK-001 --workflow-ref custom-workflow
+animus workflow execute --task-id TASK-001                # Sync, blocking
 ```
 
 ### Monitoring
 
 ```bash
-ao workflow list                           # All workflows
-ao workflow list --status running          # Running only
-ao workflow get --id WF-001                # Workflow details
-ao workflow decisions --id WF-001          # Decision history
-ao workflow checkpoints list --id WF-001   # Saved checkpoints
+animus workflow list                           # All workflows
+animus workflow list --status running          # Running only
+animus workflow get --id WF-001                # Workflow details
+animus workflow decisions --id WF-001          # Decision history
+animus workflow checkpoints list --id WF-001   # Saved checkpoints
 ```
 
 ### Control
 
 ```bash
-ao workflow pause --id WF-001              # Pause execution
-ao workflow resume --id WF-001             # Resume paused workflow
-ao workflow cancel --id WF-001             # Cancel permanently
-ao workflow phase approve --workflow-id WF-001   # Approve gate
+animus workflow pause --id WF-001              # Pause execution
+animus workflow resume --id WF-001             # Resume paused workflow
+animus workflow cancel --id WF-001             # Cancel permanently
+animus workflow phase approve --workflow-id WF-001   # Approve gate
 ```
 
 ### Configuration
 
 ```bash
-ao workflow config get                     # View workflow config
-ao workflow config validate                # Validate config
-ao workflow phases list                    # List phase definitions
-ao workflow definitions list               # List workflow definitions
+animus workflow config get                     # View workflow config
+animus workflow config validate                # Validate config
+animus workflow phases list                    # List phase definitions
+animus workflow definitions list               # List workflow definitions
 ```
 
 ---
@@ -177,21 +177,21 @@ ao workflow definitions list               # List workflow definitions
 ### Planning
 
 ```bash
-ao vision draft                           # Draft project vision
-ao vision refine                          # Refine vision
-ao vision get                             # Read current vision
+animus vision draft                           # Draft project vision
+animus vision refine                          # Refine vision
+animus vision get                             # Read current vision
 ```
 
 ### Requirements Management
 
 ```bash
-ao requirements draft --include-codebase-scan
-ao requirements list
-ao requirements get --id REQ-001
-ao requirements refine --requirement-ids REQ-001 REQ-002
-ao requirements execute --requirement-ids REQ-001 REQ-002
-ao requirements update --id REQ-001 --status refined
-ao requirements delete --id REQ-001
+animus requirements draft --include-codebase-scan
+animus requirements list
+animus requirements get --id REQ-001
+animus requirements refine --requirement-ids REQ-001 REQ-002
+animus requirements execute --requirement-ids REQ-001 REQ-002
+animus requirements update --id REQ-001 --status refined
+animus requirements delete --id REQ-001
 ```
 
 **Priorities (MoSCoW)**: `must`, `should`, `could`, `wont`
@@ -201,13 +201,13 @@ ao requirements delete --id REQ-001
 ## Queue Operations
 
 ```bash
-ao queue list                    # List queued dispatches
-ao queue stats                   # Queue statistics
-ao queue enqueue --task-id TASK-001
-ao queue hold --subject-id TASK-001      # Hold from dispatch
-ao queue release --subject-id TASK-001   # Release held item
-ao queue drop --subject-id TASK-001      # Remove from queue
-ao queue reorder --subject-ids TASK-003 TASK-001 TASK-002
+animus queue list                    # List queued dispatches
+animus queue stats                   # Queue statistics
+animus queue enqueue --task-id TASK-001
+animus queue hold --subject-id TASK-001      # Hold from dispatch
+animus queue release --subject-id TASK-001   # Release held item
+animus queue drop --subject-id TASK-001      # Remove from queue
+animus queue reorder --subject-ids TASK-003 TASK-001 TASK-002
 ```
 
 ---
@@ -215,11 +215,11 @@ ao queue reorder --subject-ids TASK-003 TASK-001 TASK-002
 ## Output & Monitoring
 
 ```bash
-ao output run --id RUN-001              # Read run output
-ao output monitor --run-id RUN-001      # Stream live output
-ao output tail --run-id RUN-001         # Recent output
-ao output artifacts --execution-id EXEC-001
-ao output jsonl --run-id RUN-001        # Structured logs
+animus output run --id RUN-001              # Read run output
+animus output monitor --run-id RUN-001      # Stream live output
+animus output tail --run-id RUN-001         # Recent output
+animus output artifacts --execution-id EXEC-001
+animus output jsonl --run-id RUN-001        # Structured logs
 ```
 
 ---
@@ -227,21 +227,21 @@ ao output jsonl --run-id RUN-001        # Structured logs
 ## Git Operations
 
 ```bash
-ao git status                           # Repository status
-ao git branches                         # List branches
-ao git commit                           # Commit changes
-ao git push                             # Push branch
-ao git pull                             # Pull branch
+animus git status                           # Repository status
+animus git branches                         # List branches
+animus git commit                           # Commit changes
+animus git push                             # Push branch
+animus git pull                             # Pull branch
 ```
 
 ### Worktrees
 
 ```bash
-ao git worktree list                    # List worktrees
-ao git worktree create --task-id TASK-001
-ao git worktree remove --task-id TASK-001
-ao git worktree prune                   # Clean up task worktrees
-ao git worktree sync --task-id TASK-001 # Pull + push
+animus git worktree list                    # List worktrees
+animus git worktree create --task-id TASK-001
+animus git worktree remove --task-id TASK-001
+animus git worktree prune                   # Clean up task worktrees
+animus git worktree sync --task-id TASK-001 # Pull + push
 ```
 
 ---
@@ -249,13 +249,13 @@ ao git worktree sync --task-id TASK-001 # Pull + push
 ## Model & Runner
 
 ```bash
-ao model status                         # Model + API key status
-ao model availability                   # Check model availability
-ao model validate                       # Validate model selection
-ao runner health                        # Runner health
-ao runner orphans detect                # Find orphaned processes
-ao runner orphans cleanup               # Clean up orphans
-ao runner restart-stats                 # Restart history
+animus model status                         # Model + API key status
+animus model availability                   # Check model availability
+animus model validate                       # Validate model selection
+animus runner health                        # Runner health
+animus runner orphans detect                # Find orphaned processes
+animus runner orphans cleanup               # Clean up orphans
+animus runner restart-stats                 # Restart history
 ```
 
 ---
@@ -263,11 +263,11 @@ ao runner restart-stats                 # Restart history
 ## Packs
 
 ```bash
-ao pack list                            # List packs
-ao pack inspect --pack-id ao.task
-ao pack install --path /path/to/pack
-ao pack pin --pack-id ao.task --version =0.1.0
-ao pack search <query>
+animus pack list                            # List packs
+animus pack inspect --pack-id ao.task
+animus pack install --path /path/to/pack
+animus pack pin --pack-id ao.task --version =0.1.0
+animus pack search <query>
 ```
 
 ---
@@ -275,11 +275,11 @@ ao pack search <query>
 ## Project Management
 
 ```bash
-ao project list                         # List projects
-ao project active                       # Show active project
-ao project get --id my-project
-ao project create --name "New Project"
-ao project load --id my-project         # Set as active
+animus project list                         # List projects
+animus project active                       # Show active project
+animus project get --id my-project
+animus project create --name "New Project"
+animus project load --id my-project         # Set as active
 ```
 
 ---
@@ -287,8 +287,8 @@ ao project load --id my-project         # Set as active
 ## Web UI
 
 ```bash
-ao web serve                            # Start web server
-ao web open                             # Open in browser
+animus web serve                            # Start web server
+animus web open                             # Open in browser
 ```
 
 ---
@@ -296,23 +296,23 @@ ao web open                             # Open in browser
 ## Cloud Deployment
 
 ```bash
-ao cloud login                          # Authenticate (browser OAuth)
-ao cloud login --token $AO_CLOUD_TOKEN  # Authenticate with PAT (CI)
-ao cloud push                           # Push project config to cloud
-ao cloud push --env staging             # Push to staging environment
-ao cloud push --dry-run                 # Validate without uploading
-ao cloud start                          # Start cloud-hosted daemon
-ao cloud start --wait                   # Block until daemon is running
-ao cloud stop                           # Graceful drain and stop
-ao cloud stop --force                   # Immediate termination
-ao cloud status                         # Show deployment + daemon status
-ao cloud status --json                  # Machine-readable status
-ao cloud logs                           # Read recent log history
-ao cloud logs --follow                  # Stream logs in real time
-ao cloud logs --tail 200 --follow       # Tail 200 lines then stream
-ao cloud logs --level error             # Filter to errors only
-ao cloud logs --run-id run_1234         # Scope to one agent run
-ao cloud logs --since 1h --json         # Logs as newline-delimited JSON
+animus cloud login                          # Authenticate (browser OAuth)
+animus cloud login --token $AO_CLOUD_TOKEN  # Authenticate with PAT (CI)
+animus cloud push                           # Push project config to cloud
+animus cloud push --env staging             # Push to staging environment
+animus cloud push --dry-run                 # Validate without uploading
+animus cloud start                          # Start cloud-hosted daemon
+animus cloud start --wait                   # Block until daemon is running
+animus cloud stop                           # Graceful drain and stop
+animus cloud stop --force                   # Immediate termination
+animus cloud status                         # Show deployment + daemon status
+animus cloud status --json                  # Machine-readable status
+animus cloud logs                           # Read recent log history
+animus cloud logs --follow                  # Stream logs in real time
+animus cloud logs --tail 200 --follow       # Tail 200 lines then stream
+animus cloud logs --level error             # Filter to errors only
+animus cloud logs --run-id run_1234         # Scope to one agent run
+animus cloud logs --since 1h --json         # Logs as newline-delimited JSON
 ```
 
 ---
@@ -320,7 +320,7 @@ ao cloud logs --since 1h --json         # Logs as newline-delimited JSON
 ## MCP Server
 
 ```bash
-ao mcp serve                            # Start MCP server
+animus mcp serve                            # Start MCP server
 ```
 
 ---
@@ -328,7 +328,7 @@ ao mcp serve                            # Start MCP server
 ## TUI (Terminal UI)
 
 ```bash
-ao tui                                  # Interactive terminal UI
+animus tui                                  # Interactive terminal UI
 ```
 
 ---
@@ -339,47 +339,47 @@ ao tui                                  # Interactive terminal UI
 
 ```bash
 cd /path/to/project
-ao setup
-ao pack list
-ao vision draft
-ao requirements draft --include-codebase-scan
-ao requirements execute
-ao daemon start --autonomous
+animus setup
+animus pack list
+animus vision draft
+animus requirements draft --include-codebase-scan
+animus requirements execute
+animus daemon start --autonomous
 ```
 
 ### Daily Check-in
 
 ```bash
-ao status                    # Overall status
-ao task stats                # Task summary
-ao daemon health             # Daemon health
-ao task prioritized          # What's next
+animus status                    # Overall status
+animus task stats                # Task summary
+animus daemon health             # Daemon health
+animus task prioritized          # What's next
 ```
 
 ### Debug Stuck Workflow
 
 ```bash
-ao daemon status             # Is daemon running?
-ao daemon logs               # Check for errors
-ao workflow list --status running
-ao workflow get --id WF-XXX
-ao workflow decisions --id WF-XXX
-ao output run --id RUN-XXX
+animus daemon status             # Is daemon running?
+animus daemon logs               # Check for errors
+animus workflow list --status running
+animus workflow get --id WF-XXX
+animus workflow decisions --id WF-XXX
+animus output run --id RUN-XXX
 ```
 
 ### Pause for Manual Work
 
 ```bash
-ao daemon pause
+animus daemon pause
 # Make your changes...
-ao daemon resume
+animus daemon resume
 ```
 
 ### JSON Output for Scripts
 
 ```bash
-ao task list --json | jq '.data[] | select(.status == "ready") | .id'
-ao workflow list --json --status running | jq '.data | length'
+animus task list --json | jq '.data[] | select(.status == "ready") | .id'
+animus workflow list --json --status running | jq '.data | length'
 ```
 
 ---

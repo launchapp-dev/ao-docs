@@ -1,11 +1,11 @@
 # Task Management Guide
 
-Tasks are the primary unit of work in AO. Each task tracks a discrete piece of work from creation through completion, with support for priorities, dependencies, checklists, and agent assignment.
+Tasks are the primary unit of work in Animus. Each task tracks a discrete piece of work from creation through completion, with support for priorities, dependencies, checklists, and agent assignment.
 
 ## Creating Tasks
 
 ```bash
-ao task create --title "Add retry logic to HTTP client" --type feature --priority high
+animus task create --title "Add retry logic to HTTP client" --type feature --priority high
 ```
 
 Available task types:
@@ -24,7 +24,7 @@ Available task types:
 You can also supply a description inline:
 
 ```bash
-ao task create \
+animus task create \
   --title "Retry HTTP 429 responses" \
   --type feature \
   --priority high \
@@ -42,24 +42,24 @@ Backlog --> Ready --> In-Progress --> Done
                    \--> On-Hold
 ```
 
-Change status with `ao task status`:
+Change status with `animus task status`:
 
 ```bash
-ao task status --id TASK-001 --status ready
-ao task status --id TASK-001 --status in-progress
-ao task status --id TASK-001 --status done
+animus task status --id TASK-001 --status ready
+animus task status --id TASK-001 --status in-progress
+animus task status --id TASK-001 --status done
 ```
 
 To block a task with a reason:
 
 ```bash
-ao task status --id TASK-001 --status blocked --reason "Waiting on API key provisioning"
+animus task status --id TASK-001 --status blocked --reason "Waiting on API key provisioning"
 ```
 
 To unblock a task, set it back to `ready` -- this clears `paused`, `blocked_at`, `blocked_reason`, and `blocked_by` fields automatically:
 
 ```bash
-ao task status --id TASK-001 --status ready
+animus task status --id TASK-001 --status ready
 ```
 
 ## Assigning Tasks
@@ -67,13 +67,13 @@ ao task status --id TASK-001 --status ready
 Assign a task to an agent with a specific model:
 
 ```bash
-ao task assign --id TASK-001 --type agent --model claude-sonnet-4-6
+animus task assign --id TASK-001 --type agent --model claude-sonnet-4-6
 ```
 
 Or assign to a human:
 
 ```bash
-ao task assign --id TASK-001 --type human --assignee "alice"
+animus task assign --id TASK-001 --type human --assignee "alice"
 ```
 
 ## Priority Management
@@ -81,7 +81,7 @@ ao task assign --id TASK-001 --type human --assignee "alice"
 Set priority directly:
 
 ```bash
-ao task set-priority --id TASK-001 --priority critical
+animus task set-priority --id TASK-001 --priority critical
 ```
 
 Priority levels: `critical`, `high`, `medium`, `low`.
@@ -89,7 +89,7 @@ Priority levels: `critical`, `high`, `medium`, `low`.
 Rebalance priorities across multiple tasks by budget:
 
 ```bash
-ao task rebalance-priority
+animus task rebalance-priority
 ```
 
 ## Dependencies
@@ -97,7 +97,7 @@ ao task rebalance-priority
 Add a dependency so one task blocks another:
 
 ```bash
-ao task dependency-add --id TASK-002 --depends-on TASK-001
+animus task dependency-add --id TASK-002 --depends-on TASK-001
 ```
 
 When TASK-001 is not yet done, TASK-002 cannot move to `in-progress`. The daemon respects dependency ordering when picking the next task to execute.
@@ -105,7 +105,7 @@ When TASK-001 is not yet done, TASK-002 cannot move to `in-progress`. The daemon
 Remove a dependency:
 
 ```bash
-ao task dependency-remove --id TASK-002 --depends-on TASK-001
+animus task dependency-remove --id TASK-002 --depends-on TASK-001
 ```
 
 ## Checklists
@@ -113,15 +113,15 @@ ao task dependency-remove --id TASK-002 --depends-on TASK-001
 Add checklist items to a task for granular tracking:
 
 ```bash
-ao task checklist-add --id TASK-001 --item "Implement retry logic"
-ao task checklist-add --id TASK-001 --item "Add unit tests for backoff"
-ao task checklist-add --id TASK-001 --item "Update API docs"
+animus task checklist-add --id TASK-001 --item "Implement retry logic"
+animus task checklist-add --id TASK-001 --item "Add unit tests for backoff"
+animus task checklist-add --id TASK-001 --item "Update API docs"
 ```
 
 Toggle a checklist item as complete:
 
 ```bash
-ao task checklist-update --id TASK-001 --index 0 --done true
+animus task checklist-update --id TASK-001 --index 0 --done true
 ```
 
 Agents use checklists during PO review and rework phases to verify acceptance criteria.
@@ -131,40 +131,40 @@ Agents use checklists during PO review and rework phases to verify acceptance cr
 List tasks with filters:
 
 ```bash
-ao task list                             # All tasks
-ao task list --status in-progress        # Only in-progress tasks
-ao task list --type feature              # Only features
-ao task list --priority high             # Only high-priority
+animus task list                             # All tasks
+animus task list --status in-progress        # Only in-progress tasks
+animus task list --type feature              # Only features
+animus task list --priority high             # Only high-priority
 ```
 
 View tasks sorted by priority:
 
 ```bash
-ao task prioritized
+animus task prioritized
 ```
 
 Get the next task the daemon would pick:
 
 ```bash
-ao task next
+animus task next
 ```
 
 View task statistics:
 
 ```bash
-ao task stats
+animus task stats
 ```
 
 Get a single task by ID:
 
 ```bash
-ao task get --id TASK-001
+animus task get --id TASK-001
 ```
 
 All commands support `--json` for machine-readable output:
 
 ```bash
-ao task list --status ready --json
+animus task list --status ready --json
 ```
 
 ## Task History
@@ -172,7 +172,7 @@ ao task list --status ready --json
 View workflow dispatch history for a task:
 
 ```bash
-ao task history --id TASK-001
+animus task history --id TASK-001
 ```
 
 ## Pausing and Cancelling
@@ -180,19 +180,19 @@ ao task history --id TASK-001
 Pause a task (prevents daemon from scheduling it):
 
 ```bash
-ao task pause --id TASK-001
+animus task pause --id TASK-001
 ```
 
 Resume a paused task:
 
 ```bash
-ao task resume --id TASK-001
+animus task resume --id TASK-001
 ```
 
 Cancel a task (requires confirmation):
 
 ```bash
-ao task cancel --id TASK-001
+animus task cancel --id TASK-001
 ```
 
 ## Deadlines
@@ -200,11 +200,11 @@ ao task cancel --id TASK-001
 Set a deadline:
 
 ```bash
-ao task set-deadline --id TASK-001 --deadline "2026-03-15"
+animus task set-deadline --id TASK-001 --deadline "2026-03-15"
 ```
 
 Clear a deadline:
 
 ```bash
-ao task set-deadline --id TASK-001 --clear
+animus task set-deadline --id TASK-001 --clear
 ```

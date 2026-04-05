@@ -11,7 +11,7 @@ Enables machine-readable JSON output using the [`ao.cli.v1` envelope](../json-en
 - The envelope schema is always `"ao.cli.v1"`.
 
 ```bash
-ao task list --json
+animus task list --json
 ```
 
 ```json
@@ -26,21 +26,21 @@ Without `--json`, commands produce human-readable text. With `--json`, every com
 
 ## --project-root \<PATH\>
 
-Override the project root directory. By default, AO infers the project root from the current working directory by walking up to the nearest `.ao/` directory or git repository root.
+Override the project root directory. By default, Animus infers the project root from the current working directory by walking up to the nearest `.ao/` directory or git repository root.
 
 ```bash
-ao task list --project-root /path/to/my-project
+animus task list --project-root /path/to/my-project
 ```
 
-This flag is required when running AO commands from outside a project directory, or when automating across multiple projects.
+This flag is required when running Animus commands from outside a project directory, or when automating across multiple projects.
 
 ## PROJECT_ROOT Environment Variable
 
-Alternative to `--project-root`. When set, AO uses this value as the project root. The `--project-root` flag takes precedence over the environment variable.
+Alternative to `--project-root`. When set, Animus uses this value as the project root. The `--project-root` flag takes precedence over the environment variable.
 
 ```bash
 export PROJECT_ROOT=/path/to/my-project
-ao task list
+animus task list
 ```
 
 In scripts and automation, always set `--project-root "$(pwd)"` or `PROJECT_ROOT` explicitly to avoid ambiguity.
@@ -54,7 +54,7 @@ These flags appear on many (but not all) commands:
 Required on destructive commands. Confirms the operation without interactive prompts.
 
 ```bash
-ao task delete --id TASK-001 --confirmation yes
+animus task delete --id TASK-001 --confirmation yes
 ```
 
 Commands that require confirmation: `task delete`, `task cancel`, `workflow pause`, `workflow cancel`, `git worktree remove`, and others.
@@ -66,7 +66,7 @@ When using `--json`, pass `--confirmation yes` to avoid interactive prompts that
 Preview what a destructive command would do without executing it. Returns a dry-run envelope describing the planned effects.
 
 ```bash
-ao task delete --id TASK-001 --dry-run
+animus task delete --id TASK-001 --dry-run
 ```
 
 The dry-run response includes:
@@ -87,7 +87,7 @@ The dry-run response includes:
 Pass structured input as a JSON string. Used by commands that accept complex input beyond simple flags.
 
 ```bash
-ao task create --input-json '{"title": "Fix bug", "priority": "high", "tags": ["urgent"]}'
+animus task create --input-json '{"title": "Fix bug", "priority": "high", "tags": ["urgent"]}'
 ```
 
 Approximately 15+ commands accept `--input-json` as an alternative to individual flags.

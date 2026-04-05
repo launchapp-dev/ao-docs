@@ -1,6 +1,6 @@
-# ao cloud — CLI Reference
+# animus cloud — CLI Reference
 
-Complete reference for all `ao cloud` commands. Cloud management provides authentication, project deployment, remote daemon lifecycle control, and log streaming for AO projects hosted in the AO cloud.
+Complete reference for all `animus cloud` commands. Cloud management provides authentication, project deployment, remote daemon lifecycle control, and log streaming for Animus projects hosted in the Animus cloud.
 
 For global flags (`--json`, `--project-root`) see [Global Flags](global-flags.md). For exit codes see [Exit Codes](exit-codes.md).
 
@@ -9,9 +9,9 @@ For global flags (`--json`, `--project-root`) see [Global Flags](global-flags.md
 ## Command Tree
 
 ```
-ao cloud
-├── login                     Authenticate with AO cloud
-├── push                      Push project to AO cloud
+animus cloud
+├── login                     Authenticate with Animus cloud
+├── push                      Push project to Animus cloud
 ├── start                     Start the cloud-hosted daemon
 ├── stop                      Stop the cloud-hosted daemon
 ├── status                    Show cloud deployment status
@@ -22,14 +22,14 @@ ao cloud
 
 ## Top-Level Commands
 
-### `ao cloud login`
+### `animus cloud login`
 
-Authenticate with the AO cloud service. Opens a browser-based OAuth flow by default; use `--token` to supply a personal access token directly (suitable for CI environments).
+Authenticate with the Animus cloud service. Opens a browser-based OAuth flow by default; use `--token` to supply a personal access token directly (suitable for CI environments).
 
 ```bash
-ao cloud login
-ao cloud login --token <TOKEN>
-ao cloud login --json
+animus cloud login
+animus cloud login --token <TOKEN>
+animus cloud login --json
 ```
 
 **Flags:**
@@ -57,19 +57,19 @@ ao cloud login --json
 }
 ```
 
-> Credentials are stored in `~/.ao/cloud/credentials.json`. Re-run `ao cloud login` to refresh an expired session.
+> Credentials are stored in `~/.ao/cloud/credentials.json`. Re-run `animus cloud login` to refresh an expired session.
 
 ---
 
-### `ao cloud push`
+### `animus cloud push`
 
-Push the current project to AO cloud. Packages project configuration, workflow definitions, and persona files, then uploads them to the cloud. Does **not** upload source code — the cloud daemon operates on the project metadata only.
+Push the current project to Animus cloud. Packages project configuration, workflow definitions, and persona files, then uploads them to the cloud. Does **not** upload source code — the cloud daemon operates on the project metadata only.
 
 ```bash
-ao cloud push
-ao cloud push --env staging
-ao cloud push --dry-run
-ao cloud push --json
+animus cloud push
+animus cloud push --env staging
+animus cloud push --dry-run
+animus cloud push --json
 ```
 
 **Flags:**
@@ -102,15 +102,15 @@ ao cloud push --json
 
 ---
 
-### `ao cloud start`
+### `animus cloud start`
 
-Start the cloud-hosted AO daemon for the current project. If the daemon is already running the command is a no-op (exit 0).
+Start the cloud-hosted Animus daemon for the current project. If the daemon is already running the command is a no-op (exit 0).
 
 ```bash
-ao cloud start
-ao cloud start --env staging
-ao cloud start --wait
-ao cloud start --json
+animus cloud start
+animus cloud start --env staging
+animus cloud start --wait
+animus cloud start --json
 ```
 
 **Flags:**
@@ -140,15 +140,15 @@ ao cloud start --json
 
 ---
 
-### `ao cloud stop`
+### `animus cloud stop`
 
-Stop the cloud-hosted AO daemon. In-progress agent runs are allowed to finish (graceful drain) unless `--force` is passed.
+Stop the cloud-hosted Animus daemon. In-progress agent runs are allowed to finish (graceful drain) unless `--force` is passed.
 
 ```bash
-ao cloud stop
-ao cloud stop --env staging
-ao cloud stop --force
-ao cloud stop --json
+animus cloud stop
+animus cloud stop --env staging
+animus cloud stop --force
+animus cloud stop --json
 ```
 
 **Flags:**
@@ -177,14 +177,14 @@ ao cloud stop --json
 
 ---
 
-### `ao cloud status`
+### `animus cloud status`
 
 Show the current status of the cloud deployment and daemon.
 
 ```bash
-ao cloud status
-ao cloud status --env staging
-ao cloud status --json
+animus cloud status
+animus cloud status --env staging
+animus cloud status --json
 ```
 
 **Flags:**
@@ -200,7 +200,7 @@ ao cloud status --json
 | `deployment_id` | Most recent deployment identifier |
 | `env` | Environment |
 | `daemon_status` | `running`, `stopped`, `starting`, `stopping`, `error` |
-| `pushed_at` | Timestamp of last `ao cloud push` |
+| `pushed_at` | Timestamp of last `animus cloud push` |
 | `daemon_started_at` | Timestamp daemon last transitioned to `running` |
 | `active_agents` | Number of agent runs currently executing |
 | `queue_depth` | Dispatches waiting in the cloud queue |
@@ -223,17 +223,17 @@ ao cloud status --json
 
 ---
 
-### `ao cloud logs`
+### `animus cloud logs`
 
 Stream live logs from the cloud daemon, or read recent log history.
 
 ```bash
-ao cloud logs
-ao cloud logs --tail 100
-ao cloud logs --follow
-ao cloud logs --since 1h
-ao cloud logs --level error
-ao cloud logs --json
+animus cloud logs
+animus cloud logs --tail 100
+animus cloud logs --follow
+animus cloud logs --since 1h
+animus cloud logs --level error
+animus cloud logs --json
 ```
 
 **Flags:**

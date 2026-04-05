@@ -1,6 +1,6 @@
 # Service Status Page
 
-AO publishes a public status page at `status.ao.dev` that tracks the availability and performance of all AO Cloud services in real time. Use the status page to check whether an incident is in progress before filing a support ticket or debugging a local issue.
+Animus publishes a public status page at `status.ao.dev` that tracks the availability and performance of all Animus Cloud services in real time. Use the status page to check whether an incident is in progress before filing a support ticket or debugging a local issue.
 
 The status page was introduced in v45.
 
@@ -8,13 +8,13 @@ The status page was introduced in v45.
 
 ## Accessing the Status Page
 
-Visit `status.ao.dev` in any browser — no authentication required. The page is hosted independently of the main AO Cloud infrastructure so it remains accessible during partial outages.
+Visit `status.ao.dev` in any browser — no authentication required. The page is hosted independently of the main Animus Cloud infrastructure so it remains accessible during partial outages.
 
 ---
 
 ## Service Components
 
-The status page tracks each AO Cloud service component independently. A single degraded component does not necessarily affect all users.
+The status page tracks each Animus Cloud service component independently. A single degraded component does not necessarily affect all users.
 
 | Component | Description |
 |---|---|
@@ -45,11 +45,11 @@ The overall system status at the top of the page reflects the worst status acros
 
 ## Incidents
 
-When a component degrades below **Operational**, AO opens an incident. Each incident has a public incident page with:
+When a component degrades below **Operational**, Animus opens an incident. Each incident has a public incident page with:
 
 - **Title** — a short description (e.g. `Elevated API error rate`)
 - **Impact** — which components are affected
-- **Timeline** — timestamped updates from the AO engineering team, from detection through resolution
+- **Timeline** — timestamped updates from the Animus engineering team, from detection through resolution
 - **Current status** — `Investigating`, `Identified`, `Monitoring`, or `Resolved`
 
 ### Incident Lifecycle
@@ -118,7 +118,7 @@ Subscribe with any RSS reader to receive updates without email.
 
 ### Webhook Notifications
 
-For programmatic consumption, configure a status webhook at **Settings → Notifications** in the AO Cloud dashboard. Toggle **Service status events** to receive a POST request to your endpoint whenever a component status changes or an incident is created or updated.
+For programmatic consumption, configure a status webhook at **Settings → Notifications** in the Animus Cloud dashboard. Toggle **Service status events** to receive a POST request to your endpoint whenever a component status changes or an incident is created or updated.
 
 Status webhook payload:
 
@@ -155,7 +155,7 @@ Maintenance windows are listed on the status page under **Upcoming Maintenance**
 
 ## Embedding the Status Widget
 
-Add a live status indicator to your internal tools or dashboards by embedding the AO status widget:
+Add a live status indicator to your internal tools or dashboards by embedding the Animus status widget:
 
 ```html
 <script
@@ -223,4 +223,4 @@ All endpoints return JSON and require no authentication. The API is rate-limited
 
 - [Cloud Dashboard](cloud-dashboard.md) — notification settings including status webhooks
 - [Troubleshooting](troubleshooting.md) — diagnosing local issues distinct from service incidents
-- [Cloud Deployment](cloud-deployment.md) — deploying to AO Cloud
+- [Cloud Deployment](cloud-deployment.md) — deploying to Animus Cloud

@@ -2,7 +2,7 @@
 
 ## Build from Source
 
-AO is a Rust workspace. You need a working Rust toolchain (1.75+ recommended).
+Animus is a Rust workspace. You need a working Rust toolchain (1.75+ recommended).
 
 ```bash
 # Clone the repository
@@ -53,23 +53,23 @@ Download the appropriate archive, extract it, and place the `ao` binary on your 
 
 ```bash
 # Check the installed version
-ao --version
+animus --version
 
 # Run environment diagnostics
-ao doctor
+animus doctor
 ```
 
-`ao doctor` checks for required dependencies, verifies configuration, and reports any issues. Use `ao doctor --fix` to attempt automatic remediation of common problems.
+`animus doctor` checks for required dependencies, verifies configuration, and reports any issues. Use `animus doctor --fix` to attempt automatic remediation of common problems.
 
 ## Prerequisites
 
-AO orchestrates AI CLI tools. Depending on which agents and models you use, you may need one or more of:
+Animus orchestrates AI CLI tools. Depending on which agents and models you use, you may need one or more of:
 
 - [Claude CLI](https://docs.anthropic.com/en/docs/claude-cli) (`claude`)
 - [Codex CLI](https://github.com/openai/codex) (`codex`)
 - [Gemini CLI](https://github.com/google-gemini/gemini-cli) (`gemini`)
 
-These are not required to install AO itself, but workflows that invoke AI agents will need the appropriate CLI tool available on your `PATH`.
+These are not required to install Animus itself, but workflows that invoke AI agents will need the appropriate CLI tool available on your `PATH`.
 
 ## Next Steps
 

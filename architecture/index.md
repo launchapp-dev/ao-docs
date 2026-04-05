@@ -1,6 +1,6 @@
 # Architecture Overview
 
-AO is a Rust-only agent orchestrator CLI built as a 16-crate Cargo workspace. It provides a CLI, daemon, agent runner, LLM wrappers, MCP server, and web UI for orchestrating AI agent workflows.
+Animus is a Rust-only agent orchestrator CLI built as a 16-crate Cargo workspace. It provides a CLI, daemon, agent runner, LLM wrappers, MCP server, and web UI for orchestrating AI agent workflows.
 
 ## Crate Dependency Graph
 

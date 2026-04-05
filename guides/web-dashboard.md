@@ -1,25 +1,25 @@
 # Web Dashboard Guide
 
-AO includes an embedded web dashboard for visual project management. It provides a browser-based interface for monitoring workflows, managing tasks, and viewing requirements.
+Animus includes an embedded web dashboard for visual project management. It provides a browser-based interface for monitoring workflows, managing tasks, and viewing requirements.
 
 ## Starting the Web Server
 
 Launch the web server (default port 3000):
 
 ```bash
-ao web serve
+animus web serve
 ```
 
 Specify a custom port:
 
 ```bash
-ao web serve --port 8080
+animus web serve --port 8080
 ```
 
 Open the dashboard in your default browser:
 
 ```bash
-ao web open
+animus web open
 ```
 
 ## Features

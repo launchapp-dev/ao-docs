@@ -1,6 +1,6 @@
 # GitHub Checks
 
-AO Cloud can create and update GitHub Check Runs for every workflow dispatch that originates from a GitHub event. This gives your team live pass/fail feedback directly on pull requests and commits — without writing any custom reporting code.
+Animus Cloud can create and update GitHub Check Runs for every workflow dispatch that originates from a GitHub event. This gives your team live pass/fail feedback directly on pull requests and commits — without writing any custom reporting code.
 
 This guide covers the GitHub Checks integration: the check run lifecycle, dashboard visibility, configuration, and the `github.checks` MCP tool surface. The initial integration shipped in v41; v59 added column-level annotation precision, suggestion blocks, batch annotations, and the in-dashboard Annotations panel.
 
@@ -10,44 +10,44 @@ This guide covers the GitHub Checks integration: the check run lifecycle, dashbo
 
 - The [GitHub App Integration](github-app.md) installed and at least one repository connected.
 - A workflow triggered by a `github` trigger kind. Check runs are attached to the `head_sha` of the triggering event.
-- The `github` MCP tool pack installed: `ao pack install github`.
+- The `github` MCP tool pack installed: `animus pack install github`.
 
 ---
 
 ## How Check Runs Work
 
-A GitHub Check Run represents a single unit of CI feedback on a specific commit SHA. AO maps each workflow phase to a check run so that reviewers can see phase-level progress in the GitHub UI.
+A GitHub Check Run represents a single unit of CI feedback on a specific commit SHA. Animus maps each workflow phase to a check run so that reviewers can see phase-level progress in the GitHub UI.
 
-**Lifecycle of a check run created by AO:**
+**Lifecycle of a check run created by Animus:**
 
-1. Workflow dispatch begins. AO creates a check run with status `in_progress` and the `head_sha` from the trigger payload.
+1. Workflow dispatch begins. Animus creates a check run with status `in_progress` and the `head_sha` from the trigger payload.
 2. Each phase start updates the check run's `output.summary` with the current phase name and elapsed time.
 3. On phase completion the run's `output.text` is updated with a summary of the phase output.
-4. When the workflow finishes, AO sets the check run status to `completed` with a conclusion of `success`, `failure`, or `cancelled`.
+4. When the workflow finishes, Animus sets the check run status to `completed` with a conclusion of `success`, `failure`, or `cancelled`.
 
-If the daemon stops mid-run (e.g. a crash), AO sets a `stale` annotation on the check run on next daemon start and creates a new run for any re-queued dispatch.
+If the daemon stops mid-run (e.g. a crash), Animus sets a `stale` annotation on the check run on next daemon start and creates a new run for any re-queued dispatch.
 
 ---
 
 ## Automatic Check Runs
 
-When the `github_checks` flag is enabled on a project, AO creates a check run automatically for every workflow dispatched by a `github` trigger — no additional workflow YAML required.
+When the `github_checks` flag is enabled on a project, Animus creates a check run automatically for every workflow dispatched by a `github` trigger — no additional workflow YAML required.
 
 ### Enabling Automatic Check Runs
 
-1. In the AO Cloud dashboard, go to **Settings → Integrations → GitHub → [installation] → Check Runs**.
+1. In the Animus Cloud dashboard, go to **Settings → Integrations → GitHub → [installation] → Check Runs**.
 2. Toggle **Automatic check runs** on.
-3. Select the **check suite name** that will appear in GitHub (default: `AO`).
+3. Select the **check suite name** that will appear in GitHub (default: `Animus`).
 4. Click **Save**.
 
 Or enable via the CLI:
 
 ```bash
-ao cloud project config --set github_checks.auto=true
-ao cloud project config --set github_checks.suite_name="AO"
+animus cloud project config --set github_checks.auto=true
+animus cloud project config --set github_checks.suite_name="Animus"
 ```
 
-When enabled, the check suite name appears as a header in the **Checks** tab of every pull request, with child check runs named after the workflow definition (e.g. `AO / pr-review`).
+When enabled, the check suite name appears as a header in the **Checks** tab of every pull request, with child check runs named after the workflow definition (e.g. `Animus / pr-review`).
 
 ### Disabling for Specific Workflows
 
@@ -95,7 +95,7 @@ phases:
     vars:
       repo: "{{ vars.pr_repo }}"
       sha: "{{ vars.head_sha }}"
-      check_name: "AO / lint"
+      check_name: "Animus / lint"
 ```
 
 The agent uses `github.checks.create` at the start of the phase with the name and SHA, then calls `github.checks.annotate` (or `github.checks.annotate_batch` for bulk results) for each issue found, and finally `github.checks.complete` with `success` or `failure`.
@@ -147,7 +147,7 @@ Column-level precision (`start_column`, `end_column`) and `suggestion` were adde
 }
 ```
 
-GitHub enforces a hard limit of 50 annotations per check run. AO enforces this limit at the tool call level; calls that exceed 50 total annotations return an error.
+GitHub enforces a hard limit of 50 annotations per check run. Animus enforces this limit at the tool call level; calls that exceed 50 total annotations return an error.
 
 ### Example: Annotating Lint Issues
 
@@ -170,7 +170,7 @@ Then call github.checks.complete with conclusion "failure" if any failures exist
 
 ## Dashboard: Check Runs Panel
 
-Navigate to **Settings → Integrations → GitHub → [installation] → Check Runs** to see all check runs AO has posted, across all repositories in the installation.
+Navigate to **Settings → Integrations → GitHub → [installation] → Check Runs** to see all check runs Animus has posted, across all repositories in the installation.
 
 ### Table Columns
 
@@ -178,18 +178,18 @@ Navigate to **Settings → Integrations → GitHub → [installation] → Check 
 |---|---|
 | Repository | `owner/repo` |
 | SHA | Commit hash (first 7 characters; click to open on GitHub) |
-| Check name | Suite and run name (e.g. `AO / pr-review`) |
-| Workflow | AO workflow definition that created the run |
+| Check name | Suite and run name (e.g. `Animus / pr-review`) |
+| Workflow | Animus workflow definition that created the run |
 | Status | `in_progress`, `completed`, or `stale` |
 | Conclusion | `success`, `failure`, `cancelled`, or `—` while in progress |
 | Duration | Wall-clock time from creation to completion |
 | Created | Timestamp |
 
-Use the filter bar to narrow by repository, status, or conclusion. Click any row to see the full check run output and a link to the corresponding AO run detail.
+Use the filter bar to narrow by repository, status, or conclusion. Click any row to see the full check run output and a link to the corresponding Animus run detail.
 
 ### Annotations Panel
 
-Introduced in v59, each check run detail view includes an **Annotations** panel that surfaces all file-level annotations posted by AO in a sortable table — without leaving the AO dashboard.
+Introduced in v59, each check run detail view includes an **Annotations** panel that surfaces all file-level annotations posted by Animus in a sortable table — without leaving the Animus dashboard.
 
 | Column | Description |
 |---|---|
@@ -220,9 +220,9 @@ The dashboard surfaces check run status in two additional places:
 
 ## Re-running Failed Checks
 
-When a check run concludes as `failure`, a **Re-run** button appears on the GitHub checks tab (powered by the GitHub App's check re-run webhook). Clicking it sends a `check_run.rerequested` event to AO, which creates a new dispatch for the same workflow and subject.
+When a check run concludes as `failure`, a **Re-run** button appears on the GitHub checks tab (powered by the GitHub App's check re-run webhook). Clicking it sends a `check_run.rerequested` event to Animus, which creates a new dispatch for the same workflow and subject.
 
-The re-run reuses the original `head_sha` and `vars` from the triggering event. To change input variables, dispatch a new run manually via `ao workflow run` or the dashboard.
+The re-run reuses the original `head_sha` and `vars` from the triggering event. To change input variables, dispatch a new run manually via `animus workflow run` or the dashboard.
 
 ---
 
@@ -236,7 +236,7 @@ The re-run reuses the original `head_sha` and `vars` from the triggering event. 
 
 ### Check run stuck in `in_progress`
 
-- The daemon may have stopped before the workflow completed. On daemon restart AO detects orphaned check runs (those open for more than 2 hours with no update) and marks them `stale`.
+- The daemon may have stopped before the workflow completed. On daemon restart Animus detects orphaned check runs (those open for more than 2 hours with no update) and marks them `stale`.
 - The stale check run is visible in the dashboard with status `stale`. A re-run from GitHub or the dashboard creates a fresh run.
 
 ### Annotations not appearing

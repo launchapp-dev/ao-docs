@@ -1,6 +1,6 @@
 # ao-docs — Product Vision
 
-The official documentation site for AO Agent Orchestrator.
+The official documentation site for Animus Agent Orchestrator.
 Content sourced from ao-cli/docs/ with additional tutorials, guides, and API reference.
 
 ## Goals
@@ -12,5 +12,5 @@ Content sourced from ao-cli/docs/ with additional tutorials, guides, and API ref
 - Troubleshooting guide
 
 ## Links
-- AO CLI: https://github.com/launchapp-dev/ao
+- Animus CLI: https://github.com/launchapp-dev/ao
 - Source docs: ao-cli/docs/

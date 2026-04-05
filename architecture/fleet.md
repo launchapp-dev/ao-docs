@@ -1,12 +1,12 @@
 # Fleet Architecture
 
-`ao fleet` adds a coordination layer on top of one or more single-node AO daemons. This document describes how fleet state is represented, how nodes communicate, how work is distributed, and how the system recovers from failures.
+`animus fleet` adds a coordination layer on top of one or more single-node Animus daemons. This document describes how fleet state is represented, how nodes communicate, how work is distributed, and how the system recovers from failures.
 
 ---
 
 ## Overview
 
-A fleet is a named set of **nodes**. Each node is an independent AO daemon instance with its own task store, queue, and agent runner. The fleet coordinator — a process that runs alongside the primary node's daemon — maintains a registry of all nodes, synchronises shared state, and provides the aggregated view that `ao fleet` commands expose.
+A fleet is a named set of **nodes**. Each node is an independent Animus daemon instance with its own task store, queue, and agent runner. The fleet coordinator — a process that runs alongside the primary node's daemon — maintains a registry of all nodes, synchronises shared state, and provides the aggregated view that `animus fleet` commands expose.
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -38,7 +38,7 @@ A fleet is a named set of **nodes**. Each node is an independent AO daemon insta
 
 ### Fleet Coordinator
 
-The coordinator is embedded in the `orchestrator-daemon-runtime` crate and activates when fleet mode is enabled (`.ao/fleet.toml` present). It runs in the same process as the primary daemon and exposes an internal API used by the `ao fleet` CLI commands.
+The coordinator is embedded in the `orchestrator-daemon-runtime` crate and activates when fleet mode is enabled (`.ao/fleet.toml` present). It runs in the same process as the primary daemon and exposes an internal API used by the `animus fleet` CLI commands.
 
 Responsibilities:
 - Maintain the node registry (`fleet.db`)
@@ -49,7 +49,7 @@ Responsibilities:
 
 ### Node Agents
 
-Each node runs an unmodified AO daemon. The daemon exposes the same JSON-over-HTTP API used for local MCP operations. The fleet coordinator connects to this API to:
+Each node runs an unmodified Animus daemon. The daemon exposes the same JSON-over-HTTP API used for local MCP operations. The fleet coordinator connects to this API to:
 - Query health and status
 - Push dispatch instructions
 - Read queue depth and agent counts
@@ -78,7 +78,7 @@ All writes to `fleet.db` are serialised through a Tokio mutex to prevent races b
 
 ### Transport
 
-The coordinator communicates with nodes using the same HTTP API that `ao mcp serve` exposes — the same JSON-RPC-style envelope used for local MCP tool calls. No additional protocol is introduced.
+The coordinator communicates with nodes using the same HTTP API that `animus mcp serve` exposes — the same JSON-RPC-style envelope used for local MCP tool calls. No additional protocol is introduced.
 
 For local deployments, communication is over `127.0.0.1`. For remote nodes, the connection uses plain HTTP by default; mTLS can be configured via `fleet.toml` for production multi-machine deployments.
 
@@ -101,7 +101,7 @@ State sync keeps the fleet coordinator's view of each node consistent with the n
 The sync cycle:
 1. Coordinator polls each online node for its current `daemon.status`, `daemon.agents`, and `queue.stats` payloads.
 2. Results are written to `fleet.db` with a timestamp.
-3. `ao fleet sync status` reports which nodes have been updated within the last sync window.
+3. `animus fleet sync status` reports which nodes have been updated within the last sync window.
 
 Sync interval is configurable (`sync_interval`, default: `30s`).
 
@@ -145,7 +145,7 @@ This is a deliberate trade-off: the coordinator does not acquire a distributed l
 
 ### Queue Priority
 
-Dispatch priority is determined by task priority (`critical` > `high` > `normal` > `low`). Within the same priority tier, FIFO order is preserved. Manual reordering via `ao fleet queue hold` / `ao fleet queue release` applies at the fleet queue level before the node-level queue.
+Dispatch priority is determined by task priority (`critical` > `high` > `normal` > `low`). Within the same priority tier, FIFO order is preserved. Manual reordering via `animus fleet queue hold` / `animus fleet queue release` applies at the fleet queue level before the node-level queue.
 
 ---
 
@@ -176,7 +176,7 @@ Dispatch Instruction Received
    Event emitted → picked up by coordinator on next sync
 ```
 
-Checkpoints are stored in the node's local store. If the coordinator requests a migration (`ao fleet agent migrate`), the checkpoint is read, serialised, and re-dispatched to the destination node. The destination node resumes execution from the checkpoint.
+Checkpoints are stored in the node's local store. If the coordinator requests a migration (`animus fleet agent migrate`), the checkpoint is read, serialised, and re-dispatched to the destination node. The destination node resumes execution from the checkpoint.
 
 ---
 
@@ -188,7 +188,7 @@ When a node becomes unreachable:
 
 1. The coordinator marks it `unreachable` after three missed heartbeats.
 2. If `evict_on_node_loss = true` (default: `false`), the coordinator re-queues all dispatches that were assigned to the lost node.
-3. If `evict_on_node_loss = false`, those dispatches remain in a `node_lost` state until the node comes back online or the operator manually evicts them with `ao fleet agent evict`.
+3. If `evict_on_node_loss = false`, those dispatches remain in a `node_lost` state until the node comes back online or the operator manually evicts them with `animus fleet agent evict`.
 
 ### Node Recovery
 
@@ -211,7 +211,7 @@ In-flight dispatches that were sent before the coordinator restarted are not los
 
 - **Local deployments:** Communication between the coordinator and nodes on the same machine is over the loopback interface; no authentication is required.
 - **Remote nodes:** Configure `[tls]` in `fleet.toml` to enable mTLS. Each node presents a certificate; the coordinator validates it against a trusted CA.
-- **Fleet store:** `fleet.db` is readable only by the user that owns the AO process. It does not contain task content, only fleet topology and event history.
+- **Fleet store:** `fleet.db` is readable only by the user that owns the Animus process. It does not contain task content, only fleet topology and event history.
 
 ---
 
@@ -236,7 +236,7 @@ enabled = false
 # client_key = "/path/to/client.key"
 ```
 
-Nodes inherit `pool_size` unless overridden at registration time (`ao fleet node register --pool-size`).
+Nodes inherit `pool_size` unless overridden at registration time (`animus fleet node register --pool-size`).
 
 ---
 
@@ -249,7 +249,7 @@ Fleet functionality spans several crates in the workspace:
 | `orchestrator-daemon-runtime` | Hosts the fleet coordinator and scheduler; owns `fleet.db` |
 | `orchestrator-core` | Provides domain types for nodes, agents, and events |
 | `protocol` | Wire types for fleet API requests and responses |
-| `orchestrator-cli` | Implements all `ao fleet` CLI commands |
+| `orchestrator-cli` | Implements all `animus fleet` CLI commands |
 
 There is no dedicated fleet crate — the coordinator is a subsystem within the existing daemon runtime, activated by the presence of `fleet.toml`.
 

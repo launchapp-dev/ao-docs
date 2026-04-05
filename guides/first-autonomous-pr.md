@@ -1,6 +1,6 @@
 # 5-Minute First Autonomous PR Guide
 
-Get from a fresh AO installation to your first autonomous pull request in under 5 minutes. This guide provides the fastest path to seeing AO work autonomously on your codebase.
+Get from a fresh Animus installation to your first autonomous pull request in under 5 minutes. This guide provides the fastest path to seeing Animus work autonomously on your codebase.
 
 ## Prerequisite Checklist
 
@@ -8,7 +8,7 @@ Before starting, ensure you have the following ready. Each item includes a time 
 
 | Prerequisite | Verify Command | Time |
 |--------------|----------------|------|
-| **AO installed** | `ao --version` | ~10s |
+| **Animus installed** | `animus --version` | ~10s |
 | **Git repository** | `git status` | ~5s |
 | **AI CLI available** | `claude --version` | ~10s |
 | **API key configured** | `claude` (opens interactive) | ~30s |
@@ -17,16 +17,16 @@ Before starting, ensure you have the following ready. Each item includes a time 
 
 ### Prerequisite Details
 
-1. **AO Binary**: Download from [releases](https://github.com/launchapp-dev/ao/releases) or [build from source](../getting-started/installation.md).
+1. **Animus Binary**: Download from [releases](https://github.com/launchapp-dev/ao/releases) or [build from source](../getting-started/installation.md).
 
-2. **Git Repository**: AO works within a Git repository. Create one if needed:
+2. **Git Repository**: Animus works within a Git repository. Create one if needed:
    ```bash
    mkdir my-project && cd my-project
    git init
    git commit --allow-empty -m "Initial commit"
    ```
 
-3. **AI CLI Tool**: AO requires at least one AI CLI tool. Claude CLI is recommended:
+3. **AI CLI Tool**: Animus requires at least one AI CLI tool. Claude CLI is recommended:
    ```bash
    # Install Claude CLI (macOS/Linux)
    curl -fsSL https://claude.ai/install.sh | sh
@@ -43,11 +43,11 @@ Before starting, ensure you have the following ready. Each item includes a time 
 
 **⏱️ Time: ~30 seconds**
 
-Initialize AO in your repository:
+Initialize Animus in your repository:
 
 ```bash
 cd /path/to/your/project
-ao setup
+animus setup
 ```
 
 This creates the `.ao/` directory structure with default configuration.
@@ -55,7 +55,7 @@ This creates the `.ao/` directory structure with default configuration.
 Verify initialization:
 
 ```bash
-ao pack list
+animus pack list
 ```
 
 You should see bundled packs listed (e.g., `ao.task/standard`).
@@ -69,14 +69,14 @@ You should see bundled packs listed (e.g., `ao.task/standard`).
 Enable automatic PR creation and merging for fully autonomous operation:
 
 ```bash
-ao daemon config --set auto_pr=true
-ao daemon config --set auto_merge=true
+animus daemon config --set auto_pr=true
+animus daemon config --set auto_merge=true
 ```
 
 View your configuration:
 
 ```bash
-ao daemon config
+animus daemon config
 ```
 
 The key settings for autonomous PRs:
@@ -96,7 +96,7 @@ The key settings for autonomous PRs:
 Create a simple, well-scoped task for your first autonomous PR:
 
 ```bash
-ao task create \
+animus task create \
   --title "Add contributing guide with setup instructions" \
   --type docs \
   --priority high \
@@ -108,7 +108,7 @@ Note the task ID from the output (e.g., `TASK-001`).
 Move the task to ready status so the daemon can pick it up:
 
 ```bash
-ao task status --id TASK-001 --status ready
+animus task status --id TASK-001 --status ready
 ```
 
 ---
@@ -120,7 +120,7 @@ ao task status --id TASK-001 --status ready
 Start the daemon in autonomous mode:
 
 ```bash
-ao daemon start --autonomous
+animus daemon start --autonomous
 ```
 
 The daemon will:
@@ -132,7 +132,7 @@ The daemon will:
 Verify the daemon is running:
 
 ```bash
-ao daemon status
+animus daemon status
 ```
 
 ---
@@ -148,7 +148,7 @@ Watch your task progress through the workflow:
 Stream agent output in real-time:
 
 ```bash
-ao output tail --task-id TASK-001
+animus output tail --task-id TASK-001
 ```
 
 ### Workflow Status
@@ -156,13 +156,13 @@ ao output tail --task-id TASK-001
 Check workflow execution state:
 
 ```bash
-ao workflow list
+animus workflow list
 ```
 
 Get detailed workflow info:
 
 ```bash
-ao workflow get --id <workflow-id>
+animus workflow get --id <workflow-id>
 ```
 
 ### Daemon Events
@@ -170,7 +170,7 @@ ao workflow get --id <workflow-id>
 View daemon activity:
 
 ```bash
-ao daemon events
+animus daemon events
 ```
 
 ### Task Status
@@ -185,7 +185,7 @@ watch -n 5 'ao task get --id TASK-001'
 Or check periodically:
 
 ```bash
-ao task stats
+animus task stats
 ```
 
 ### What You'll See
@@ -211,7 +211,7 @@ Once the workflow completes:
 ### Check Task Completion
 
 ```bash
-ao task get --id TASK-001
+animus task get --id TASK-001
 ```
 
 Status should show `done`.
@@ -221,13 +221,13 @@ Status should show `done`.
 List recent workflows to find the PR:
 
 ```bash
-ao workflow list --status completed
+animus workflow list --status completed
 ```
 
 Get the PR URL from workflow details:
 
 ```bash
-ao workflow get --id <workflow-id>
+animus workflow get --id <workflow-id>
 ```
 
 ### View Generated Files
@@ -235,7 +235,7 @@ ao workflow get --id <workflow-id>
 See what the agent created:
 
 ```bash
-ao output artifacts --execution-id <execution-id>
+animus output artifacts --execution-id <execution-id>
 ```
 
 ### Check Git History
@@ -268,7 +268,7 @@ git log --oneline -5
 ### Daemon Won't Start
 
 ```bash
-ao doctor --fix
+animus doctor --fix
 ```
 
 ### Task Not Picked Up
@@ -276,13 +276,13 @@ ao doctor --fix
 Check task is in `ready` status:
 
 ```bash
-ao task get --id TASK-001
+animus task get --id TASK-001
 ```
 
 Verify daemon is running:
 
 ```bash
-ao daemon status
+animus daemon status
 ```
 
 ### Workflow Stuck
@@ -290,14 +290,14 @@ ao daemon status
 View workflow state:
 
 ```bash
-ao workflow list
-ao workflow get --id <workflow-id>
+animus workflow list
+animus workflow get --id <workflow-id>
 ```
 
 Check daemon logs:
 
 ```bash
-ao daemon logs
+animus daemon logs
 ```
 
 ### Agent Errors
@@ -311,7 +311,7 @@ claude --version
 Check runner health:
 
 ```bash
-ao runner health
+animus runner health
 ```
 
 ---
@@ -321,7 +321,7 @@ ao runner health
 - **[Task Management](task-management.md)** -- Learn advanced task operations
 - **[Daemon Operations](daemon-operations.md)** -- Deep dive into daemon configuration
 - **[Writing Workflows](writing-workflows.md)** -- Create custom workflows
-- **[A Typical Day](../getting-started/typical-day.md)** -- Daily AO usage patterns
+- **[A Typical Day](../getting-started/typical-day.md)** -- Daily Animus usage patterns
 
 ---
 
@@ -329,25 +329,25 @@ ao runner health
 
 ```bash
 # Initialize
-ao setup
+animus setup
 
 # Configure
-ao daemon config --set auto_pr=true
-ao daemon config --set auto_merge=true
+animus daemon config --set auto_pr=true
+animus daemon config --set auto_merge=true
 
 # Create task
-ao task create --title "..." --type docs --priority high
-ao task status --id TASK-001 --status ready
+animus task create --title "..." --type docs --priority high
+animus task status --id TASK-001 --status ready
 
 # Start
-ao daemon start --autonomous
+animus daemon start --autonomous
 
 # Monitor
-ao output tail --task-id TASK-001
-ao workflow list
-ao daemon events
+animus output tail --task-id TASK-001
+animus workflow list
+animus daemon events
 
 # View results
-ao task get --id TASK-001
-ao workflow list --status completed
+animus task get --id TASK-001
+animus workflow list --status completed
 ```

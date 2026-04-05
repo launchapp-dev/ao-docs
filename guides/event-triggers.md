@@ -1,6 +1,6 @@
 # Event Triggers: File Watchers and Webhooks
 
-AO supports event-driven workflow dispatch in addition to manual invocation and
+Animus supports event-driven workflow dispatch in addition to manual invocation and
 cron schedules. Two trigger mechanisms let external events kick off workflows
 automatically: **file watchers** (ao-cli #211) that react to filesystem changes,
 and **webhooks** (ao-cli #213) that accept inbound HTTP calls.
@@ -69,7 +69,7 @@ Paths are resolved relative to the project root (the directory containing
 - `{a,b}` matches either `a` or `b`
 
 The daemon starts watching declared paths when it starts and reloads the trigger
-config on `ao daemon reload`.
+config on `animus daemon reload`.
 
 ### Debounce Behavior
 
@@ -108,8 +108,8 @@ triggers:
 
 Webhooks expose an HTTP endpoint on the daemon's local port. An external
 process — a CI job, another service, or a script — sends a POST request to
-trigger a workflow. This bridges AO into broader automation pipelines without
-requiring the external caller to know about AO internals.
+trigger a workflow. This bridges Animus into broader automation pipelines without
+requiring the external caller to know about Animus internals.
 
 ### Enabling the Webhook Endpoint
 
@@ -173,7 +173,7 @@ with an empty string.
 ### Calling the Endpoint
 
 Send a `POST` request with a JSON body and the HMAC-SHA256 signature in the
-`X-AO-Signature` header:
+`X-Animus-Signature` header:
 
 ```bash
 # Compute signature
@@ -183,7 +183,7 @@ SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$AO_WEBHOOK_SECRET" | awk
 # Fire the webhook
 curl -s -X POST http://127.0.0.1:8842/hooks/ci-pass \
   -H "Content-Type: application/json" \
-  -H "X-AO-Signature: sha256=$SIG" \
+  -H "X-Animus-Signature: sha256=$SIG" \
   -d "$PAYLOAD"
 ```
 
@@ -215,7 +215,7 @@ A GitHub Actions workflow can call the daemon webhook at the end of a CI run:
 
 ```yaml
 # .github/workflows/ci.yml (excerpt)
-- name: Notify AO daemon
+- name: Notify Animus daemon
   env:
     AO_WEBHOOK_SECRET: ${{ secrets.AO_WEBHOOK_SECRET }}
   run: |
@@ -227,7 +227,7 @@ A GitHub Actions workflow can call the daemon webhook at the end of a CI run:
     SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$AO_WEBHOOK_SECRET" | awk '{print $2}')
     curl -sf -X POST http://localhost:8842/hooks/ci-pass \
       -H "Content-Type: application/json" \
-      -H "X-AO-Signature: sha256=$SIG" \
+      -H "X-Animus-Signature: sha256=$SIG" \
       -d "$PAYLOAD"
 ```
 
@@ -307,22 +307,22 @@ When a dispatch cannot be started after three consecutive attempts (for example,
 View dead-letter items:
 
 ```bash
-ao trigger dlq list
+animus trigger dlq list
 ```
 
 Re-queue a specific item:
 
 ```bash
-ao trigger dlq requeue <dispatch_id>
+animus trigger dlq requeue <dispatch_id>
 ```
 
 Discard a dead-letter item:
 
 ```bash
-ao trigger dlq discard <dispatch_id>
+animus trigger dlq discard <dispatch_id>
 ```
 
-In the AO Cloud dashboard, dead-letter items appear in the **Daemon → Queue** sub-tab under a **Dead Letter** section. Clicking a dead-letter item shows the original event payload and the error that prevented startup.
+In the Animus Cloud dashboard, dead-letter items appear in the **Daemon → Queue** sub-tab under a **Dead Letter** section. Clicking a dead-letter item shows the original event payload and the error that prevented startup.
 
 ---
 
@@ -331,7 +331,7 @@ In the AO Cloud dashboard, dead-letter items appear in the **Daemon → Queue** 
 ### Listing Active Triggers
 
 ```bash
-ao trigger list
+animus trigger list
 ```
 
 Shows all configured triggers, their kind, current status (watching, paused, or error), and event counts since last reload.
@@ -339,8 +339,8 @@ Shows all configured triggers, their kind, current status (watching, paused, or 
 ### Pausing and Resuming
 
 ```bash
-ao trigger pause on-spec-change
-ao trigger resume on-spec-change
+animus trigger pause on-spec-change
+animus trigger resume on-spec-change
 ```
 
 Paused triggers remain in the config but do not fire until resumed.
@@ -350,7 +350,7 @@ Paused triggers remain in the config but do not fire until resumed.
 After editing `.ao/triggers.yaml`, reload the daemon without restarting it:
 
 ```bash
-ao daemon reload
+animus daemon reload
 ```
 
 The daemon re-reads the trigger config and applies changes: new triggers start
@@ -362,7 +362,7 @@ restarted.
 View per-trigger counters since the last daemon restart:
 
 ```bash
-ao trigger stats
+animus trigger stats
 ```
 
 Output:
@@ -380,7 +380,7 @@ on-pr-opened      github      paused   0       0          0        —
 | `FILTERED` | Events that matched the trigger kind but failed the `filter.expr` check |
 | `ERRORS` | Events that produced an internal error during evaluation |
 
-Counters reset on `ao daemon reload`. Pass `--json` for machine-readable output.
+Counters reset on `animus daemon reload`. Pass `--json` for machine-readable output.
 
 ---
 

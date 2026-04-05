@@ -1,6 +1,6 @@
 # CLI Tutorials
 
-Practical, hands-on tutorials for mastering the AO CLI. These guides focus on real-world usage patterns, command sequences, and quick references.
+Practical, hands-on tutorials for mastering the Animus CLI. These guides focus on real-world usage patterns, command sequences, and quick references.
 
 ## Quick Reference
 
@@ -30,8 +30,8 @@ Practical, hands-on tutorials for mastering the AO CLI. These guides focus on re
 
 These tutorials assume you have:
 
-1. AO installed (`ao version` works)
-2. A project initialized (`ao setup` has been run)
+1. Animus installed (`animus version` works)
+2. A project initialized (`animus setup` has been run)
 3. Basic familiarity with terminal commands
 
 If you're brand new, start with [Quick Start](../getting-started/quick-start.md) first.

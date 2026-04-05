@@ -1,17 +1,17 @@
-# ao now — Work Inbox
+# animus now — Work Inbox
 
-`ao now` is your command-line work inbox. It shows you exactly what to focus on: the next ready task, any workflows currently running, and any items that are blocked or stale. Run it at the start of your session or whenever you want a quick situational snapshot.
+`animus now` is your command-line work inbox. It shows you exactly what to focus on: the next ready task, any workflows currently running, and any items that are blocked or stale. Run it at the start of your session or whenever you want a quick situational snapshot.
 
 ## Basic Usage
 
 ```bash
-ao now
+animus now
 ```
 
 Example output:
 
 ```
-AO Now/Inbox Surface
+Animus Now/Inbox Surface
 Generated At: 2026-03-31T09:15:00Z
 
 Next Task
@@ -45,7 +45,7 @@ Stale Items (>7 days in progress)
 Add `--json` to get structured output safe for scripting or dashboards:
 
 ```bash
-ao now --json
+animus now --json
 ```
 
 ```json
@@ -84,7 +84,7 @@ The inner data schema is `ao.now.v1`. See [JSON Envelope Contract](../reference/
 **Start your day:**
 
 ```bash
-ao now
+animus now
 ```
 
 Check what's next, confirm the daemon is making progress, and spot anything blocked or stale before diving into work.
@@ -96,14 +96,14 @@ NEXT=$(ao now --json | jq -r '.data.next_task.id')
 echo "Working on $NEXT"
 ```
 
-**Check daemon health alongside `ao now`:**
+**Check daemon health alongside `animus now`:**
 
 ```bash
-ao daemon status
-ao now
+animus daemon status
+animus now
 ```
 
-`daemon status` tells you if the scheduler is running; `ao now` tells you what it's working on.
+`daemon status` tells you if the scheduler is running; `animus now` tells you what it's working on.
 
 ## Flags
 
@@ -115,7 +115,7 @@ ao now
 
 ## Related Commands
 
-- [`ao daemon status`](daemon-operations.md) — Check if the autonomous scheduler is running
-- [`ao task list`](task-management.md) — Full task list with filtering
-- [`ao task next`](task-management.md) — Get just the next ready task (no workflow context)
-- [`ao errors list`](../reference/cli/index.md) — See recent errors from autonomous runs
+- [`animus daemon status`](daemon-operations.md) — Check if the autonomous scheduler is running
+- [`animus task list`](task-management.md) — Full task list with filtering
+- [`animus task next`](task-management.md) — Get just the next ready task (no workflow context)
+- [`animus errors list`](../reference/cli/index.md) — See recent errors from autonomous runs

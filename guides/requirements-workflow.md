@@ -1,6 +1,6 @@
 # Requirements Workflow Guide
 
-AO provides a structured pipeline for turning project ideas into executable tasks: **Vision -> Requirements -> Tasks**. Each stage narrows scope and adds specificity until work is ready for agents to implement.
+Animus provides a structured pipeline for turning project ideas into executable tasks: **Vision -> Requirements -> Tasks**. Each stage narrows scope and adds specificity until work is ready for agents to implement.
 
 ## Planning Hierarchy
 
@@ -22,7 +22,7 @@ Workflows (phases: implement, test, review, ...)
 The vision document captures the high-level goals and complexity assessment for your project or initiative.
 
 ```bash
-ao vision draft
+animus vision draft
 ```
 
 This generates a vision document using AI analysis of your project context. The output includes a complexity assessment that informs downstream planning.
@@ -30,13 +30,13 @@ This generates a vision document using AI analysis of your project context. The 
 Refine the vision iteratively:
 
 ```bash
-ao vision refine
+animus vision refine
 ```
 
 Read the current vision:
 
 ```bash
-ao vision get
+animus vision get
 ```
 
 ## Step 2: Draft Requirements
@@ -44,7 +44,7 @@ ao vision get
 Requirements bridge the gap between vision and tasks. Draft them with an optional codebase scan so the AI understands existing code:
 
 ```bash
-ao requirements draft --include-codebase-scan
+animus requirements draft --include-codebase-scan
 ```
 
 This produces a set of requirements (REQ-001, REQ-002, etc.) with priorities and acceptance criteria.
@@ -77,13 +77,13 @@ Draft --> Refined --> Planned --> In-Progress --> Done
 Sharpen acceptance criteria for specific requirements:
 
 ```bash
-ao requirements refine --requirement-ids REQ-001
+animus requirements refine --requirement-ids REQ-001
 ```
 
 Refine multiple at once:
 
 ```bash
-ao requirements refine --requirement-ids REQ-001 REQ-002 REQ-003
+animus requirements refine --requirement-ids REQ-001 REQ-002 REQ-003
 ```
 
 Refinement uses AI to analyze the codebase and produce concrete, testable acceptance criteria for each requirement.
@@ -93,7 +93,7 @@ Refinement uses AI to analyze the codebase and produce concrete, testable accept
 Decompose requirements into actionable tasks:
 
 ```bash
-ao requirements execute --requirement-ids REQ-001 REQ-002 REQ-003 REQ-004 REQ-005
+animus requirements execute --requirement-ids REQ-001 REQ-002 REQ-003 REQ-004 REQ-005
 ```
 
 This creates tasks linked to each requirement, with:
@@ -108,31 +108,31 @@ This creates tasks linked to each requirement, with:
 List all requirements:
 
 ```bash
-ao requirements list
+animus requirements list
 ```
 
 Get a specific requirement:
 
 ```bash
-ao requirements get --id REQ-001
+animus requirements get --id REQ-001
 ```
 
 Create a requirement manually:
 
 ```bash
-ao requirements create --title "User authentication" --priority must
+animus requirements create --title "User authentication" --priority must
 ```
 
 Update a requirement:
 
 ```bash
-ao requirements update --id REQ-001 --status refined
+animus requirements update --id REQ-001 --status refined
 ```
 
 Delete a requirement:
 
 ```bash
-ao requirements delete --id REQ-001
+animus requirements delete --id REQ-001
 ```
 
 ## Requirement Graph
@@ -140,7 +140,7 @@ ao requirements delete --id REQ-001
 Requirements can have relationships (dependencies, parent-child). View the graph:
 
 ```bash
-ao requirements graph get
+animus requirements graph get
 ```
 
 ## Recommendations
@@ -148,22 +148,22 @@ ao requirements graph get
 Run an automated scan for improvement recommendations:
 
 ```bash
-ao requirements recommendations scan
-ao requirements recommendations list
-ao requirements recommendations apply --id REC-001
+animus requirements recommendations scan
+animus requirements recommendations list
+animus requirements recommendations apply --id REC-001
 ```
 
 ## How Requirements Link to Tasks
 
-When you run `ao requirements execute`, each requirement produces one or more tasks. These tasks carry a reference back to their parent requirement. As tasks complete, the requirement status updates accordingly.
+When you run `animus requirements execute`, each requirement produces one or more tasks. These tasks carry a reference back to their parent requirement. As tasks complete, the requirement status updates accordingly.
 
 You can also use the planning facade for a streamlined experience:
 
 ```bash
-ao planning vision draft
-ao planning requirements draft
-ao planning requirements refine --requirement-ids REQ-001
-ao planning requirements execute --requirement-ids REQ-001
+animus planning vision draft
+animus planning requirements draft
+animus planning requirements refine --requirement-ids REQ-001
+animus planning requirements execute --requirement-ids REQ-001
 ```
 
 The `planning` commands mirror the top-level `vision` and `requirements` commands but are grouped for discoverability.

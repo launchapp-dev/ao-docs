@@ -1,6 +1,6 @@
 # Custom Error Pages
 
-The AO cloud dashboard serves branded error pages for HTTP 404 (Not Found) and HTTP 500 (Internal Server Error) responses. This guide describes what each page shows, how they behave in the context of a single-page application, and how to customise them for self-hosted deployments.
+The Animus cloud dashboard serves branded error pages for HTTP 404 (Not Found) and HTTP 500 (Internal Server Error) responses. This guide describes what each page shows, how they behave in the context of a single-page application, and how to customise them for self-hosted deployments.
 
 For security headers applied to all responses including error pages see [Security Headers](security-headers.md).
 
@@ -8,7 +8,7 @@ For security headers applied to all responses including error pages see [Securit
 
 ## Overview
 
-Generic browser error pages break the user's mental model and provide no recovery path. AO's branded error pages:
+Generic browser error pages break the user's mental model and provide no recovery path. Animus's branded error pages:
 
 - Keep the site's visual identity (logo, colour tokens, typography)
 - Explain what went wrong in plain language
@@ -27,7 +27,7 @@ Served when a request path does not match any known route.
 
 | Element | Content |
 |---|---|
-| AO logo | Links back to the dashboard home (`/`) |
+| Animus logo | Links back to the dashboard home (`/`) |
 | Status code | `404` rendered in the display font |
 | Headline | "Page not found" |
 | Body copy | "The page you're looking for doesn't exist or has been moved." |
@@ -62,7 +62,7 @@ Served when an unhandled exception occurs during server-side rendering or when t
 
 | Element | Content |
 |---|---|
-| AO logo | Links back to the dashboard home (`/`) |
+| Animus logo | Links back to the dashboard home (`/`) |
 | Status code | `500` rendered in the display font |
 | Headline | "Something went wrong" |
 | Body copy | "An unexpected error occurred. Our team has been notified." |
@@ -98,7 +98,7 @@ curl -sI https://app.ao.dev/some-failing-path | grep X-Ao-Incident-Id
 
 ---
 
-## Error Page Behaviour in AO Cloud
+## Error Page Behaviour in Animus Cloud
 
 The cloud dashboard includes both pages as pre-rendered HTML artefacts in the production build. They share the design system's CSS custom properties (colour tokens) but have no runtime JavaScript dependencies. This ensures:
 
@@ -110,7 +110,7 @@ The cloud dashboard includes both pages as pre-rendered HTML artefacts in the pr
 
 ## Self-Hosted Deployments
 
-If you self-host the AO dashboard, copy the pre-built error pages from the production build output and configure your web server to serve them for the appropriate status codes.
+If you self-host the Animus dashboard, copy the pre-built error pages from the production build output and configure your web server to serve them for the appropriate status codes.
 
 ### Build output
 

@@ -1,6 +1,6 @@
 # MCP Tools Reference
 
-All MCP tools exposed by `ao mcp serve`. These tools allow AI agents to interact with the AO orchestrator over the Model Context Protocol. Each tool wraps an `ao` CLI command, accepting JSON input and returning structured results.
+All MCP tools exposed by `animus mcp serve`. These tools allow AI agents to interact with the Animus orchestrator over the Model Context Protocol. Each tool wraps an `ao` CLI command, accepting JSON input and returning structured results.
 
 Every tool accepts an optional `project_root` parameter to override the default project root.
 
@@ -22,8 +22,8 @@ Every tool accepts an optional `project_root` parameter to override the default 
 
 | Tool | Description | Key Parameters |
 |---|---|---|
-| `ao.daemon.start` | Start the AO daemon | `interval_secs`, `autonomous`, `resume_interrupted`, `reconcile_stale`, `startup_cleanup`, `skip_runner`, `pool_size`, `max_tasks_per_tick`, `auto_merge`, `auto_pr`, `auto_commit_before_merge`, `auto_prune_worktrees_after_merge`, `auto_run_ready`, `stale_threshold_hours`, `idle_timeout_secs`, `phase_timeout_secs`, `runner_scope`, `project_root` |
-| `ao.daemon.stop` | Stop the AO daemon | `project_root` |
+| `ao.daemon.start` | Start the Animus daemon | `interval_secs`, `autonomous`, `resume_interrupted`, `reconcile_stale`, `startup_cleanup`, `skip_runner`, `pool_size`, `max_tasks_per_tick`, `auto_merge`, `auto_pr`, `auto_commit_before_merge`, `auto_prune_worktrees_after_merge`, `auto_run_ready`, `stale_threshold_hours`, `idle_timeout_secs`, `phase_timeout_secs`, `runner_scope`, `project_root` |
+| `ao.daemon.stop` | Stop the Animus daemon | `project_root` |
 | `ao.daemon.status` | Get daemon status | `project_root` |
 | `ao.daemon.health` | Check daemon health | `project_root` |
 | `ao.daemon.pause` | Pause the daemon scheduler | `project_root` |
@@ -53,9 +53,9 @@ Every tool accepts an optional `project_root` parameter to override the default 
 
 | Tool | Description | Key Parameters |
 |---|---|---|
-| `ao.task.create` | Create a new task in AO | `title`, `description`, `priority`, `task_type`, `linked_requirement[]`, `assignee` |
+| `ao.task.create` | Create a new task in Animus | `title`, `description`, `priority`, `task_type`, `linked_requirement[]`, `assignee` |
 | `ao.task.update` | Update task fields | `id`, `title`, `description`, `priority`, `status`, `assignee`, `linked_architecture_entity[]`, `replace_linked_architecture_entities`, `input_json` |
-| `ao.task.delete` | Delete a task from AO | `id`, `confirm`, `dry_run` |
+| `ao.task.delete` | Delete a task from Animus | `id`, `confirm`, `dry_run` |
 | `ao.task.status` | Update the status of a task | `id`, `status` |
 | `ao.task.assign` | Assign a task to a user or agent | `id`, `assignee`, `assignee_type`, `agent_role`, `model` |
 | `ao.task.pause` | Pause a running task | `id` |
@@ -106,9 +106,9 @@ Every tool accepts an optional `project_root` parameter to override the default 
 |---|---|---|
 | `ao.requirements.list` | List requirements with optional filters (status, priority, category, type, tags, linked task), plus sort and pagination hints | `limit`, `offset`, `max_tokens`, `status`, `priority`, `category`, `tag[]`, `type`, `search`, `sort` |
 | `ao.requirements.get` | Get a requirement by its ID | `id` |
-| `ao.requirements.create` | Create a requirement in AO | `title`, `description`, `priority`, `category`, `type`, `acceptance_criterion[]`, `source`, `linked_requirement[]` |
-| `ao.requirements.update` | Update a requirement in AO | `id`, `title`, `description`, `priority`, `status`, `category`, `type`, `acceptance_criterion[]`, `replace_acceptance_criteria`, `source`, `linked_task_id[]` |
-| `ao.requirements.delete` | Delete a requirement from AO | `id` |
+| `ao.requirements.create` | Create a requirement in Animus | `title`, `description`, `priority`, `category`, `type`, `acceptance_criterion[]`, `source`, `linked_requirement[]` |
+| `ao.requirements.update` | Update a requirement in Animus | `id`, `title`, `description`, `priority`, `status`, `category`, `type`, `acceptance_criterion[]`, `replace_acceptance_criteria`, `source`, `linked_task_id[]` |
+| `ao.requirements.delete` | Delete a requirement from Animus | `id` |
 | `ao.requirements.refine` | Refine requirements with optional AI assistance | `id[]`, `focus`, `use_ai`, `model`, `tool`, `start_runner`, `input_json` |
 
 ---

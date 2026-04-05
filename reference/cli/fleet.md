@@ -1,6 +1,6 @@
-# ao fleet — CLI Reference
+# animus fleet — CLI Reference
 
-Complete reference for all 51 `ao fleet` commands. Fleet management provides node registration, agent assignment, pool sizing, scheduling, and observability across a distributed set of AO daemon instances.
+Complete reference for all 51 `animus fleet` commands. Fleet management provides node registration, agent assignment, pool sizing, scheduling, and observability across a distributed set of Animus daemon instances.
 
 For global flags (`--json`, `--project-root`) see [Global Flags](global-flags.md). For exit codes see [Exit Codes](exit-codes.md).
 
@@ -9,7 +9,7 @@ For global flags (`--json`, `--project-root`) see [Global Flags](global-flags.md
 ## Command Tree
 
 ```
-ao fleet
+animus fleet
 ├── status                    Fleet-wide status dashboard
 ├── health                    Aggregated health across all nodes
 ├── info                      Fleet configuration summary
@@ -85,13 +85,13 @@ ao fleet
 
 ## Top-Level Commands
 
-### `ao fleet status`
+### `animus fleet status`
 
 Fleet-wide status dashboard. Aggregates daemon status, node counts, active agents, queue depth, and recent errors from all registered nodes.
 
 ```bash
-ao fleet status
-ao fleet status --json
+animus fleet status
+animus fleet status --json
 ```
 
 **Output fields:**
@@ -109,13 +109,13 @@ ao fleet status --json
 
 ---
 
-### `ao fleet health`
+### `animus fleet health`
 
 Aggregated health check across all registered nodes. Returns per-node health alongside a fleet-level summary verdict (`healthy`, `degraded`, `critical`).
 
 ```bash
-ao fleet health
-ao fleet health --json
+animus fleet health
+animus fleet health --json
 ```
 
 ```json
@@ -132,24 +132,24 @@ ao fleet health --json
 
 ---
 
-### `ao fleet info`
+### `animus fleet info`
 
 Fleet configuration summary — pool limits, node count, schedule count, and sync state.
 
 ```bash
-ao fleet info
-ao fleet info --json
+animus fleet info
+animus fleet info --json
 ```
 
 ---
 
-### `ao fleet init`
+### `animus fleet init`
 
 Initialise fleet management for the current project. Creates `.ao/fleet.toml` with sensible defaults and registers the local daemon as the first node.
 
 ```bash
-ao fleet init
-ao fleet init --pool-size 4 --node-name primary
+animus fleet init
+animus fleet init --pool-size 4 --node-name primary
 ```
 
 | Flag | Description |
@@ -162,15 +162,15 @@ ao fleet init --pool-size 4 --node-name primary
 
 ## node — Node Lifecycle and Routing
 
-### `ao fleet node list`
+### `animus fleet node list`
 
 List all registered nodes with their status and tags.
 
 ```bash
-ao fleet node list
-ao fleet node list --tag backend
-ao fleet node list --status online
-ao fleet node list --json
+animus fleet node list
+animus fleet node list --tag backend
+animus fleet node list --status online
+animus fleet node list --json
 ```
 
 | Flag | Description |
@@ -180,13 +180,13 @@ ao fleet node list --json
 
 ---
 
-### `ao fleet node get`
+### `animus fleet node get`
 
 Get detailed information about a single node.
 
 ```bash
-ao fleet node get --id node-a
-ao fleet node get --id node-a --json
+animus fleet node get --id node-a
+animus fleet node get --id node-a --json
 ```
 
 | Flag | Description |
@@ -195,13 +195,13 @@ ao fleet node get --id node-a --json
 
 ---
 
-### `ao fleet node register`
+### `animus fleet node register`
 
-Register a new remote node. The node must be running an AO daemon accessible at the given address.
+Register a new remote node. The node must be running an Animus daemon accessible at the given address.
 
 ```bash
-ao fleet node register --address 10.0.0.2:7700 --name worker-1
-ao fleet node register --address 10.0.0.3:7700 --name worker-2 --tag backend --tag gpu
+animus fleet node register --address 10.0.0.2:7700 --name worker-1
+animus fleet node register --address 10.0.0.3:7700 --name worker-2 --tag backend --tag gpu
 ```
 
 | Flag | Description |
@@ -213,13 +213,13 @@ ao fleet node register --address 10.0.0.3:7700 --name worker-2 --tag backend --t
 
 ---
 
-### `ao fleet node remove`
+### `animus fleet node remove`
 
 Remove a node from the fleet. Requires `--confirmation yes` to prevent accidental removal of active nodes.
 
 ```bash
-ao fleet node remove --id worker-1 --confirmation yes
-ao fleet node remove --id worker-1 --dry-run
+animus fleet node remove --id worker-1 --confirmation yes
+animus fleet node remove --id worker-1 --dry-run
 ```
 
 | Flag | Description |
@@ -231,35 +231,35 @@ ao fleet node remove --id worker-1 --dry-run
 
 ---
 
-### `ao fleet node status`
+### `animus fleet node status`
 
 Node running status — whether the daemon process is alive and scheduling.
 
 ```bash
-ao fleet node status --id worker-1
-ao fleet node status --id worker-1 --json
+animus fleet node status --id worker-1
+animus fleet node status --id worker-1 --json
 ```
 
 ---
 
-### `ao fleet node health`
+### `animus fleet node health`
 
 Full health metrics for a specific node.
 
 ```bash
-ao fleet node health --id worker-1
-ao fleet node health --id worker-1 --json
+animus fleet node health --id worker-1
+animus fleet node health --id worker-1 --json
 ```
 
 ---
 
-### `ao fleet node ping`
+### `animus fleet node ping`
 
 Test TCP connectivity to a node's daemon.
 
 ```bash
-ao fleet node ping --id worker-1
-ao fleet node ping --id worker-1 --timeout 5
+animus fleet node ping --id worker-1
+animus fleet node ping --id worker-1 --timeout 5
 ```
 
 | Flag | Description |
@@ -271,13 +271,13 @@ Returns exit code `0` on success, `1` on unreachable. Safe to use in scripts.
 
 ---
 
-### `ao fleet node tag`
+### `animus fleet node tag`
 
 Add one or more tags to a node. Tags are used for task routing (`--runner-scope`).
 
 ```bash
-ao fleet node tag --id worker-1 --tag backend
-ao fleet node tag --id worker-2 --tag frontend --tag gpu
+animus fleet node tag --id worker-1 --tag backend
+animus fleet node tag --id worker-2 --tag frontend --tag gpu
 ```
 
 | Flag | Description |
@@ -287,12 +287,12 @@ ao fleet node tag --id worker-2 --tag frontend --tag gpu
 
 ---
 
-### `ao fleet node untag`
+### `animus fleet node untag`
 
 Remove a tag from a node.
 
 ```bash
-ao fleet node untag --id worker-1 --tag backend
+animus fleet node untag --id worker-1 --tag backend
 ```
 
 | Flag | Description |
@@ -302,13 +302,13 @@ ao fleet node untag --id worker-1 --tag backend
 
 ---
 
-### `ao fleet node drain`
+### `animus fleet node drain`
 
 Put a node in drain mode. The daemon stops accepting new work; in-progress agents run to completion.
 
 ```bash
-ao fleet node drain --id worker-1
-ao fleet node drain --id worker-1 --wait
+animus fleet node drain --id worker-1
+animus fleet node drain --id worker-1 --wait
 ```
 
 | Flag | Description |
@@ -320,12 +320,12 @@ Drain mode is useful before taking a node offline for maintenance.
 
 ---
 
-### `ao fleet node resume`
+### `animus fleet node resume`
 
 Resume a drained node — re-enable work dispatch.
 
 ```bash
-ao fleet node resume --id worker-1
+animus fleet node resume --id worker-1
 ```
 
 | Flag | Description |
@@ -336,15 +336,15 @@ ao fleet node resume --id worker-1
 
 ## agent — Agent Assignment and Control
 
-### `ao fleet agent list`
+### `animus fleet agent list`
 
 List all agent runs across the fleet with their node assignments.
 
 ```bash
-ao fleet agent list
-ao fleet agent list --node worker-1
-ao fleet agent list --status running
-ao fleet agent list --json
+animus fleet agent list
+animus fleet agent list --node worker-1
+animus fleet agent list --status running
+animus fleet agent list --json
 ```
 
 | Flag | Description |
@@ -354,13 +354,13 @@ ao fleet agent list --json
 
 ---
 
-### `ao fleet agent get`
+### `animus fleet agent get`
 
 Get full details for a specific agent run, including node assignment, task, current phase, and runtime.
 
 ```bash
-ao fleet agent get --run-id abc12345
-ao fleet agent get --run-id abc12345 --json
+animus fleet agent get --run-id abc12345
+animus fleet agent get --run-id abc12345 --json
 ```
 
 | Flag | Description |
@@ -369,12 +369,12 @@ ao fleet agent get --run-id abc12345 --json
 
 ---
 
-### `ao fleet agent assign`
+### `animus fleet agent assign`
 
 Assign an agent run to a specific node. The run must be in a queued or paused state.
 
 ```bash
-ao fleet agent assign --run-id abc12345 --node worker-2
+animus fleet agent assign --run-id abc12345 --node worker-2
 ```
 
 | Flag | Description |
@@ -384,13 +384,13 @@ ao fleet agent assign --run-id abc12345 --node worker-2
 
 ---
 
-### `ao fleet agent evict`
+### `animus fleet agent evict`
 
 Evict an agent run from its current node. The run re-enters the dispatch queue and will be picked up by the next available node.
 
 ```bash
-ao fleet agent evict --run-id abc12345
-ao fleet agent evict --run-id abc12345 --reason "node maintenance"
+animus fleet agent evict --run-id abc12345
+animus fleet agent evict --run-id abc12345 --reason "node maintenance"
 ```
 
 | Flag | Description |
@@ -400,12 +400,12 @@ ao fleet agent evict --run-id abc12345 --reason "node maintenance"
 
 ---
 
-### `ao fleet agent migrate`
+### `animus fleet agent migrate`
 
 Migrate an agent run directly from one node to another without re-queuing. The run checkpoints its state before migration.
 
 ```bash
-ao fleet agent migrate --run-id abc12345 --to worker-3
+animus fleet agent migrate --run-id abc12345 --to worker-3
 ```
 
 | Flag | Description |
@@ -415,12 +415,12 @@ ao fleet agent migrate --run-id abc12345 --to worker-3
 
 ---
 
-### `ao fleet agent pause`
+### `animus fleet agent pause`
 
 Pause a running agent. The agent checkpoints at the next phase boundary.
 
 ```bash
-ao fleet agent pause --run-id abc12345
+animus fleet agent pause --run-id abc12345
 ```
 
 | Flag | Description |
@@ -429,12 +429,12 @@ ao fleet agent pause --run-id abc12345
 
 ---
 
-### `ao fleet agent resume`
+### `animus fleet agent resume`
 
 Resume a paused agent run from its last checkpoint.
 
 ```bash
-ao fleet agent resume --run-id abc12345
+animus fleet agent resume --run-id abc12345
 ```
 
 | Flag | Description |
@@ -445,31 +445,31 @@ ao fleet agent resume --run-id abc12345
 
 ## pool — Pool Sizing and Capacity
 
-### `ao fleet pool get`
+### `animus fleet pool get`
 
 Read the pool configuration for all nodes or a specific node.
 
 ```bash
-ao fleet pool get
-ao fleet pool get --node worker-1
-ao fleet pool get --json
+animus fleet pool get
+animus fleet pool get --node worker-1
+animus fleet pool get --json
 ```
 
 ---
 
-### `ao fleet pool set`
+### `animus fleet pool set`
 
 Update pool size limits for a node or the entire fleet.
 
 ```bash
 # Set pool size for one node
-ao fleet pool set --node worker-1 --pool-size 6
+animus fleet pool set --node worker-1 --pool-size 6
 
 # Set fleet-wide default
-ao fleet pool set --pool-size 4
+animus fleet pool set --pool-size 4
 
 # Set max per-node pool size
-ao fleet pool set --max-pool-size 8
+animus fleet pool set --max-pool-size 8
 ```
 
 | Flag | Description |
@@ -480,14 +480,14 @@ ao fleet pool set --max-pool-size 8
 
 ---
 
-### `ao fleet pool stats`
+### `animus fleet pool stats`
 
 Pool utilization statistics across all nodes.
 
 ```bash
-ao fleet pool stats
-ao fleet pool stats --node worker-1
-ao fleet pool stats --json
+animus fleet pool stats
+animus fleet pool stats --node worker-1
+animus fleet pool stats --json
 ```
 
 Example output:
@@ -505,19 +505,19 @@ Fleet: 8/12 agents active (66%), queue depth: 7
 
 ---
 
-### `ao fleet pool scale`
+### `animus fleet pool scale`
 
 Dynamically scale pool capacity across the fleet. Applies a scaling strategy and recalculates per-node pool sizes.
 
 ```bash
 # Scale to a total fleet capacity of 16
-ao fleet pool scale --total-capacity 16
+animus fleet pool scale --total-capacity 16
 
 # Scale up by N per node
-ao fleet pool scale --delta +2
+animus fleet pool scale --delta +2
 
 # Scale down by N per node (no-op if below minimum)
-ao fleet pool scale --delta -1
+animus fleet pool scale --delta -1
 ```
 
 | Flag | Description |
@@ -528,39 +528,39 @@ ao fleet pool scale --delta -1
 
 ---
 
-### `ao fleet pool reset`
+### `animus fleet pool reset`
 
 Reset pool configuration to project defaults (`.ao/fleet.toml` values).
 
 ```bash
-ao fleet pool reset
-ao fleet pool reset --node worker-1
+animus fleet pool reset
+animus fleet pool reset --node worker-1
 ```
 
 ---
 
 ## queue — Distributed Dispatch Queue
 
-### `ao fleet queue list`
+### `animus fleet queue list`
 
 List queued dispatches across all nodes, or for a specific node.
 
 ```bash
-ao fleet queue list
-ao fleet queue list --node worker-1
-ao fleet queue list --status held
-ao fleet queue list --json
+animus fleet queue list
+animus fleet queue list --node worker-1
+animus fleet queue list --status held
+animus fleet queue list --json
 ```
 
 ---
 
-### `ao fleet queue stats`
+### `animus fleet queue stats`
 
 Aggregate queue statistics across the fleet.
 
 ```bash
-ao fleet queue stats
-ao fleet queue stats --json
+animus fleet queue stats
+animus fleet queue stats --json
 ```
 
 | Output field | Description |
@@ -572,13 +572,13 @@ ao fleet queue stats --json
 
 ---
 
-### `ao fleet queue hold`
+### `animus fleet queue hold`
 
 Hold a queued dispatch — it stays in the queue but is skipped during dispatch until released.
 
 ```bash
-ao fleet queue hold --subject-id TASK-005
-ao fleet queue hold --subject-id TASK-005 --node worker-1
+animus fleet queue hold --subject-id TASK-005
+animus fleet queue hold --subject-id TASK-005 --node worker-1
 ```
 
 | Flag | Description |
@@ -588,24 +588,24 @@ ao fleet queue hold --subject-id TASK-005 --node worker-1
 
 ---
 
-### `ao fleet queue release`
+### `animus fleet queue release`
 
 Release a held dispatch — resume normal dispatch eligibility.
 
 ```bash
-ao fleet queue release --subject-id TASK-005
+animus fleet queue release --subject-id TASK-005
 ```
 
 ---
 
-### `ao fleet queue drain`
+### `animus fleet queue drain`
 
 Remove all queued dispatches. Destructive — requires `--confirmation yes`.
 
 ```bash
-ao fleet queue drain --confirmation yes
-ao fleet queue drain --node worker-2 --confirmation yes
-ao fleet queue drain --dry-run
+animus fleet queue drain --confirmation yes
+animus fleet queue drain --node worker-2 --confirmation yes
+animus fleet queue drain --dry-run
 ```
 
 | Flag | Description |
@@ -618,43 +618,43 @@ ao fleet queue drain --dry-run
 
 ## schedule — Automated Work Scheduling
 
-### `ao fleet schedule list`
+### `animus fleet schedule list`
 
 List all configured schedules.
 
 ```bash
-ao fleet schedule list
-ao fleet schedule list --status active
-ao fleet schedule list --json
+animus fleet schedule list
+animus fleet schedule list --status active
+animus fleet schedule list --json
 ```
 
 ---
 
-### `ao fleet schedule get`
+### `animus fleet schedule get`
 
 Get details for a specific schedule.
 
 ```bash
-ao fleet schedule get --id sched-001
-ao fleet schedule get --id sched-001 --json
+animus fleet schedule get --id sched-001
+animus fleet schedule get --id sched-001 --json
 ```
 
 ---
 
-### `ao fleet schedule create`
+### `animus fleet schedule create`
 
 Create a new schedule. Schedules dispatch a workflow on a cron expression or interval.
 
 ```bash
 # Run nightly at 02:00
-ao fleet schedule create \
+animus fleet schedule create \
   --name nightly-tests \
   --cron "0 2 * * *" \
   --workflow-ref ci \
   --task-filter '{"tags": ["test"]}'
 
 # Run every 30 minutes
-ao fleet schedule create \
+animus fleet schedule create \
   --name frequent-sync \
   --interval 30m \
   --workflow-ref quick
@@ -674,13 +674,13 @@ Exactly one of `--cron` or `--interval` is required.
 
 ---
 
-### `ao fleet schedule update`
+### `animus fleet schedule update`
 
 Update an existing schedule.
 
 ```bash
-ao fleet schedule update --id sched-001 --cron "0 3 * * *"
-ao fleet schedule update --id sched-001 --enabled false
+animus fleet schedule update --id sched-001 --cron "0 3 * * *"
+animus fleet schedule update --id sched-001 --enabled false
 ```
 
 | Flag | Description |
@@ -694,23 +694,23 @@ ao fleet schedule update --id sched-001 --enabled false
 
 ---
 
-### `ao fleet schedule remove`
+### `animus fleet schedule remove`
 
 Remove a schedule. Requires `--confirmation yes`.
 
 ```bash
-ao fleet schedule remove --id sched-001 --confirmation yes
+animus fleet schedule remove --id sched-001 --confirmation yes
 ```
 
 ---
 
-### `ao fleet schedule trigger`
+### `animus fleet schedule trigger`
 
 Manually trigger a schedule immediately, regardless of its next scheduled time.
 
 ```bash
-ao fleet schedule trigger --id sched-001
-ao fleet schedule trigger --id sched-001 --dry-run
+animus fleet schedule trigger --id sched-001
+animus fleet schedule trigger --id sched-001 --dry-run
 ```
 
 | Flag | Description |
@@ -722,25 +722,25 @@ ao fleet schedule trigger --id sched-001 --dry-run
 
 ## config — Fleet Configuration
 
-### `ao fleet config get`
+### `animus fleet config get`
 
 Read the fleet configuration from `.ao/fleet.toml`.
 
 ```bash
-ao fleet config get
-ao fleet config get --json
+animus fleet config get
+animus fleet config get --json
 ```
 
 ---
 
-### `ao fleet config set`
+### `animus fleet config set`
 
 Update one or more fleet configuration values.
 
 ```bash
-ao fleet config set --pool-size 6
-ao fleet config set --sync-interval 30s
-ao fleet config set --auto-drain-on-error true
+animus fleet config set --pool-size 6
+animus fleet config set --sync-interval 30s
+animus fleet config set --auto-drain-on-error true
 ```
 
 | Key | Type | Description |
@@ -754,24 +754,24 @@ ao fleet config set --auto-drain-on-error true
 
 ---
 
-### `ao fleet config validate`
+### `animus fleet config validate`
 
 Validate the fleet configuration file. Reports any structural or semantic errors.
 
 ```bash
-ao fleet config validate
-ao fleet config validate --file /path/to/fleet.toml
+animus fleet config validate
+animus fleet config validate --file /path/to/fleet.toml
 ```
 
 ---
 
-### `ao fleet config export`
+### `animus fleet config export`
 
 Export the fleet configuration to a file.
 
 ```bash
-ao fleet config export --out fleet-backup.toml
-ao fleet config export --out fleet-backup.json --format json
+animus fleet config export --out fleet-backup.toml
+animus fleet config export --out fleet-backup.json --format json
 ```
 
 | Flag | Description |
@@ -781,13 +781,13 @@ ao fleet config export --out fleet-backup.json --format json
 
 ---
 
-### `ao fleet config import`
+### `animus fleet config import`
 
 Import fleet configuration from a file, replacing current settings.
 
 ```bash
-ao fleet config import --file fleet-backup.toml
-ao fleet config import --file fleet-backup.toml --dry-run
+animus fleet config import --file fleet-backup.toml
+animus fleet config import --file fleet-backup.toml --dry-run
 ```
 
 | Flag | Description |
@@ -799,24 +799,24 @@ ao fleet config import --file fleet-backup.toml --dry-run
 
 ## sync — State Synchronisation
 
-### `ao fleet sync status`
+### `animus fleet sync status`
 
 Show synchronisation status across all nodes — which nodes are in sync, which are behind, and when the last sync completed.
 
 ```bash
-ao fleet sync status
-ao fleet sync status --json
+animus fleet sync status
+animus fleet sync status --json
 ```
 
 ---
 
-### `ao fleet sync trigger`
+### `animus fleet sync trigger`
 
 Force immediate state synchronisation across all nodes.
 
 ```bash
-ao fleet sync trigger
-ao fleet sync trigger --node worker-2
+animus fleet sync trigger
+animus fleet sync trigger --node worker-2
 ```
 
 | Flag | Description |
@@ -825,29 +825,29 @@ ao fleet sync trigger --node worker-2
 
 ---
 
-### `ao fleet sync cancel`
+### `animus fleet sync cancel`
 
 Cancel an in-progress sync operation.
 
 ```bash
-ao fleet sync cancel
+animus fleet sync cancel
 ```
 
 ---
 
 ## events — Fleet Event Log
 
-### `ao fleet events list`
+### `animus fleet events list`
 
 List recent events from across the fleet. Events include node registrations, agent starts/stops, pool changes, and errors.
 
 ```bash
-ao fleet events list
-ao fleet events list --limit 50
-ao fleet events list --node worker-1
-ao fleet events list --type agent_started
-ao fleet events list --since 1h
-ao fleet events list --json
+animus fleet events list
+animus fleet events list --limit 50
+animus fleet events list --node worker-1
+animus fleet events list --type agent_started
+animus fleet events list --since 1h
+animus fleet events list --json
 ```
 
 | Flag | Description |
@@ -876,25 +876,25 @@ ao fleet events list --json
 
 ---
 
-### `ao fleet events stream`
+### `animus fleet events stream`
 
 Stream live fleet events to stdout. Press Ctrl+C to stop.
 
 ```bash
-ao fleet events stream
-ao fleet events stream --node worker-1
-ao fleet events stream --type agent_started --type agent_completed
+animus fleet events stream
+animus fleet events stream --node worker-1
+animus fleet events stream --type agent_started --type agent_completed
 ```
 
 ---
 
-### `ao fleet events clear`
+### `animus fleet events clear`
 
 Clear the fleet event history. Does not affect running agents.
 
 ```bash
-ao fleet events clear
-ao fleet events clear --older-than 7d
+animus fleet events clear
+animus fleet events clear --older-than 7d
 ```
 
 | Flag | Description |
@@ -905,14 +905,14 @@ ao fleet events clear --older-than 7d
 
 ## metrics — Fleet Observability
 
-### `ao fleet metrics get`
+### `animus fleet metrics get`
 
 Get a point-in-time metrics snapshot across the fleet.
 
 ```bash
-ao fleet metrics get
-ao fleet metrics get --node worker-1
-ao fleet metrics get --json
+animus fleet metrics get
+animus fleet metrics get --node worker-1
+animus fleet metrics get --json
 ```
 
 **Output fields:**
@@ -928,14 +928,14 @@ ao fleet metrics get --json
 
 ---
 
-### `ao fleet metrics watch`
+### `animus fleet metrics watch`
 
 Watch fleet metrics continuously, refreshing every N seconds.
 
 ```bash
-ao fleet metrics watch
-ao fleet metrics watch --interval 10
-ao fleet metrics watch --node worker-1 --interval 5
+animus fleet metrics watch
+animus fleet metrics watch --interval 10
+animus fleet metrics watch --node worker-1 --interval 5
 ```
 
 | Flag | Description |

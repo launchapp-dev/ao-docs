@@ -1,6 +1,6 @@
 # Workflow YAML Schema Reference
 
-AO workflow YAML is authored in `.ao/workflows.yaml` and `.ao/workflows/*.yaml`.
+Animus workflow YAML is authored in `.ao/workflows.yaml` and `.ao/workflows/*.yaml`.
 Those files are merged with installed and bundled pack overlays to produce the
 effective workflow configuration that `workflow-runner` executes. This document
 describes the authored YAML surface.
@@ -26,13 +26,13 @@ and project YAML can override or wrap pack-owned workflow refs.
 
 ## mcp_servers
 
-Declares external MCP servers that agents can connect to during execution. AO
+Declares external MCP servers that agents can connect to during execution. Animus
 supports two transport types: **stdio** (local subprocess) and **HTTP/SSE**
 (remote server over HTTP).
 
 ### stdio transport (local subprocess)
 
-The default transport. AO spawns the server as a child process and communicates
+The default transport. Animus spawns the server as a child process and communicates
 over stdin/stdout.
 
 ```yaml
@@ -51,7 +51,7 @@ mcp_servers:
 ### HTTP/SSE transport (remote server)
 
 Connect to an MCP server running over HTTP. Use `transport: http` and supply a
-`url`. AO does not spawn a subprocess — it connects to the running server.
+`url`. Animus does not spawn a subprocess — it connects to the running server.
 
 ```yaml
 mcp_servers:
@@ -186,7 +186,7 @@ phases:
 | `manual` | object | no | Manual gate definition when `mode: manual` |
 | `default_tool` | string | no | Default tool hint for the phase |
 
-Phase `skills` are validated during config load. At runtime they can inject prompt fragments, model/tool policy overrides, MCP attachments, timeout overrides, launch args/env, and capability overrides. Installed registry skills work the same as local skills when a definition snapshot is present in AO state.
+Phase `skills` are validated during config load. At runtime they can inject prompt fragments, model/tool policy overrides, MCP attachments, timeout overrides, launch args/env, and capability overrides. Installed registry skills work the same as local skills when a definition snapshot is present in Animus state.
 
 ---
 

@@ -1,16 +1,16 @@
 # Project Setup
 
-## What `ao setup` Does
+## What `animus setup` Does
 
-`ao setup` initializes the repository-scoped AO workspace. It:
+`animus setup` initializes the repository-scoped Animus workspace. It:
 
 1. resolves the project root
 2. creates the `.ao/` directory tree
 3. scaffolds project-local workflow YAML
-4. prepares AO-managed state files
+4. prepares Animus-managed state files
 5. leaves bundled workflows and bundled first-party packs available by default
 
-`ao setup` does not copy bundled task or requirement logic into your repo. That
+`animus setup` does not copy bundled task or requirement logic into your repo. That
 behavior is resolved from bundled sources and pack overlays unless you override
 it locally.
 
@@ -68,14 +68,14 @@ This file records project pack pins and enablement state. Manage it through
 pack commands, not by editing it directly:
 
 ```bash
-ao pack list
-ao pack inspect --pack-id ao.task
-ao pack pin --pack-id ao.task --version =0.1.0
+animus pack list
+animus pack inspect --pack-id ao.task
+animus pack pin --pack-id ao.task --version =0.1.0
 ```
 
 ## Bundled vs Installed Packs
 
-AO resolves workflows from multiple layers:
+Animus resolves workflows from multiple layers:
 
 1. project overrides in `.ao/plugins/`
 2. project YAML in `.ao/workflows.yaml` and `.ao/workflows/*.yaml`
@@ -93,7 +93,7 @@ Legacy `builtin/*` refs still resolve, but they are compatibility aliases.
 
 ## Machine-Scoped Storage
 
-AO also uses machine-scoped directories outside the repo:
+Animus also uses machine-scoped directories outside the repo:
 
 - `~/.ao/packs/` for installed packs
 - `~/.ao/<repo-scope>/worktrees/` for task worktrees and repo-scoped runtime data
@@ -102,11 +102,11 @@ AO also uses machine-scoped directories outside the repo:
 
 Do not hand-edit `.ao` state files. Use:
 
-- `ao task ...`
-- `ao requirements ...`
-- `ao workflow ...`
-- `ao pack ...`
-- AO MCP tools
+- `animus task ...`
+- `animus requirements ...`
+- `animus workflow ...`
+- `animus pack ...`
+- Animus MCP tools
 
 ## Next Steps
 

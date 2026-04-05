@@ -1,6 +1,6 @@
 # Model Routing Guide
 
-AO automatically selects which AI model and CLI tool to use for each workflow phase. This guide explains the routing logic and how to override it.
+Animus automatically selects which AI model and CLI tool to use for each workflow phase. This guide explains the routing logic and how to override it.
 
 ## Default Model Assignments
 
@@ -87,8 +87,8 @@ Each model maps to a CLI tool. The mapping is determined by model name prefix:
 You can check model and API key status:
 
 ```bash
-ao model status
-ao model availability
+animus model status
+animus model availability
 ```
 
 ## Write-Capable Tools
@@ -100,7 +100,7 @@ Not all tools support repository writes. The write-capable tools are:
 - `opencode`
 - `oai-runner`
 
-The `gemini` tool is not write-capable. AO's `enforce_write_capable_phase_target` logic redirects non-write-capable tools to a claude fallback for implementation phases. For research phases that do not need writes, set the environment variable to bypass this:
+The `gemini` tool is not write-capable. Animus's `enforce_write_capable_phase_target` logic redirects non-write-capable tools to a claude fallback for implementation phases. For research phases that do not need writes, set the environment variable to bypass this:
 
 ```bash
 export AO_ALLOW_NON_EDITING_PHASE_TOOL=true
@@ -108,7 +108,7 @@ export AO_ALLOW_NON_EDITING_PHASE_TOOL=true
 
 ## Fallback Models
 
-When the primary model fails, AO tries fallback models in order. Fallbacks vary by phase type and complexity. For example, a medium-complexity implementation phase falls back through:
+When the primary model fails, Animus tries fallback models in order. Fallbacks vary by phase type and complexity. For example, a medium-complexity implementation phase falls back through:
 
 1. zai-coding-plan/glm-5
 2. minimax/MiniMax-M2.5
@@ -130,14 +130,14 @@ When the primary model fails, AO tries fallback models in order. Fallbacks vary 
 Check whether a model is valid and available:
 
 ```bash
-ao model validate --model claude-sonnet-4-6
+animus model validate --model claude-sonnet-4-6
 ```
 
 Refresh the model roster:
 
 ```bash
-ao model roster refresh
-ao model roster get
+animus model roster refresh
+animus model roster get
 ```
 
 ## Agent Runtime Config Commands
@@ -145,7 +145,7 @@ ao model roster get
 Read, validate, and set the agent runtime config:
 
 ```bash
-ao workflow agent-runtime get
-ao workflow agent-runtime validate
-ao workflow agent-runtime set --input-json '{"agents":{"default":{"model":null,"tool":null}}}'
+animus workflow agent-runtime get
+animus workflow agent-runtime validate
+animus workflow agent-runtime set --input-json '{"agents":{"default":{"model":null,"tool":null}}}'
 ```

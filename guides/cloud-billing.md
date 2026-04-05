@@ -1,6 +1,6 @@
 # Cloud Billing Guide
 
-AO cloud billing is managed through the dashboard at `app.ao.dev/settings/billing`. Subscriptions are processed by Stripe. You can view your current plan, monitor usage, download invoices, and update payment methods without leaving the browser.
+Animus cloud billing is managed through the dashboard at `app.ao.dev/settings/billing`. Subscriptions are processed by Stripe. You can view your current plan, monitor usage, download invoices, and update payment methods without leaving the browser.
 
 For access to the billing page you must be an **Owner** on the organisation. Admins and below see the plan name but cannot make changes.
 
@@ -71,7 +71,7 @@ A compute minute is accrued for each minute — or fraction thereof — that an 
 
 Storage is sampled daily and averaged across the billing cycle. The following contribute to storage:
 
-- Deployment artifacts pushed with `ao cloud push`
+- Deployment artifacts pushed with `animus cloud push`
 - Log lines retained beyond the default 7-day window (configurable per project in **Settings → Project**)
 - Audit log entries
 
@@ -282,7 +282,7 @@ Navigate to **Settings → Billing → Payment** to manage cards.
 2. The Stripe Elements payment form loads inline. Enter the card number, expiry date, and CVC.
 3. Click **Save**. Stripe validates the card with a $0 authorisation before storing it.
 
-Card numbers, CVVs, and expiry dates are handled entirely by Stripe's PCI-DSS Level 1 infrastructure and are never transmitted to AO servers. The AO backend receives only a Stripe payment method ID.
+Card numbers, CVVs, and expiry dates are handled entirely by Stripe's PCI-DSS Level 1 infrastructure and are never transmitted to Animus servers. The Animus backend receives only a Stripe payment method ID.
 
 ### Setting the Default Card
 
@@ -312,7 +312,7 @@ Click an invoice row to see the full line-item breakdown including overage detai
 
 ### Failed Payments
 
-If a payment fails, the dashboard shows a banner and sends an email to the billing contact. AO retries the charge automatically on days 3, 7, and 14 after the initial failure. If the charge has not succeeded by day 21 the subscription is paused and cloud daemons are stopped.
+If a payment fails, the dashboard shows a banner and sends an email to the billing contact. Animus retries the charge automatically on days 3, 7, and 14 after the initial failure. If the charge has not succeeded by day 21 the subscription is paused and cloud daemons are stopped.
 
 To resolve a failed payment, update the payment method and click **Retry Payment** in the banner.
 
@@ -320,7 +320,7 @@ To resolve a failed payment, update the payment method and click **Retry Payment
 
 ## Billing Portal
 
-For advanced billing operations — tax ID management, billing address updates, and VAT configuration — click **Open Billing Portal** in **Settings → Billing**. This opens a Stripe-hosted portal in a new tab. Changes made in the portal are reflected in the AO dashboard within a few minutes.
+For advanced billing operations — tax ID management, billing address updates, and VAT configuration — click **Open Billing Portal** in **Settings → Billing**. This opens a Stripe-hosted portal in a new tab. Changes made in the portal are reflected in the Animus dashboard within a few minutes.
 
 ---
 
@@ -336,7 +336,7 @@ Cancellation takes effect at the end of the current billing period. Until then t
 
 ## Enterprise Billing
 
-Enterprise customers receive invoices directly from Anthropic (the company behind AO) rather than through Stripe. Contact your account representative for:
+Enterprise customers receive invoices directly from Anthropic (the company behind Animus) rather than through Stripe. Contact your account representative for:
 
 - Custom compute allocations
 - On-premises or private-cloud deployment options
@@ -356,4 +356,4 @@ Invoices include a Stripe-generated PDF suitable for expense reports. If your or
 
 - [Cloud Dashboard Guide](cloud-dashboard.md) — navigating the full dashboard UI
 - [Cloud Deployment](cloud-deployment.md) — deploying projects with the CLI
-- [Privacy & Data Policy](privacy.md) — what AO cloud stores and transmits
+- [Privacy & Data Policy](privacy.md) — what Animus cloud stores and transmits

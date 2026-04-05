@@ -1,6 +1,6 @@
 # Security Headers
 
-The AO cloud dashboard and any self-hosted AO web interfaces ship with a standard set of HTTP security headers in production. This guide explains each header, the default policy, and how to tighten or relax settings for your deployment.
+The Animus cloud dashboard and any self-hosted Animus web interfaces ship with a standard set of HTTP security headers in production. This guide explains each header, the default policy, and how to tighten or relax settings for your deployment.
 
 For general cloud deployment see [Cloud Deployment](cloud-deployment.md). For data privacy guarantees see [Privacy & Data Policy](privacy.md).
 
@@ -8,7 +8,7 @@ For general cloud deployment see [Cloud Deployment](cloud-deployment.md). For da
 
 ## Overview
 
-Security headers are HTTP response headers that instruct browsers how to handle your site's content. They protect against cross-site scripting (XSS), clickjacking, protocol downgrade attacks, and unintended resource loading. AO applies them at the edge/reverse-proxy layer so they are enforced regardless of which runtime serves the application.
+Security headers are HTTP response headers that instruct browsers how to handle your site's content. They protect against cross-site scripting (XSS), clickjacking, protocol downgrade attacks, and unintended resource loading. Animus applies them at the edge/reverse-proxy layer so they are enforced regardless of which runtime serves the application.
 
 The headers shipped in v36:
 
@@ -50,7 +50,7 @@ Each directive operates on the principle of denying everything not explicitly al
 | `script-src` | Same origin + per-request nonce | Inline scripts must carry the nonce attribute |
 | `style-src` | Same origin + inline | Inline styles are allowed for styled-components compatibility |
 | `img-src` | Same origin, data URIs, GitHub Avatars CDN | Restricts third-party image loading |
-| `connect-src` | Same origin, AO API (HTTPS + WSS) | WebSocket for live agent log streaming |
+| `connect-src` | Same origin, Animus API (HTTPS + WSS) | WebSocket for live agent log streaming |
 | `frame-src` | None | No iframes in the dashboard |
 | `object-src` | None | Blocks Flash/plugins |
 | `upgrade-insecure-requests` | — | Rewrites HTTP sub-resource requests to HTTPS automatically |

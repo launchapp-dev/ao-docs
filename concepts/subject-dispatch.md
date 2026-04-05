@@ -2,7 +2,7 @@
 
 ## What `SubjectDispatch` Is
 
-`SubjectDispatch` is AO's universal work envelope. Every workflow start,
+`SubjectDispatch` is Animus's universal work envelope. Every workflow start,
 whether it comes from the CLI, a queue tick, a schedule, or MCP, enters the
 runtime through the same contract.
 
@@ -11,7 +11,7 @@ understand task rules, requirement rules, or pack-specific behavior.
 
 ## Subject Identity
 
-AO has moved from a task-shaped subject model toward a generic subject identity
+Animus has moved from a task-shaped subject model toward a generic subject identity
 contract:
 
 ```text
@@ -75,12 +75,12 @@ are compatibility shims rather than the preferred surface.
 
 ## Why This Boundary Matters
 
-The single dispatch contract lets AO keep clean boundaries:
+The single dispatch contract lets Animus keep clean boundaries:
 
 - the daemon schedules and supervises subprocesses
 - subject adapters resolve subject-specific context and cwd policy
 - workflows and packs define behavior
 - execution projectors map facts back onto subject state
 
-That is how AO can add new domains without pushing more branching logic into the
+That is how Animus can add new domains without pushing more branching logic into the
 daemon.

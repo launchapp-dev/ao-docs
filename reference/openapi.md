@@ -1,6 +1,6 @@
 # OpenAPI / Swagger UI
 
-The AO local web server ships an interactive OpenAPI explorer at `/api/docs`. When the web server is running you can browse every REST endpoint, read request and response schemas, and execute requests directly from the browser — no separate API client required.
+The Animus local web server ships an interactive OpenAPI explorer at `/api/docs`. When the web server is running you can browse every REST endpoint, read request and response schemas, and execute requests directly from the browser — no separate API client required.
 
 For a general overview of the web server see [Web Dashboard](../guides/web-dashboard.md). For the raw JSON envelope format see [JSON Envelope Contract](json-envelope.md).
 
@@ -11,7 +11,7 @@ For a general overview of the web server see [Web Dashboard](../guides/web-dashb
 Start the web server (default port `3000`):
 
 ```bash
-ao web serve
+animus web serve
 ```
 
 Then open the Swagger UI in your browser:
@@ -23,11 +23,11 @@ http://localhost:3000/api/docs
 Pass a custom port when the default is occupied:
 
 ```bash
-ao web serve --port 8080
+animus web serve --port 8080
 # UI is at http://localhost:8080/api/docs
 ```
 
-`ao web open` opens the dashboard root. Navigate to `/api/docs` manually or append it to the URL printed by the serve command.
+`animus web open` opens the dashboard root. Navigate to `/api/docs` manually or append it to the URL printed by the serve command.
 
 ---
 
@@ -53,7 +53,7 @@ npx @hey-api/openapi-ts -i ao-openapi.json -o src/client -c @hey-api/client-fetc
 
 ## Authentication
 
-The REST API accepts a bearer token issued by `ao cloud login` or generated in the cloud dashboard.
+The REST API accepts a bearer token issued by `animus cloud login` or generated in the cloud dashboard.
 
 In the Swagger UI, click **Authorize** (padlock icon) at the top-right and enter:
 
@@ -61,7 +61,7 @@ In the Swagger UI, click **Authorize** (padlock icon) at the top-right and enter
 Bearer <your-token>
 ```
 
-For local development the daemon may run without authentication when `auth.enabled` is `false` in the project configuration. Check `ao config show` for the active setting.
+For local development the daemon may run without authentication when `auth.enabled` is `false` in the project configuration. Check `animus config show` for the active setting.
 
 ---
 
@@ -121,7 +121,7 @@ GET /api/v1/tasks?status=in-progress&priority=high&limit=20
 
 ## Cloud vs. Local
 
-| | Local web server | AO Cloud |
+| | Local web server | Animus Cloud |
 |---|---|---|
 | URL | `http://localhost:<port>/api/docs` | `https://app.ao.dev/api/docs` |
 | Auth | Optional (config-controlled) | Bearer token required |
@@ -138,4 +138,4 @@ The cloud dashboard exposes the same OpenAPI UI and spec for the cloud REST API,
 - [JSON Envelope Contract](json-envelope.md) — request/response envelope schema
 - [Status Values & Enums](status-values.md) — accepted `status` values for filtering
 - [Cloud Dashboard Guide](../guides/cloud-dashboard.md) — cloud-hosted web UI at `app.ao.dev`
-- [Cloud CLI Reference](cli/cloud.md) — `ao cloud` commands for deployment and daemon control
+- [Cloud CLI Reference](cli/cloud.md) — `animus cloud` commands for deployment and daemon control

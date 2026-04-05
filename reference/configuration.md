@@ -1,6 +1,6 @@
 # Configuration Reference
 
-AO resolves behavior from project YAML, pack layers, bundled defaults, and
+Animus resolves behavior from project YAML, pack layers, bundled defaults, and
 environment overrides.
 
 ## Project-Local Sources
@@ -18,11 +18,11 @@ Typical uses:
 ### `.ao/plugins/<pack-id>/`
 
 Project-local pack overrides. Use this directory when a repository needs to
-override an installed or bundled pack without changing AO globally.
+override an installed or bundled pack without changing Animus globally.
 
 ### `.ao/state/pack-selection.v1.json`
 
-Project pack selection and pinning state, managed by `ao pack ...`.
+Project pack selection and pinning state, managed by `animus pack ...`.
 
 ### `.ao/config.json`
 
@@ -62,10 +62,10 @@ Installed packs live at:
 Manage them with:
 
 ```bash
-ao pack list
-ao pack inspect --pack-id ao.task
-ao pack install --path /tmp/vendor.pack --activate
-ao pack pin --pack-id vendor.pack --version =1.2.3
+animus pack list
+animus pack inspect --pack-id ao.task
+animus pack install --path /tmp/vendor.pack --activate
+animus pack pin --pack-id vendor.pack --version =1.2.3
 ```
 
 ## Configuration Precedence
@@ -84,7 +84,7 @@ Behavior resolves in this order:
 | Variable | Description |
 |---|---|
 | `PROJECT_ROOT` | Override project root directory |
-| `AO_CONFIG_DIR` | Override the global AO config directory |
+| `AO_CONFIG_DIR` | Override the global Animus config directory |
 | `AO_RUNNER_CONFIG_DIR` | Override the runner config directory |
 | `AO_ALLOW_NON_EDITING_PHASE_TOOL` | Allow non-write-capable tools to execute any phase without fallback |
 | `AO_MCP_SCHEMA_DRAFT` | Select Draft-07 MCP tool input schemas |

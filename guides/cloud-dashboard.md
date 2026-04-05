@@ -1,6 +1,6 @@
 # Cloud Dashboard Guide
 
-The AO cloud dashboard is a React web application hosted at `app.ao.dev`. It provides a browser-based view of all your cloud projects: deployment status, live agent activity, log browsing, and billing — without requiring the CLI.
+The Animus cloud dashboard is a React web application hosted at `app.ao.dev`. It provides a browser-based view of all your cloud projects: deployment status, live agent activity, log browsing, and billing — without requiring the CLI.
 
 For CLI-based cloud management see [Cloud Deployment](cloud-deployment.md). For billing details see [Cloud Billing](cloud-billing.md).
 
@@ -8,7 +8,7 @@ For CLI-based cloud management see [Cloud Deployment](cloud-deployment.md). For 
 
 ## Accessing the Dashboard
 
-Navigate to `app.ao.dev` and sign in with the same credentials used by `ao cloud login`. After authentication you land on the **Projects** overview.
+Navigate to `app.ao.dev` and sign in with the same credentials used by `animus cloud login`. After authentication you land on the **Projects** overview.
 
 If your account belongs to multiple organisations, a selector in the top-left corner switches context. All data — projects, deployments, logs — is scoped to the active organisation.
 
@@ -54,7 +54,7 @@ Type in the search box to filter by keyword. Results update as you type and matc
 Each card in the gallery shows:
 
 - Template name and one-line description
-- Author (AO team or organisation name for custom templates)
+- Author (Animus team or organisation name for custom templates)
 - Category tags
 - Star count (community favourites)
 - **Preview** button — opens a read-only view of the workflow YAML
@@ -67,14 +67,14 @@ Each card in the gallery shows:
    - **Target project** — choose an existing project or create a new one inline.
    - **Environment** — `production`, `staging`, or `preview`.
    - **Variable overrides** — any `{{ variable }}` placeholders in the template YAML are listed with editable fields; defaults from the template are pre-filled.
-3. Click **Deploy**. The dashboard calls `ao cloud push` internally with the resolved YAML and selected target.
+3. Click **Deploy**. The dashboard calls `animus cloud push` internally with the resolved YAML and selected target.
 4. On success, you are taken directly to the **Workflow Detail** page for the newly deployed workflow.
 
 Deployed templates behave identically to workflows you push manually with the CLI. The source template is noted in the workflow metadata (`template_id` field) but does not create a dependency — you can edit the YAML freely after deployment.
 
 ### Featured Templates
 
-The gallery highlights a rotating **Featured** row at the top of the main grid. Featured templates are curated by the AO team based on community star counts and recent additions. They rotate weekly.
+The gallery highlights a rotating **Featured** row at the top of the main grid. Featured templates are curated by the Animus team based on community star counts and recent additions. They rotate weekly.
 
 ### Template Versions
 
@@ -94,7 +94,7 @@ Import a template directly from a GitHub URL or a local YAML file:
 **From GitHub:**
 1. Navigate to **Settings → Templates → Import**.
 2. Paste the raw GitHub URL to a workflow YAML file (e.g. `https://raw.githubusercontent.com/org/repo/main/.ao/workflows/example.yaml`).
-3. Click **Import**. AO fetches the file, validates the YAML, and adds it to your organisation's Custom templates.
+3. Click **Import**. Animus fetches the file, validates the YAML, and adds it to your organisation's Custom templates.
 
 **From file:**
 1. Navigate to **Settings → Templates → Import**.
@@ -261,11 +261,11 @@ Runtime environment variables injected into every agent run for this project. Va
 
 ## Deployments
 
-The Deployments page lists every `ao cloud push` event across all projects. Columns:
+The Deployments page lists every `animus cloud push` event across all projects. Columns:
 
 | Column | Description |
 |---|---|
-| Deployment ID | Unique identifier (matches the `deployment_id` returned by `ao cloud push --json`) |
+| Deployment ID | Unique identifier (matches the `deployment_id` returned by `animus cloud push --json`) |
 | Project | Project the deployment belongs to |
 | Environment | `production`, `staging`, or `preview` |
 | Artifacts | Number of uploaded workflow definitions, personas, and pack configs |
@@ -286,7 +286,7 @@ The **Live** tab lists every agent run with status `starting` or `running`. The 
 
 | Column | Description |
 |---|---|
-| Run ID | Unique run identifier (use with `ao cloud logs --run-id`) |
+| Run ID | Unique run identifier (use with `animus cloud logs --run-id`) |
 | Project | Source project |
 | Workflow | Workflow definition name |
 | Phase | Currently executing phase |
@@ -413,7 +413,7 @@ Each log line is displayed with:
 
 ### Export
 
-Click **Export** (top-right of the results panel) to download the filtered results as newline-delimited JSON. The format matches `ao cloud logs --json` output.
+Click **Export** (top-right of the results panel) to download the filtered results as newline-delimited JSON. The format matches `animus cloud logs --json` output.
 
 ---
 
@@ -500,7 +500,7 @@ Long-lived API keys for CLI authentication, CI/CD pipelines, and direct REST API
 2. Enter a label (e.g. `ci-deploy`) and set an optional expiry date.
 3. Select a **scope**:
    - `read` — GET endpoints only
-   - `deploy` — read access plus `ao cloud push` and daemon start / stop operations
+   - `deploy` — read access plus `animus cloud push` and daemon start / stop operations
    - `admin` — full API access including member management (requires Owner role)
 4. Copy the token — it is displayed only once. Store it in a secrets manager.
 
@@ -553,7 +553,7 @@ The **Settings → Notifications** page configures alerts for cloud events:
 
 | Event | Description |
 |---|---|
-| Daemon stopped unexpectedly | Fires when daemon status changes to `error` or `stopped` without an explicit `ao cloud stop` |
+| Daemon stopped unexpectedly | Fires when daemon status changes to `error` or `stopped` without an explicit `animus cloud stop` |
 | Deployment failed | Push or start operation returned an error |
 | Agent run failed | An agent run exited with a non-zero status |
 | Queue depth threshold | Queue depth exceeds a configurable value |
@@ -572,7 +572,7 @@ Navigate to **Settings → Notifications → Webhooks** to configure webhook end
 | **Status** | `active` or `disabled` |
 | **Last delivery** | Timestamp and HTTP status of the most recent attempt |
 
-**Payload signature:** Every delivery includes an `X-AO-Signature` header containing `sha256=<hmac_hex>` computed over the raw request body using the webhook secret. Verify this value before processing the payload.
+**Payload signature:** Every delivery includes an `X-Animus-Signature` header containing `sha256=<hmac_hex>` computed over the raw request body using the webhook secret. Verify this value before processing the payload.
 
 **Delivery history:** Click the delivery-history link on any endpoint to view recent attempts, including the HTTP status returned by your endpoint, the response body (truncated to 1 KB), and a **Redeliver** button that resends the most recent payload.
 
@@ -603,9 +603,9 @@ A delivery is considered successful when the endpoint returns any `2xx` HTTP sta
 | Header | Value |
 |---|---|
 | `Content-Type` | `application/json` |
-| `X-AO-Event` | Event type string (e.g. `daemon.stopped`) |
-| `X-AO-Delivery` | Unique delivery ID (stable across retries for the same event) |
-| `X-AO-Signature` | `sha256=<hmac_hex>` — HMAC-SHA256 of the raw request body |
+| `X-Animus-Event` | Event type string (e.g. `daemon.stopped`) |
+| `X-Animus-Delivery` | Unique delivery ID (stable across retries for the same event) |
+| `X-Animus-Signature` | `sha256=<hmac_hex>` — HMAC-SHA256 of the raw request body |
 | `User-Agent` | `ao-cloud-webhook/1` |
 
 ### Webhook Delivery Log
@@ -643,7 +643,7 @@ The **Activity Feed** at the bottom of each project's detail page shows a revers
 | `run.cancelled` | An agent run was cancelled manually |
 | `daemon.started` | The cloud daemon started |
 | `daemon.stopped` | The cloud daemon stopped (expected or unexpected) |
-| `deployment.pushed` | A new deployment was received via `ao cloud push` |
+| `deployment.pushed` | A new deployment was received via `animus cloud push` |
 
 ### Feed Controls
 
@@ -821,7 +821,7 @@ When a list or table has no data to show, the dashboard renders an illustrated e
 | Page / section | Illustration | Primary action |
 |---|---|---|
 | Projects (no projects yet) | Server with a blinking light | **Push your first project** (links to [Cloud Deployment](cloud-deployment.md)) |
-| Agents → Live (no active runs) | Robot sitting idle | **Start daemon** (opens a project selector then calls `ao cloud start`) |
+| Agents → Live (no active runs) | Robot sitting idle | **Start daemon** (opens a project selector then calls `animus cloud start`) |
 | Agents → History (no completed runs) | Timeline with no entries | **View workflows** (navigates to the Workflow Detail page) |
 | Audit Log (no events in range) | Magnifying glass over an empty page | **Expand date range** (resets the date filter to the last 30 days) |
 | Notifications panel (all read) | Bell with a checkmark | No action — confirming all notifications are cleared |

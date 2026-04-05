@@ -1,6 +1,6 @@
 # Crate Map
 
-The AO workspace contains 16 crates organized into seven groups by responsibility.
+The Animus workspace contains 16 crates organized into seven groups by responsibility.
 
 ## Foundation
 

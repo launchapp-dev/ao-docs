@@ -2,8 +2,8 @@
 
 ## The `.ao/` Directory
 
-`.ao/` is AO-managed project state. Treat it as application state, not as a
-hand-edited config folder. Use `ao` commands or AO MCP tools for mutations.
+`.ao/` is Animus-managed project state. Treat it as application state, not as a
+hand-edited config folder. Use `ao` commands or Animus MCP tools for mutations.
 
 Typical layout:
 
@@ -62,18 +62,18 @@ Project pack selection is stored in:
 
 - `.ao/state/pack-selection.v1.json`
 
-This is managed by `ao pack pin`, `ao pack install --activate`, and related AO
+This is managed by `animus pack pin`, `animus pack install --activate`, and related Animus
 commands.
 
 ### Domain State
 
-AO domain records remain under:
+Animus domain records remain under:
 
 - `requirements/`
 - `tasks/`
 - `docs/`
 
-Those files are still AO-managed state, even though task and requirement
+Those files are still Animus-managed state, even though task and requirement
 behavior now resolves through bundled first-party packs.
 
 ### Execution Data
@@ -93,7 +93,7 @@ Machine-installed packs live outside the project:
 ~/.ao/packs/<pack-id>/<version>/
 ```
 
-AO also uses a repo-scoped machine directory for worktrees and related runtime
+Animus also uses a repo-scoped machine directory for worktrees and related runtime
 state:
 
 ```text
@@ -107,19 +107,19 @@ These are distinct concerns:
 
 ## Mutation Policy
 
-Never hand-edit `.ao/*.json` files unless you are explicitly working on AO's
+Never hand-edit `.ao/*.json` files unless you are explicitly working on Animus's
 own persistence layer as part of a migration.
 
 Approved mutation surfaces:
 
-- CLI commands such as `ao task status`
-- AO MCP tools such as `ao.task.update`
+- CLI commands such as `animus task status`
+- Animus MCP tools such as `ao.task.update`
 - projectors consuming execution facts
-- pack commands such as `ao pack pin`
+- pack commands such as `animus pack pin`
 
 ## Configuration Precedence
 
-At a high level, AO resolves behavior in this order:
+At a high level, Animus resolves behavior in this order:
 
 1. CLI flags and environment variables
 2. Project pack overrides in `.ao/plugins/`

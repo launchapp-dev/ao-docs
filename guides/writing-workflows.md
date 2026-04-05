@@ -1,6 +1,6 @@
 # Writing Custom Workflows
 
-AO workflows are defined in YAML and live in `.ao/workflows.yaml` and
+Animus workflows are defined in YAML and live in `.ao/workflows.yaml` and
 `.ao/workflows/*.yaml`. These files describe project-local workflows, overrides,
 and pack composition. They usually wrap canonical pack-qualified refs such as
 `ao.task/standard` instead of copying task or requirement semantics into the
@@ -26,7 +26,7 @@ Example:
     premium.yaml
 ```
 
-AO loads the single-file form and the directory form together. You can keep
+Animus loads the single-file form and the directory form together. You can keep
 everything in one file or split workflows across multiple files.
 
 ## YAML Structure Overview
@@ -69,13 +69,13 @@ The `tool` field specifies which CLI tool runs the agent: `claude`, `codex`, `ge
 
 ## MCP Servers
 
-Declare MCP servers that agents can use as external tools. AO supports two
+Declare MCP servers that agents can use as external tools. Animus supports two
 transport types: **stdio** (local subprocess) and **HTTP** (remote server over
 HTTP/SSE).
 
 ### stdio (local subprocess)
 
-The default transport. AO spawns the server as a child process:
+The default transport. Animus spawns the server as a child process:
 
 ```yaml
 mcp_servers:
@@ -96,7 +96,7 @@ mcp_servers:
 ### HTTP/SSE (remote server)
 
 Connect to an MCP server running over HTTP. Use `transport: http` and supply a
-`url`. AO connects to the running server instead of spawning a subprocess:
+`url`. Animus connects to the running server instead of spawning a subprocess:
 
 ```yaml
 mcp_servers:
@@ -269,7 +269,7 @@ workflows:
 workflows:
   - id: requirement-task-generation
     name: "Requirement Task Generation"
-    description: "Create or refine requirement-linked AO tasks"
+    description: "Create or refine requirement-linked Animus tasks"
     phases:
       - requirement-task-generation
 ```
@@ -337,7 +337,7 @@ agents:
     system_prompt: |
       You are a senior code reviewer. Focus on correctness, performance,
       and adherence to the project's coding conventions. Flag any security
-      concerns. Use AO MCP tools to update task checklists with findings.
+      concerns. Use Animus MCP tools to update task checklists with findings.
     model: claude-sonnet-4-6
     tool: claude
 
@@ -399,4 +399,4 @@ pipelines:
 - Reuse agents across phases by referencing the same agent name.
 - Order phases so that fast-failing checks (lint, tests) run before expensive reviews.
 - Keep `max_rework_attempts` reasonable (2-3) to avoid infinite loops.
-- Validate your workflow config with `ao workflow config validate`.
+- Validate your workflow config with `animus workflow config validate`.

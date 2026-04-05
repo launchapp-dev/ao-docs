@@ -1,6 +1,6 @@
 # SEO and Site Metadata
 
-The AO cloud dashboard ships with a complete set of HTML metadata: standard `<meta>` tags, Open Graph and Twitter Card markup, a canonical URL strategy, a `favicon.ico` / PNG icon set, and a web app manifest (`manifest.json`). This guide documents each element and explains how to customise them for self-hosted deployments.
+The Animus cloud dashboard ships with a complete set of HTML metadata: standard `<meta>` tags, Open Graph and Twitter Card markup, a canonical URL strategy, a `favicon.ico` / PNG icon set, and a web app manifest (`manifest.json`). This guide documents each element and explains how to customise them for self-hosted deployments.
 
 For branded error pages see [Custom Error Pages](custom-error-pages.md). For security headers see [Security Headers](security-headers.md).
 
@@ -25,18 +25,18 @@ Metadata falls into three categories:
 Page titles follow the pattern:
 
 ```
-{Page Name} — AO
+{Page Name} — Animus
 ```
 
 Examples:
 
 | Page | Title |
 |---|---|
-| Projects overview | `Projects — AO` |
-| Specific project | `my-project — AO` |
-| Deployment detail | `Deployment dep_01HXYZ — AO` |
-| Billing | `Billing — AO` |
-| 404 error | `Page Not Found — AO` |
+| Projects overview | `Projects — Animus` |
+| Specific project | `my-project — Animus` |
+| Deployment detail | `Deployment dep_01HXYZ — Animus` |
+| Billing | `Billing — Animus` |
+| 404 error | `Page Not Found — Animus` |
 
 ### Meta description
 
@@ -45,7 +45,7 @@ Each page sets a unique `<meta name="description">` tag:
 ```html
 <!-- Dashboard home -->
 <meta name="description"
-      content="AO cloud dashboard — manage projects, monitor agents, and review logs from your browser.">
+      content="Animus cloud dashboard — manage projects, monitor agents, and review logs from your browser.">
 
 <!-- Project page -->
 <meta name="description"
@@ -88,16 +88,16 @@ Open Graph metadata controls how the dashboard link appears when shared on Slack
 ### Default (dashboard-wide) tags
 
 ```html
-<meta property="og:site_name" content="AO">
+<meta property="og:site_name" content="Animus">
 <meta property="og:type"      content="website">
 <meta property="og:url"       content="https://app.ao.dev/">
-<meta property="og:title"     content="AO Cloud Dashboard">
+<meta property="og:title"     content="Animus Cloud Dashboard">
 <meta property="og:description"
       content="Manage autonomous agent workflows, monitor deployments, and review logs from your browser.">
 <meta property="og:image"     content="https://app.ao.dev/og-image.png">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="AO Cloud Dashboard — project overview screenshot">
+<meta property="og:image:alt" content="Animus Cloud Dashboard — project overview screenshot">
 <meta property="og:locale"    content="en_US">
 ```
 
@@ -111,7 +111,7 @@ Public-facing pages (marketing, documentation) set page-specific `og:title`, `og
 
 The OG image is a static `1200 × 630` PNG at `/og-image.png`. It shows:
 
-- The AO wordmark on a dark background
+- The Animus wordmark on a dark background
 - The tagline "Autonomous agent workflows, built for your team"
 - The `app.ao.dev` domain in the lower-right corner
 
@@ -127,11 +127,11 @@ Twitter Card tags control link preview appearance on X (formerly Twitter).
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:site"        content="@ao_dev">
 <meta name="twitter:creator"     content="@ao_dev">
-<meta name="twitter:title"       content="AO Cloud Dashboard">
+<meta name="twitter:title"       content="Animus Cloud Dashboard">
 <meta name="twitter:description"
       content="Manage autonomous agent workflows, monitor deployments, and review logs from your browser.">
 <meta name="twitter:image"       content="https://app.ao.dev/og-image.png">
-<meta name="twitter:image:alt"   content="AO Cloud Dashboard — project overview screenshot">
+<meta name="twitter:image:alt"   content="Animus Cloud Dashboard — project overview screenshot">
 ```
 
 `summary_large_image` renders the OG image at full width above the link title.
@@ -183,8 +183,8 @@ The Web App Manifest enables progressive-web-app installation on Android and Chr
 
 ```json
 {
-  "name": "AO Cloud Dashboard",
-  "short_name": "AO",
+  "name": "Animus Cloud Dashboard",
+  "short_name": "Animus",
   "description": "Manage autonomous agent workflows, monitor deployments, and review logs.",
   "start_url": "/",
   "display": "standalone",
@@ -215,8 +215,8 @@ The Web App Manifest enables progressive-web-app installation on Android and Chr
 
 | Field | Value | Notes |
 |---|---|---|
-| `name` | `"AO Cloud Dashboard"` | Full name shown during installation prompt |
-| `short_name` | `"AO"` | Name shown on home screen under the icon |
+| `name` | `"Animus Cloud Dashboard"` | Full name shown during installation prompt |
+| `short_name` | `"Animus"` | Name shown on home screen under the icon |
 | `start_url` | `"/"` | URL opened when launched from home screen |
 | `display` | `"standalone"` | Hides the browser chrome when installed |
 | `background_color` | `"#0f1117"` | Splash screen background while the app loads |
@@ -229,8 +229,8 @@ Edit `public/manifest.json` before building:
 
 ```json
 {
-  "name": "Acme AO Dashboard",
-  "short_name": "Acme AO",
+  "name": "Acme Animus Eye",
+  "short_name": "Acme Animus",
   "description": "Acme's internal autonomous agent platform.",
   "theme_color": "#1a3a5c",
   "background_color": "#0a0f1a"

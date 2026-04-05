@@ -1,6 +1,6 @@
 # Data Layout
 
-AO stores project state under `.ao/` and machine-scoped pack/runtime data under
+Animus stores project state under `.ao/` and machine-scoped pack/runtime data under
 `~/.ao/`.
 
 ## Project Layout
@@ -58,8 +58,8 @@ These stores serve different purposes:
 
 ## Mutation Policy
 
-Do not hand-edit AO state files. Use AO commands or AO MCP tools unless you are
-explicitly working on AO persistence as part of a migration.
+Do not hand-edit Animus state files. Use Animus commands or Animus MCP tools unless you are
+explicitly working on Animus persistence as part of a migration.
 
 ## Resolution-Related Paths
 

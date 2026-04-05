@@ -135,7 +135,7 @@ The export captures the current viewport. Use **Fit** before exporting to ensure
 
 ## DAG and the YAML Tab
 
-The DAG visualises the same structure as the **YAML** tab. The two tabs stay in sync: changes pushed via `ao cloud push` are reflected in both tabs on the next page load. There is no way to edit the YAML from the DAG tab directly — use the CLI to modify the workflow definition.
+The DAG visualises the same structure as the **YAML** tab. The two tabs stay in sync: changes pushed via `animus cloud push` are reflected in both tabs on the next page load. There is no way to edit the YAML from the DAG tab directly — use the CLI to modify the workflow definition.
 
 ---
 

@@ -1,6 +1,6 @@
 # CI/CD Guide
 
-AO uses GitHub Actions for continuous integration and release automation. This guide covers the CI workflows, build commands, and release process.
+Animus uses GitHub Actions for continuous integration and release automation. This guide covers the CI workflows, build commands, and release process.
 
 ## CI Workflows
 
@@ -14,7 +14,7 @@ Runs on every push and pull request. Checks and tests each crate in the workspac
 
 ### Rust-Only Dependency Policy (`rust-only-dependency-policy.yml`)
 
-Enforces the project rule that AO is Rust-only -- no desktop shell frameworks (Tauri, Wry, Tao, GTK, WebKit). This workflow rejects PRs that introduce prohibited dependencies.
+Enforces the project rule that Animus is Rust-only -- no desktop shell frameworks (Tauri, Wry, Tao, GTK, WebKit). This workflow rejects PRs that introduce prohibited dependencies.
 
 ### Web UI CI (`web-ui-ci.yml`)
 
@@ -26,7 +26,7 @@ Validates that release artifacts can be produced correctly and that the release 
 
 ## Build Commands
 
-AO provides cargo aliases for building the workspace binaries:
+Animus provides cargo aliases for building the workspace binaries:
 
 ```bash
 cargo ao-bin-check           # Check all runtime binaries compile

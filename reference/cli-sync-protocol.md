@@ -1,6 +1,6 @@
 # CLI Sync Protocol Reference
 
-This document specifies the protocol used by `ao cloud push` and `ao cloud sync` to transfer project configuration from a local checkout to the AO cloud service. It is intended for users who need to automate deployments, debug push failures, or integrate AO cloud into custom tooling.
+This document specifies the protocol used by `animus cloud push` and `animus cloud sync` to transfer project configuration from a local checkout to the Animus cloud service. It is intended for users who need to automate deployments, debug push failures, or integrate Animus cloud into custom tooling.
 
 For the end-user deployment workflow see [Cloud Deployment](../guides/cloud-deployment.md). For the CLI flag reference see [ao cloud — CLI Reference](cli/cloud.md).
 
@@ -12,7 +12,7 @@ The sync protocol is a single-round-trip HTTP upload. The CLI packages project m
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  ao cloud push                                                  │
+│  animus cloud push                                                  │
 │                                                                 │
 │  1. Collect           2. Package          3. Upload             │
 │  ─────────────────    ───────────────     ──────────────────    │
@@ -63,7 +63,7 @@ Every request to the ingestion API requires a Bearer token in the `Authorization
 Authorization: Bearer <token>
 ```
 
-The token is read from `~/.ao/cloud/credentials.json` (written by `ao cloud login`). For CI environments, set the `AO_CLOUD_TOKEN` environment variable; the CLI prefers the environment variable over the credentials file.
+The token is read from `~/.ao/cloud/credentials.json` (written by `animus cloud login`). For CI environments, set the `AO_CLOUD_TOKEN` environment variable; the CLI prefers the environment variable over the credentials file.
 
 Token scopes required for push operations:
 
@@ -81,9 +81,9 @@ POST /v1/projects/{project_slug}/deployments
 Host: api.ao.dev
 Authorization: Bearer <token>
 Content-Type: application/x-tar+gzip
-X-AO-Env: production
-X-AO-Bundle-Hash: <sha256-hex>
-X-AO-CLI-Version: <semver>
+X-Animus-Env: production
+X-Animus-Bundle-Hash: <sha256-hex>
+X-Animus-CLI-Version: <semver>
 ```
 
 ### Path Parameters
@@ -98,9 +98,9 @@ X-AO-CLI-Version: <semver>
 |---|---|---|
 | `Authorization` | Yes | Bearer token (see Authentication above) |
 | `Content-Type` | Yes | Must be `application/x-tar+gzip` |
-| `X-AO-Env` | No | Target environment. Default: `production` |
-| `X-AO-Bundle-Hash` | Yes | SHA-256 hex digest of the bundle body, for integrity verification |
-| `X-AO-CLI-Version` | Yes | CLI version string, e.g. `0.5.0` |
+| `X-Animus-Env` | No | Target environment. Default: `production` |
+| `X-Animus-Bundle-Hash` | Yes | SHA-256 hex digest of the bundle body, for integrity verification |
+| `X-Animus-CLI-Version` | Yes | CLI version string, e.g. `0.5.0` |
 
 ### Request Body
 
@@ -170,15 +170,15 @@ The cloud daemon always runs the configuration from the latest version for its e
 
 ## Idempotency
 
-Pushing the same bundle twice (same `X-AO-Bundle-Hash`) to the same environment within 60 seconds returns the existing deployment receipt rather than creating a new deployment. This window prevents duplicate deployments from transient retries.
+Pushing the same bundle twice (same `X-Animus-Bundle-Hash`) to the same environment within 60 seconds returns the existing deployment receipt rather than creating a new deployment. This window prevents duplicate deployments from transient retries.
 
-If you intentionally want to force a re-push of identical content (e.g. to refresh environment variable bindings), use `ao cloud push --force`, which bypasses the idempotency check.
+If you intentionally want to force a re-push of identical content (e.g. to refresh environment variable bindings), use `animus cloud push --force`, which bypasses the idempotency check.
 
 ---
 
 ## Dry-Run Mode
 
-When `ao cloud push --dry-run` is invoked, the CLI packages the bundle locally and sends it to the validation endpoint instead of the deployment endpoint:
+When `animus cloud push --dry-run` is invoked, the CLI packages the bundle locally and sends it to the validation endpoint instead of the deployment endpoint:
 
 ```
 POST /v1/projects/{project_slug}/deployments/validate
@@ -204,7 +204,7 @@ Event payload (WebSocket, JSON):
 }
 ```
 
-The daemon acknowledges the event and enters a brief `reloading` state (visible in `ao cloud status`) while it validates and applies the new configuration.
+The daemon acknowledges the event and enters a brief `reloading` state (visible in `animus cloud status`) while it validates and applies the new configuration.
 
 ---
 
@@ -236,7 +236,7 @@ The CLI build packages the sync protocol into the `orchestrator-cloud-sync` crat
 ## Related
 
 - [Cloud Deployment](../guides/cloud-deployment.md) — end-user push workflow
-- [ao cloud — CLI Reference](cli/cloud.md) — `ao cloud push` flags
+- [ao cloud — CLI Reference](cli/cloud.md) — `animus cloud push` flags
 - [Configuration](configuration.md) — `.ao/config.json` schema
 - [Workflow YAML Schema](workflow-yaml.md) — validated by the sync endpoint
 - [JSON Envelope Contract](json-envelope.md) — response envelope format

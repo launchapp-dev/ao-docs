@@ -1,6 +1,6 @@
 # Skill Marketplace
 
-The AO skill marketplace is a decentralized catalog of reusable agent capability modules. Skills are distributed through **registries** — Git repositories that index skill packages — and installed locally via the `ao skill` CLI.
+The Animus skill marketplace is a decentralized catalog of reusable agent capability modules. Skills are distributed through **registries** — Git repositories that index skill packages — and installed locally via the `animus skill` CLI.
 
 This guide covers: browsing the marketplace, installing skills, managing registries, authoring skill packages, and publishing to a registry.
 
@@ -18,7 +18,7 @@ Registry (Git repo)
     └── test-strategy 2.0.0
 ```
 
-When you run `ao skill install <name>`, AO:
+When you run `animus skill install <name>`, Animus:
 
 1. Queries all configured registries for a skill matching that name
 2. Resolves the latest compatible version (or a pinned one)
@@ -33,13 +33,13 @@ Search the catalog across all configured registries:
 
 ```bash
 # Search by keyword
-ao skill search "code-review"
+animus skill search "code-review"
 
 # Search by category
-ao skill search "security"
+animus skill search "security"
 
 # List everything in the catalog
-ao skill search ""
+animus skill search ""
 ```
 
 Example output:
@@ -59,16 +59,16 @@ requirements-analysis  1.1.0    ao-official       Requirements decomposition
 
 ### Install from a Registry
 
-Install a skill by name. AO resolves it from your configured registries:
+Install a skill by name. Animus resolves it from your configured registries:
 
 ```bash
-ao skill install code-review
+animus skill install code-review
 ```
 
 Install multiple skills in one command:
 
 ```bash
-ao skill install code-review security-review test-strategy
+animus skill install code-review security-review test-strategy
 ```
 
 ### Install a Pinned Version
@@ -76,7 +76,7 @@ ao skill install code-review security-review test-strategy
 Append `@<version>` to install a specific version:
 
 ```bash
-ao skill install code-review@1.1.0
+animus skill install code-review@1.1.0
 ```
 
 Pinning versions ensures reproducible agent behavior across team members and CI environments.
@@ -86,7 +86,7 @@ Pinning versions ensures reproducible agent behavior across team members and CI 
 During development, install a skill directly from a local directory:
 
 ```bash
-ao skill install ./path/to/my-skill
+animus skill install ./path/to/my-skill
 ```
 
 This copies the skill into `~/.ao/skills/` so it is available project-wide.
@@ -96,7 +96,7 @@ This copies the skill into `~/.ao/skills/` so it is available project-wide.
 List all installed skills to confirm:
 
 ```bash
-ao skill list
+animus skill list
 ```
 
 ```
@@ -111,25 +111,25 @@ my-custom-skill  0.1.0    local           Project-specific capabilities
 Update a single skill to its latest registry version:
 
 ```bash
-ao skill update code-review
+animus skill update code-review
 ```
 
 Update all installed skills at once:
 
 ```bash
-ao skill update
+animus skill update
 ```
 
 ---
 
 ## Managing Registries
 
-Registries are Git repositories that host skill catalogs. You can configure multiple registries — AO searches all of them when resolving installs.
+Registries are Git repositories that host skill catalogs. You can configure multiple registries — Animus searches all of them when resolving installs.
 
 ### List Configured Registries
 
 ```bash
-ao pack registry list
+animus pack registry list
 ```
 
 ```
@@ -141,29 +141,29 @@ team-skills   https://github.com/myorg/ao-skills-internal.git      1 day ago
 ### Add a Registry
 
 ```bash
-ao pack registry add https://github.com/myorg/ao-skills-internal.git
+animus pack registry add https://github.com/myorg/ao-skills-internal.git
 ```
 
 Give the registry a friendly name with `--name`:
 
 ```bash
-ao pack registry add https://github.com/myorg/ao-skills-internal.git --name team-skills
+animus pack registry add https://github.com/myorg/ao-skills-internal.git --name team-skills
 ```
 
-AO clones the registry locally on add and indexes its catalog.
+Animus clones the registry locally on add and indexes its catalog.
 
 ### Sync a Registry
 
 Pull the latest catalog from a registry without reinstalling skills:
 
 ```bash
-ao pack registry sync team-skills
+animus pack registry sync team-skills
 ```
 
 Sync all registries at once:
 
 ```bash
-ao pack registry sync
+animus pack registry sync
 ```
 
 Run this periodically to pick up newly published skills.
@@ -171,7 +171,7 @@ Run this periodically to pick up newly published skills.
 ### Remove a Registry
 
 ```bash
-ao pack registry remove team-skills
+animus pack registry remove team-skills
 ```
 
 This removes the registry from your configuration. Already-installed skills from that registry are not affected.
@@ -203,7 +203,7 @@ version: 1.0.0
 description: "Short description shown in catalog search results"
 category: review           # Used for categorized search
 
-# Semantic version constraint for ao daemon compatibility
+# Semantic version constraint for animus daemon compatibility
 ao_version: ">=0.8.0"
 
 provides:
@@ -262,7 +262,7 @@ When performing code review:
 Before publishing, validate the manifest structure:
 
 ```bash
-ao skill publish ./my-skill --dry-run
+animus skill publish ./my-skill --dry-run
 ```
 
 This checks that `skill.yaml` is valid, all referenced prompt files exist, and the version does not already exist in the target registry.
@@ -270,13 +270,13 @@ This checks that `skill.yaml` is valid, all referenced prompt files exist, and t
 ### 2. Publish to a Registry
 
 ```bash
-ao skill publish ./my-skill --version 1.0.0
+animus skill publish ./my-skill --version 1.0.0
 ```
 
-By default, AO publishes to the first writable registry in your list. Target a specific registry:
+By default, Animus publishes to the first writable registry in your list. Target a specific registry:
 
 ```bash
-ao skill publish ./my-skill --version 1.0.0 --registry team-skills
+animus skill publish ./my-skill --version 1.0.0 --registry team-skills
 ```
 
 Publishing:
@@ -289,8 +289,8 @@ Publishing:
 After publishing, sync the registry and confirm the skill appears:
 
 ```bash
-ao pack registry sync team-skills
-ao skill search "my-skill"
+animus pack registry sync team-skills
+animus skill search "my-skill"
 ```
 
 ### Versioning Guidelines
@@ -311,76 +311,76 @@ To distribute skills within a team, host a Git repository that follows the regis
 
 ```
 my-skills-registry/
-├── catalog.yaml          # Index file — updated by ao skill publish
+├── catalog.yaml          # Index file — updated by animus skill publish
 └── packages/
     ├── my-skill-1.0.0.tar.gz
     └── another-skill-2.1.0.tar.gz
 ```
 
-AO manages `catalog.yaml` automatically when you publish. The only requirement is that team members have read access to the repository.
+Animus manages `catalog.yaml` automatically when you publish. The only requirement is that team members have read access to the repository.
 
 ```bash
 # Each team member adds the private registry once
-ao pack registry add git@github.com:myorg/ao-skills-registry.git --name team-skills
+animus pack registry add git@github.com:myorg/ao-skills-registry.git --name team-skills
 
 # Then installs skills normally
-ao skill install my-skill
+animus skill install my-skill
 ```
 
 ---
 
 ## CLI Reference
 
-### `ao skill` Commands
+### `animus skill` Commands
 
 | Command | Description |
 |---------|-------------|
-| `ao skill search <query>` | Search skill catalog across all registries |
-| `ao skill install <name>[@version]` | Install skill from registry or local path |
-| `ao skill install <path>` | Install skill from a local directory |
-| `ao skill list` | List installed skills |
-| `ao skill update [name]` | Update one or all skills to latest registry version |
-| `ao skill publish <path>` | Publish skill to a registry |
-| `ao skill publish <path> --dry-run` | Validate without publishing |
+| `animus skill search <query>` | Search skill catalog across all registries |
+| `animus skill install <name>[@version]` | Install skill from registry or local path |
+| `animus skill install <path>` | Install skill from a local directory |
+| `animus skill list` | List installed skills |
+| `animus skill update [name]` | Update one or all skills to latest registry version |
+| `animus skill publish <path>` | Publish skill to a registry |
+| `animus skill publish <path> --dry-run` | Validate without publishing |
 
-### `ao pack registry` Commands
+### `animus pack registry` Commands
 
 | Command | Description |
 |---------|-------------|
-| `ao pack registry list` | List all configured registries and sync status |
-| `ao pack registry add <url>` | Add a registry (clones and indexes on add) |
-| `ao pack registry add <url> --name <name>` | Add with a friendly name |
-| `ao pack registry remove <name>` | Remove a registry |
-| `ao pack registry sync [name]` | Pull latest catalog; omit name to sync all |
+| `animus pack registry list` | List all configured registries and sync status |
+| `animus pack registry add <url>` | Add a registry (clones and indexes on add) |
+| `animus pack registry add <url> --name <name>` | Add with a friendly name |
+| `animus pack registry remove <name>` | Remove a registry |
+| `animus pack registry sync [name]` | Pull latest catalog; omit name to sync all |
 
 ---
 
 ## Troubleshooting
 
-**Skill not found after `ao skill search`**
+**Skill not found after `animus skill search`**
 
 The registry catalog may be stale. Sync it:
 
 ```bash
-ao pack registry sync
+animus pack registry sync
 ```
 
-If the skill still does not appear, verify the registry URL with `ao pack registry list` and confirm the skill is published to that registry.
+If the skill still does not appear, verify the registry URL with `animus pack registry list` and confirm the skill is published to that registry.
 
 ---
 
-**`ao skill install` fails with "version already installed"**
+**`animus skill install` fails with "version already installed"**
 
-The skill is already at the requested version. Use `ao skill update` to refresh it, or uninstall and reinstall if you need to reset local state.
+The skill is already at the requested version. Use `animus skill update` to refresh it, or uninstall and reinstall if you need to reset local state.
 
 ---
 
-**`ao skill publish` fails with "registry not writable"**
+**`animus skill publish` fails with "registry not writable"**
 
-Your configured registries may be read-only (e.g., the official AO registry). Target your own registry explicitly:
+Your configured registries may be read-only (e.g., the official Animus registry). Target your own registry explicitly:
 
 ```bash
-ao skill publish ./my-skill --version 1.0.0 --registry team-skills
+animus skill publish ./my-skill --version 1.0.0 --registry team-skills
 ```
 
 ---
@@ -396,14 +396,14 @@ agents:
       - my-skill   # must match `name:` in skill.yaml exactly
 ```
 
-Run `ao workflow config validate` to catch resolution errors before dispatch.
+Run `animus workflow config validate` to catch resolution errors before dispatch.
 
 ---
 
 ## See Also
 
 - **[Skills Management](skills-management.md)** — Using skills in agent personas, phases, and workflows
-- **[Pack Management](pack-management.md)** — Installing and configuring AO plugin packs
+- **[Pack Management](pack-management.md)** — Installing and configuring Animus plugin packs
 - **[Agent Persona Cookbook](agent-personas.md)** — Ready-to-use agent templates with skill references
 - **[Workflow YAML Schema](../reference/workflow-yaml.md)** — Full schema including `skills` fields
 - **[CLI Command Reference](../reference/cli/index.md)** — Complete CLI surface

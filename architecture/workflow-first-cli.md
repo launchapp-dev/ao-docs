@@ -2,7 +2,7 @@
 
 ## Status
 
-AO now treats workflow dispatch as the primary execution surface.
+Animus now treats workflow dispatch as the primary execution surface.
 
 - planning commands dispatch canonical workflow refs such as `ao.vision/draft`
   and `ao.requirement/execute`
@@ -42,13 +42,13 @@ This keeps the runtime aligned with the plugin-pack kernel design:
 
 | Command | Canonical Ref |
 |---|---|
-| `ao vision draft` | `ao.vision/draft` |
-| `ao requirements draft` | `ao.requirement/draft` |
-| `ao requirements execute` | `ao.requirement/execute` |
-| `ao workflow run --ref ao.task/standard` | `ao.task/standard` |
+| `animus vision draft` | `ao.vision/draft` |
+| `animus requirements draft` | `ao.requirement/draft` |
+| `animus requirements execute` | `ao.requirement/execute` |
+| `animus workflow run --ref ao.task/standard` | `ao.task/standard` |
 
 ## Related Docs
 
 - [Plugin Pack Kernel](plugin-pack-kernel.md)
-- [How AO Works](../concepts/how-ao-works.md)
+- [How Animus Works](../concepts/how-ao-works.md)
 - [Workflows](../concepts/workflows.md)

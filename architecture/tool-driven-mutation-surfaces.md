@@ -2,7 +2,7 @@
 
 ## Purpose
 
-AO should keep daemon and workflow execution generic.
+Animus should keep daemon and workflow execution generic.
 
 The daemon runtime should schedule and dispatch `SubjectDispatch` values, manage
 capacity, track active work, and emit execution facts. `workflow-runner` should
@@ -81,7 +81,7 @@ Workflow YAML phases may invoke:
 - MCP tools
 - bash commands
 
-When a phase needs to mutate AO state, typed command or MCP surfaces are
+When a phase needs to mutate Animus state, typed command or MCP surfaces are
 preferred over raw shell-side file edits.
 
 Examples:
@@ -119,7 +119,7 @@ flowchart LR
   end
 
   subgraph Tools["Mutation Surfaces"]
-    AO["ao commands"]
+    Animus["animus commands"]
     TASKMCP["task MCP"]
     REQMCP["requirements MCP"]
     QUEUEMCP["queue MCP"]
@@ -136,20 +136,20 @@ flowchart LR
   DAEMON --> RUNNER
   RUNNER --> FACTS
 
-  RUNNER --> AO
+  RUNNER --> Animus
   RUNNER --> TASKMCP
   RUNNER --> REQMCP
   RUNNER --> QUEUEMCP
   RUNNER --> BASH
 
-  FACTS --> AO
+  FACTS --> Animus
   FACTS --> TASKMCP
   FACTS --> REQMCP
   FACTS --> QUEUEMCP
 
-  AO --> TASKS
-  AO --> REQS
-  AO --> QUEUE
+  Animus --> TASKS
+  Animus --> REQS
+  Animus --> QUEUE
   TASKMCP --> TASKS
   REQMCP --> REQS
   QUEUEMCP --> QUEUE
@@ -163,7 +163,7 @@ The architecture is correct when:
 - daemon and workflow execution are subject- and fact-oriented, not task-aware
 - task, requirement, and queue mutation happen through validated command or MCP
   surfaces
-- workflow phases can manage AO state using commands or MCP tools
+- workflow phases can manage Animus state using commands or MCP tools
 - advanced AI features are expressed as YAML workflows plus tool calls, not
   daemon-native Rust features
 - queue operations are expressed in terms of `SubjectDispatch`

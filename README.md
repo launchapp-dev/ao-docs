@@ -1,6 +1,6 @@
-# AO Documentation
+# Animus Documentation
 
-Official documentation for [AO Agent Orchestrator](https://github.com/launchapp-dev/ao).
+Official documentation for [Animus Agent Orchestrator](https://github.com/launchapp-dev/ao).
 
 ## Contents
 
@@ -13,7 +13,7 @@ Official documentation for [AO Agent Orchestrator](https://github.com/launchapp-
 
 ## Links
 
-- [Install AO](https://github.com/launchapp-dev/ao)
+- [Install Animus](https://github.com/launchapp-dev/ao)
 - [Skills](https://github.com/launchapp-dev/ao-skills)
 - [Fleet Tools](https://github.com/launchapp-dev/ao-fleet-tools)
 
