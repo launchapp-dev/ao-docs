@@ -576,6 +576,90 @@ Delivery records are retained for 30 days. Click any row to see the full request
 
 ---
 
+## Activity Feed
+
+The **Activity Feed** at the bottom of each project's detail page shows a reverse-chronological stream of events that affected the project — triggers fired, dispatches created, runs started and completed, daemon state changes, and deployments pushed. It provides a quick at-a-glance history without opening the full Logs or Audit Log pages.
+
+### Feed Events
+
+| Event type | Description |
+|---|---|
+| `trigger.fired` | A file-watch, webhook, or GitHub trigger matched and created a dispatch |
+| `trigger.filtered` | A trigger matched the event kind but the `filter.expr` condition was false |
+| `dispatch.queued` | A dispatch entered the run queue |
+| `run.started` | An agent run transitioned to `running` |
+| `run.completed` | An agent run finished with status `done` |
+| `run.failed` | An agent run finished with status `failed` |
+| `run.cancelled` | An agent run was cancelled manually |
+| `daemon.started` | The cloud daemon started |
+| `daemon.stopped` | The cloud daemon stopped (expected or unexpected) |
+| `deployment.pushed` | A new deployment was received via `ao cloud push` |
+
+### Feed Controls
+
+The feed defaults to the last 100 events for the active environment. Use the controls above the feed to adjust the view:
+
+| Control | Description |
+|---|---|
+| **Environment selector** | Switch between `production`, `staging`, and `preview` feeds |
+| **Event filter** | Show all events or filter to a specific event type category (`triggers`, `runs`, `daemon`, `deployments`) |
+| **Auto-refresh toggle** | When on (default), the feed polls for new events every 10 seconds and prepends them without a full page reload |
+| **Load more** | Fetches the next 100 events older than the oldest currently displayed |
+
+### Feed Entry Detail
+
+Click any feed entry to expand it. The expanded view shows:
+
+- Full event payload as formatted JSON
+- For `run.*` events: a link to the Run Detail panel
+- For `trigger.fired` events: the trigger ID and dispatch ID
+- For `deployment.pushed` events: the deployment ID and artifact count
+
+### Activity Feed API
+
+The feed is available over the REST API:
+
+```
+GET /api/v1/projects/{project}/activity
+Authorization: Bearer <api-key>
+```
+
+Query parameters:
+
+| Parameter | Description |
+|---|---|
+| `environment` | Filter to `production`, `staging`, or `preview`. Defaults to `production`. |
+| `type` | Comma-separated list of event type prefixes to include (e.g. `run,daemon`). |
+| `limit` | Number of events to return (default: `100`, max: `500`). |
+| `before` | ISO 8601 timestamp — return only events older than this time. |
+
+Example response:
+
+```json
+{
+  "events": [
+    {
+      "id": "evt_01hx...",
+      "type": "run.completed",
+      "project": "my-project",
+      "environment": "production",
+      "timestamp": "2026-04-04T09:30:00Z",
+      "data": {
+        "run_id": "run_01hy...",
+        "workflow": "pr-review",
+        "status": "done",
+        "duration_seconds": 47
+      }
+    }
+  ],
+  "next_before": "2026-04-04T09:25:00Z"
+}
+```
+
+Pass `?before=<next_before>` to paginate backwards through the feed.
+
+---
+
 ## Command Palette
 
 Press **Cmd+K** (macOS) or **Ctrl+K** (Windows / Linux) anywhere in the dashboard to open the command palette.

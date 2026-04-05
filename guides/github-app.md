@@ -132,6 +132,64 @@ Removing repositories from AO does not uninstall the GitHub App — it removes t
 
 ---
 
+## Repository Activation
+
+The GitHub App installation grants AO access to a set of repositories at the account level. The **repository activation** step is a per-project control that determines which of those accessible repositories are actively monitored within a specific AO Cloud project. A repository must be both accessible (via the installation) and activated (within a project) before triggers bound to it can fire.
+
+### Activating a Repository
+
+1. Open your project in the AO Cloud dashboard.
+2. Navigate to **Settings → Repositories**.
+3. The **Available Repositories** list shows all repositories accessible through your GitHub App installations. Repositories not yet activated show a greyed-out **Activate** toggle.
+4. Click **Activate** next to the repository you want to enable. AO registers the repository with the project and begins routing matching GitHub events to the project's trigger engine.
+
+Only one project can be the primary handler for a given repository-event combination, but the same repository can be activated in multiple projects. Events are routed to all projects where the repository is activated and a matching trigger exists.
+
+### Deactivating a Repository
+
+1. Navigate to **Settings → Repositories** within the project.
+2. Click **Deactivate** next to the activated repository.
+3. Confirm the action. AO stops routing new events from this repository to the project's trigger engine. In-progress runs are not interrupted.
+
+Deactivating does not affect other projects that have the same repository activated.
+
+### Activation Status
+
+The **Settings → Repositories** table shows:
+
+| Column | Description |
+|---|---|
+| Repository | `owner/repo` slug |
+| Installation | Which GitHub App installation provides access |
+| Status | `active` (routing events) or `inactive` (not routing events) |
+| Triggers | Number of triggers in this project bound to this repository |
+| Events (7 d) | GitHub events received and routed to this project in the last 7 days |
+| Activated at | When the repository was activated in this project |
+
+### Activating via CLI
+
+```bash
+# List repositories available for activation in the current project
+ao cloud repo list
+
+# Activate a repository
+ao cloud repo activate my-org/my-repo
+
+# Deactivate a repository
+ao cloud repo deactivate my-org/my-repo
+```
+
+The `ao cloud repo list` command shows both accessible and activated repositories:
+
+```
+REPOSITORY              INSTALLATION   STATUS    TRIGGERS   EVENTS (7D)
+my-org/my-repo          my-org         active    3          47
+my-org/other-repo       my-org         inactive  0          —
+my-org/third-repo       my-org         active    1          12
+```
+
+---
+
 ## Webhook Receiver
 
 AO Cloud runs a managed webhook receiver that GitHub posts events to. You do not need to manage a webhook URL or signing secret — the GitHub App integration handles this automatically.

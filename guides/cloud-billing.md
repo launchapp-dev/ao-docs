@@ -40,6 +40,10 @@ Upgrades use a Stripe-hosted Checkout session:
 
 Upgrades take effect immediately. The charge is prorated: unused time on the old plan is credited against the new plan charge.
 
+**Redirect behaviour:** The `success_url` and `cancel_url` passed to the Stripe Checkout session both point to `app.ao.dev/settings/billing`. If the browser tab is closed before the redirect fires, navigate directly to `app.ao.dev/settings/billing` — the dashboard polls the session status on load and will display the confirmation banner if the payment succeeded. If you see the billing page without a confirmation banner after completing payment, refresh the page once; the session poller picks up the completed status within a few seconds.
+
+If the redirect lands on an error page or a logged-out state, sign in again and navigate to **Settings → Billing**. The plan upgrade is recorded server-side when the Stripe payment succeeds, regardless of whether the redirect completes. If your plan does not reflect the upgrade within 5 minutes, contact support with the Stripe session ID visible in the browser's URL during the Stripe Checkout flow.
+
 ### Downgrading
 
 Downgrades do not go through Stripe Checkout. Select the lower plan in the in-app selector and confirm in the modal. The downgrade takes effect at the start of the next billing cycle; your current plan remains active at full capacity until then.

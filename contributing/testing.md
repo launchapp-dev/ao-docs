@@ -91,6 +91,55 @@ The `InMemoryServiceHub` stores all state in memory, implementing the same `Serv
 - Tests run in parallel without interference
 - Fast execution (no I/O overhead)
 
+## E2E Test Improvements
+
+The E2E test suite was significantly expanded and stabilised across v39–v45 to cover cloud-integration paths that previously required manual verification.
+
+### Cloud Trigger E2E Tests
+
+`crates/orchestrator-cli/tests/cloud_trigger_e2e.rs` covers the full GitHub webhook → trigger engine → dispatch pipeline against a local stub server that mimics the GitHub App webhook receiver:
+
+```rust
+// Example: verifies that a pull_request.opened event fires the configured trigger
+#[tokio::test]
+async fn github_trigger_fires_on_pr_opened() {
+    let harness = CloudHarness::new()?;
+    harness.send_github_event("pull_request", "opened", fixture!("pr_opened.json")).await?;
+    let dispatches = harness.wait_for_dispatches(1).await?;
+    assert_eq!(dispatches[0].workflow_ref, "ao.task/standard");
+}
+```
+
+The `CloudHarness` fixture (in `tests/support/cloud_harness.rs`) starts a local HTTP stub that validates HMAC signatures and injects events into the trigger engine without requiring a real GitHub App installation.
+
+### Filter Expression Tests
+
+`crates/orchestrator-cli/tests/trigger_filter_e2e.rs` exercises the `filter.expr` conditional evaluation added in v40. Tests cover all supported operators and edge cases including missing payload keys, nested dot-path access, and boolean short-circuit evaluation.
+
+### Check Run E2E Tests
+
+`crates/orchestrator-cli/tests/github_checks_e2e.rs` verifies that the check run lifecycle — `in_progress` on dispatch start, per-phase updates, and `completed` on workflow finish — produces the correct sequence of API calls to the GitHub Checks stub.
+
+### Isolation Improvements
+
+The harness now creates a fresh temporary directory for every test case, even within the same test file. Previously, some tests shared a project directory and could interfere with each other if run with `--test-threads > 1`. The `CliHarness::new()` and `CloudHarness::new()` constructors both guarantee isolation.
+
+### Retry Logic in Assertions
+
+`wait_for_dispatches` and similar assertion helpers use an exponential-backoff polling loop instead of a fixed `sleep`. This eliminates flaky failures on slow CI runners while keeping the fast path fast on developer machines.
+
+### Running Cloud E2E Tests
+
+Cloud E2E tests are gated behind the `cloud-e2e` feature flag because they require the stub server binary to be compiled:
+
+```bash
+cargo test --features cloud-e2e -p orchestrator-cli -- cloud
+```
+
+On CI, `web-ui-ci.yml` runs these tests against a deployed preview environment using the `AO_CLOUD_E2E_BASE_URL` environment variable.
+
+---
+
 ## CI Workflows
 
 The project uses several GitHub Actions workflows:
