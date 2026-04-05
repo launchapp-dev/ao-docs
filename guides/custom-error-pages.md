@@ -43,6 +43,8 @@ Served when a request path does not match any known route.
 | Project or deployment ID not found in the API | `/projects/proj_does_not_exist` |
 | Direct navigation to a deep link that no longer exists | A bookmark to a deleted deployment |
 
+> **Note (v60 bugfix):** Prior to v60, unauthenticated users navigating directly to a protected route (e.g. bookmarked deep links, shared URLs) were incorrectly served the 404 error page. This happened because the authentication guard ran after the route resolver attempted to load the resource, which returned a 404 before the redirect could fire. Starting in v60 the authentication check runs first in the route guard chain. Unauthenticated users are now redirected to `/login?redirect=<original-path>` and land on the correct page after signing in.
+
 ### SPA routing vs. server 404
 
 The dashboard is a React single-page application served from a single `index.html`. The web server is configured to fall back to `index.html` for all unmatched paths so the React router can handle client-side navigation. A true 404 (HTTP status `404`) is only returned when:

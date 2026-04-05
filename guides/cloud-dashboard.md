@@ -298,6 +298,7 @@ The **Live** tab lists every agent run with status `starting` or `running`. The 
 Click a run ID to open the Run Detail panel:
 
 - **Phase timeline** — sequential list of phases with status icons (`pending`, `running`, `done`, `failed`)
+- **Run timeline** — Gantt-style timing chart showing phase durations and overlap (see [Workflow Run Timeline](#workflow-run-timeline))
 - **Live output** — streaming text output from the current phase (powered by SSE; see [SSE Workflow Streaming](#sse-workflow-streaming))
 - **Artifacts** — files created or modified by the run, once the run completes
 - **Token usage** — per-phase breakdown of input and output tokens
@@ -305,6 +306,55 @@ Click a run ID to open the Run Detail panel:
 ### History
 
 The **History** tab shows completed runs. Filter by project, workflow, date range, or status. Completed run detail panels include the full phase timeline and all artifacts.
+
+---
+
+## Workflow Run Timeline
+
+The **Run Timeline** tab inside any Run Detail panel shows a Gantt-style chart of phase execution. Each phase is rendered as a horizontal bar spanning its wall-clock start and end times. The timeline was introduced in v58.
+
+### Reading the Timeline
+
+| Visual element | Meaning |
+|---|---|
+| Horizontal bar | A single phase; bar width represents elapsed duration |
+| Bar colour | Phase status: blue (running), green (done), red (failed), yellow (cancelled) |
+| Grey region | Time between the run starting and the first phase beginning (queue wait) |
+| Overlapping bars | Phases executing in parallel |
+| Tick marks | Elapsed time from run start in seconds |
+
+Hover over any bar to see a tooltip with:
+
+- Phase name
+- Absolute start and end timestamps (UTC)
+- Wall-clock duration
+- Token usage (input / output)
+
+### Zooming and Panning
+
+- **Scroll** horizontally to pan through the timeline.
+- **Pinch** (trackpad) or use the **+** / **−** buttons to zoom in or out.
+- Click **Fit** to reset the viewport so the entire run fits on screen.
+
+For very long runs (more than 60 minutes), the timeline defaults to a compressed view where each tick represents 1 minute. Zoom in to see second-level granularity.
+
+### Live Mode
+
+When the run is still active, the timeline updates every 3 seconds:
+
+- Running phases extend their bars in real time.
+- New phases appear as they start.
+- A **Now** marker (a vertical red line) tracks the current wall-clock time.
+
+The timeline stops auto-updating once the run reaches a terminal state (`done`, `failed`, or `cancelled`).
+
+### Critical Path
+
+Click **Show critical path** in the toolbar to overlay the longest dependency chain through the phase graph. The critical path bars are outlined in orange. Phases not on the critical path are dimmed. Use this view to identify which phases are the bottleneck for total run duration.
+
+### Exporting
+
+Click **Export PNG** to download the current timeline view as a rasterised image at 2× device pixel ratio. The export captures the full run span (not just the visible viewport).
 
 ---
 
@@ -809,5 +859,6 @@ Error details are also sent to the cloud error-tracking service with the authent
 
 - [Cloud Deployment](cloud-deployment.md) — CLI-driven deployment workflow
 - [Cloud Billing](cloud-billing.md) — subscription plans, usage, and invoices
+- [Workflow DAG Visualization](workflow-dag.md) — interactive phase graph for workflow structure and live execution state
 - [ao cloud — CLI Reference](../reference/cli/cloud.md) — full CLI flag reference
 - [Privacy & Data Policy](privacy.md) — what the dashboard stores and transmits

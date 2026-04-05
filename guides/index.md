@@ -25,6 +25,7 @@ Practical walkthroughs for day-to-day AO operations.
 - **[Fleet Management](fleet-management.md)** -- Getting started with `ao fleet`: registering nodes, sizing pools, running parallel agents, scheduling, and observability across a distributed fleet.
 - **[Cloud Deployment](cloud-deployment.md)** -- Logging in, pushing project configuration, and managing the cloud-hosted daemon with `ao cloud`.
 - **[Cloud Dashboard](cloud-dashboard.md)** -- Navigating the React web app at app.ao.dev: projects, agent monitoring, dark mode, webhook delivery, template gallery, and team access.
+- **[Workflow DAG Visualization](workflow-dag.md)** -- Interactive phase graph in the dashboard: reading node and edge types, live execution overlay, critical-path highlighting, and export options.
 - **[Cloud Daemon Management](cloud-daemon-management.md)** -- Starting, stopping, restarting, and sizing cloud daemon instances from the dashboard: auto-restart policies, drain mode, queue visibility, and the daemon health timeline.
 - **[Cloud Billing](cloud-billing.md)** -- Subscription plans, usage metering, per-project cost breakdown, Stripe payment methods, and invoices.
 - **[AO Cloud Beta Signup](cloud-beta-signup.md)** -- Joining the beta, onboarding wizard walkthrough, included features, and limitations.

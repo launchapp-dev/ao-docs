@@ -2,7 +2,7 @@
 
 AO Cloud can create and update GitHub Check Runs for every workflow dispatch that originates from a GitHub event. This gives your team live pass/fail feedback directly on pull requests and commits — without writing any custom reporting code.
 
-This guide covers the GitHub Checks integration shipped in v41: the check run lifecycle, dashboard visibility, configuration, and the `github.checks` MCP tool surface.
+This guide covers the GitHub Checks integration: the check run lifecycle, dashboard visibility, configuration, and the `github.checks` MCP tool surface. The initial integration shipped in v41; v59 added column-level annotation precision, suggestion blocks, batch annotations, and the in-dashboard Annotations panel.
 
 ---
 
@@ -75,6 +75,7 @@ For fine-grained control — custom names, annotations, per-step conclusions —
 | `github.checks.create` | Create a new check run in `in_progress` state |
 | `github.checks.update` | Update status, conclusion, output title, summary, or text |
 | `github.checks.annotate` | Add file-level annotations (errors, warnings, notices) |
+| `github.checks.annotate_batch` | Add up to 50 annotations in a single API call (added in v59) |
 | `github.checks.complete` | Set the final conclusion and close the check run |
 
 ### Example: Phase-Level Check Run
@@ -89,6 +90,7 @@ phases:
       - github.checks.create
       - github.checks.update
       - github.checks.annotate
+      - github.checks.annotate_batch
       - github.checks.complete
     vars:
       repo: "{{ vars.pr_repo }}"
@@ -96,7 +98,7 @@ phases:
       check_name: "AO / lint"
 ```
 
-The agent uses `github.checks.create` at the start of the phase with the name and SHA, then calls `github.checks.annotate` for each issue found, and finally `github.checks.complete` with `success` or `failure`.
+The agent uses `github.checks.create` at the start of the phase with the name and SHA, then calls `github.checks.annotate` (or `github.checks.annotate_batch` for bulk results) for each issue found, and finally `github.checks.complete` with `success` or `failure`.
 
 ### Annotation Fields
 
@@ -105,20 +107,61 @@ The agent uses `github.checks.create` at the start of the phase with the name an
 | `path` | string | yes | File path relative to repository root |
 | `start_line` | integer | yes | First line of the annotated range |
 | `end_line` | integer | no | Last line (defaults to `start_line`) |
+| `start_column` | integer | no | Column offset of the annotation start within `start_line` |
+| `end_column` | integer | no | Column offset of the annotation end within `end_line` |
 | `annotation_level` | string | yes | `notice`, `warning`, or `failure` |
 | `message` | string | yes | Annotation message text |
 | `title` | string | no | Short label for the annotation |
 | `raw_details` | string | no | Full context (shown in an expandable section) |
+| `suggestion` | string | no | Suggested replacement text, rendered as a GitHub suggestion block (v59) |
+
+Column-level precision (`start_column`, `end_column`) and `suggestion` were added in v59. Column fields are optional; omit them to annotate the entire line.
+
+### Batch Annotations
+
+`github.checks.annotate_batch` accepts an `annotations` array of up to 50 annotation objects in a single call. Use it when your phase produces many findings at once to minimise tool round-trips:
+
+```json
+{
+  "check_run_id": "cr_01hx...",
+  "annotations": [
+    {
+      "path": "src/auth.ts",
+      "start_line": 42,
+      "end_line": 42,
+      "annotation_level": "failure",
+      "message": "Unused variable 'token'",
+      "title": "no-unused-vars"
+    },
+    {
+      "path": "src/auth.ts",
+      "start_line": 87,
+      "start_column": 5,
+      "end_column": 18,
+      "annotation_level": "warning",
+      "message": "Prefer const over let here",
+      "title": "prefer-const",
+      "suggestion": "const credentials"
+    }
+  ]
+}
+```
+
+GitHub enforces a hard limit of 50 annotations per check run. AO enforces this limit at the tool call level; calls that exceed 50 total annotations return an error.
 
 ### Example: Annotating Lint Issues
 
 ```yaml
 # Agent instructions excerpt
-After running the linter, call github.checks.annotate for each violation:
+After running the linter, collect all violations into a list.
+If there are 50 or fewer violations, call github.checks.annotate_batch with
+the full list in a single call.
+For each violation include:
 - path: the file that contains the violation
 - start_line: the line number
 - annotation_level: "failure" for errors, "warning" for style issues
 - message: the linter message
+- suggestion: the suggested fix, if the linter provides one
 Then call github.checks.complete with conclusion "failure" if any failures exist,
 "success" otherwise.
 ```
@@ -143,6 +186,28 @@ Navigate to **Settings → Integrations → GitHub → [installation] → Check 
 | Created | Timestamp |
 
 Use the filter bar to narrow by repository, status, or conclusion. Click any row to see the full check run output and a link to the corresponding AO run detail.
+
+### Annotations Panel
+
+Introduced in v59, each check run detail view includes an **Annotations** panel that surfaces all file-level annotations posted by AO in a sortable table — without leaving the AO dashboard.
+
+| Column | Description |
+|---|---|
+| File | Repository-relative file path |
+| Line | Start line (and end line if different) |
+| Level | `notice`, `warning`, or `failure` |
+| Title | Short annotation label |
+| Message | Full annotation message text |
+
+Click any row to expand the `raw_details` field and, if present, the `suggestion` block.
+
+Use the **Level** filter above the table to show only failures, or only warnings. The panel also shows the total annotation counts by level:
+
+```
+3 failures  ·  7 warnings  ·  2 notices
+```
+
+The counts match what GitHub displays on the PR checks tab. If any annotation contains a `suggestion`, a **Suggestions** badge appears next to the counts; click it to filter the table to annotated lines with suggestions.
 
 ### Check Run Status Badges
 
