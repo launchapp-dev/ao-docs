@@ -35,7 +35,8 @@ Practical walkthroughs for day-to-day AO operations.
 
 ## Integrations
 
-- **[GitHub App Integration](github-app.md)** -- Connecting GitHub repositories to AO Cloud: installation flow, repository selector (with search and language/topic filters), managed webhook receiver, and posting check runs back to GitHub.
+- **[GitHub App Registration and Setup](github-app-setup.md)** -- Step-by-step guide to installing the Animus GitHub App, configuring org/repo permissions, completing the Animus Cloud connection, and writing your first trigger.
+- **[GitHub App Integration](github-app.md)** -- Full reference: repository selector filters, delivery log, payload interpolation, managed webhook receiver, and posting check runs back to GitHub.
 - **[GitHub Checks](github-checks.md)** -- Creating and updating GitHub Check Runs from AO workflows: automatic check runs, manual tool control, annotations, re-run support, and the dashboard check runs panel.
 
 ## MCP & Agent Integration
