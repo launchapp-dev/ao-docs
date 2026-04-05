@@ -100,11 +100,35 @@ After installation, the **Settings → Integrations → GitHub → [installation
 |---|---|
 | Repository | `owner/repo` slug; click to open on GitHub |
 | Visibility | `public` or `private` |
+| Language | Primary language detected by GitHub |
+| Topics | Up to three GitHub topic tags |
 | Added | When the repository was added to the installation |
 | Events | Count of webhook events received in the last 7 days |
 | Triggers | Count of `.ao/triggers.yaml` webhook triggers bound to this repository |
 
-Use the search box to filter by repository name.
+### Searching and Filtering Repositories
+
+The repository list includes a search and filter bar (added in v39):
+
+- **Search box** — type any fragment of a repository name for instant filtering. Matches on the `owner/repo` slug, not the display name.
+- **Language filter** — select one or more programming languages to show only repositories with that primary language.
+- **Topic filter** — enter a GitHub topic tag (e.g. `microservice`, `frontend`) to filter by topic. Repositories with no topics are shown when the filter is empty.
+- **Visibility toggle** — show `public`, `private`, or all repositories.
+- **Sort** — order by `Name`, `Added`, or `Events (last 7 days)` in ascending or descending order.
+
+Filters are combined with AND logic. The active filter state is preserved in the URL so you can bookmark a filtered view or share it with a teammate.
+
+### Bulk Repository Management
+
+Select multiple repositories using the checkboxes on the left of each row. With one or more repositories selected, a context toolbar appears with:
+
+| Action | Description |
+|---|---|
+| **Remove from installation** | Removes the selected repositories from this installation; AO stops receiving events from them |
+| **View triggers** | Opens a combined trigger list scoped to the selected repositories |
+| **Export** | Downloads the selected repository list as CSV |
+
+Removing repositories from AO does not uninstall the GitHub App — it removes them from the installation's repository access list only. Re-add them at any time via **Configure on GitHub**.
 
 ---
 

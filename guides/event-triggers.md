@@ -233,6 +233,99 @@ A GitHub Actions workflow can call the daemon webhook at the end of a CI run:
 
 ---
 
+## Trigger Engine
+
+The trigger engine is the subsystem responsible for evaluating `.ao/triggers.yaml` and deciding whether an incoming event should produce a dispatch. In v40, the engine gained conditional filters, priority routing, dead-letter handling, and per-trigger statistics.
+
+### Conditional Filters
+
+Add a `filter` block to any trigger to gate dispatch on the event content:
+
+```yaml
+triggers:
+  - id: on-main-pr
+    kind: github
+    github:
+      installation: my-org
+      repository: my-org/my-repo
+      events:
+        - pull_request.opened
+        - pull_request.synchronize
+    filter:
+      # Only dispatch if the PR is not a draft
+      expr: "!payload.pull_request.draft"
+    dispatch:
+      workflow_ref: ao.task/standard
+      subject:
+        kind: ao.task
+        id: "pr-{{ payload.pull_request.number }}"
+        title: "Review PR #{{ payload.pull_request.number }}"
+```
+
+The `filter.expr` field accepts a boolean expression using the same `{{ payload.* }}` namespace available in `dispatch` fields. Expressions are evaluated by the trigger engine before dispatch creation; events that do not satisfy the filter are counted as `filtered` in the trigger statistics but do not create a dispatch.
+
+**Filter expression operators:**
+
+| Operator | Example | Description |
+|---|---|---|
+| `!value` | `!payload.pull_request.draft` | Boolean negation |
+| `a == b` | `payload.action == "opened"` | Equality |
+| `a != b` | `payload.action != "closed"` | Inequality |
+| `a && b` | `!draft && label == "ready"` | Logical AND |
+| `a \|\| b` | `action == "opened" \|\| action == "reopened"` | Logical OR |
+| `contains(a, b)` | `contains(payload.ref, "release")` | String containment |
+| `startsWith(a, b)` | `startsWith(payload.ref, "refs/heads/main")` | String prefix |
+
+Missing fields evaluate to `false` (not an error). Nest parentheses for complex expressions.
+
+### Priority Routing
+
+Set a `dispatch.priority` on any trigger to influence queue ordering:
+
+```yaml
+dispatch:
+  workflow_ref: ao.task/standard
+  subject:
+    kind: ao.task
+    id: "hotfix-{{ payload.issue.number }}"
+    title: "Hotfix: {{ payload.issue.title }}"
+  priority: high
+```
+
+| Priority | Description |
+|---|---|
+| `high` | Picked up before `normal` and `low` items |
+| `normal` | Default; items are ordered by creation time within this band |
+| `low` | Picked up only when no `high` or `normal` items are waiting |
+
+Priority is advisory — the daemon processes one dispatch at a time per concurrency slot, so a `high` item does not interrupt an already-running `normal` run.
+
+### Dead-Letter Queue
+
+When a dispatch cannot be started after three consecutive attempts (for example, because the daemon restarted during startup), it moves to the dead-letter queue rather than being retried indefinitely.
+
+View dead-letter items:
+
+```bash
+ao trigger dlq list
+```
+
+Re-queue a specific item:
+
+```bash
+ao trigger dlq requeue <dispatch_id>
+```
+
+Discard a dead-letter item:
+
+```bash
+ao trigger dlq discard <dispatch_id>
+```
+
+In the AO Cloud dashboard, dead-letter items appear in the **Daemon → Queue** sub-tab under a **Dead Letter** section. Clicking a dead-letter item shows the original event payload and the error that prevented startup.
+
+---
+
 ## Managing Triggers
 
 ### Listing Active Triggers
@@ -241,8 +334,7 @@ A GitHub Actions workflow can call the daemon webhook at the end of a CI run:
 ao trigger list
 ```
 
-Shows all configured triggers, their kind, and current status (watching, paused,
-or error).
+Shows all configured triggers, their kind, current status (watching, paused, or error), and event counts since last reload.
 
 ### Pausing and Resuming
 
@@ -264,6 +356,31 @@ ao daemon reload
 The daemon re-reads the trigger config and applies changes: new triggers start
 watching or listening, removed triggers are stopped, modified triggers are
 restarted.
+
+### Trigger Statistics
+
+View per-trigger counters since the last daemon restart:
+
+```bash
+ao trigger stats
+```
+
+Output:
+
+```
+ID                KIND        STATUS   FIRED   FILTERED   ERRORS   LAST FIRED
+on-spec-change    file-watch  active   14      0          0        2m ago
+on-ci-pass        webhook     active   7       1          0        18m ago
+on-pr-opened      github      paused   0       0          0        —
+```
+
+| Column | Description |
+|---|---|
+| `FIRED` | Dispatches created by this trigger |
+| `FILTERED` | Events that matched the trigger kind but failed the `filter.expr` check |
+| `ERRORS` | Events that produced an internal error during evaluation |
+
+Counters reset on `ao daemon reload`. Pass `--json` for machine-readable output.
 
 ---
 

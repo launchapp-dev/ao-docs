@@ -72,6 +72,38 @@ Each card in the gallery shows:
 
 Deployed templates behave identically to workflows you push manually with the CLI. The source template is noted in the workflow metadata (`template_id` field) but does not create a dependency — you can edit the YAML freely after deployment.
 
+### Featured Templates
+
+The gallery highlights a rotating **Featured** row at the top of the main grid. Featured templates are curated by the AO team based on community star counts and recent additions. They rotate weekly.
+
+### Template Versions
+
+Each template has a version history. The gallery shows the latest stable version by default. To deploy an older version:
+
+1. Click **Preview** on any template card.
+2. Click the version selector in the preview modal header.
+3. Choose the version you want.
+4. Click **Deploy this version**.
+
+Deployed templates record the `template_id` and `template_version` in the workflow metadata. When a newer template version is published, the dashboard shows a **Template update available** banner on the affected workflow's detail page. Upgrading is opt-in — existing deployments continue running the version they were deployed with.
+
+### Importing Templates
+
+Import a template directly from a GitHub URL or a local YAML file:
+
+**From GitHub:**
+1. Navigate to **Settings → Templates → Import**.
+2. Paste the raw GitHub URL to a workflow YAML file (e.g. `https://raw.githubusercontent.com/org/repo/main/.ao/workflows/example.yaml`).
+3. Click **Import**. AO fetches the file, validates the YAML, and adds it to your organisation's Custom templates.
+
+**From file:**
+1. Navigate to **Settings → Templates → Import**.
+2. Click **Upload file** and select a `.yaml` file.
+3. Fill in the name and description fields (pre-populated from the YAML `name` field if present).
+4. Click **Save**.
+
+Imported templates appear in the **Custom** category and are private to your organisation.
+
 ### Publishing Custom Templates
 
 Organisation templates are available only to members of your organisation. To publish a custom template:
