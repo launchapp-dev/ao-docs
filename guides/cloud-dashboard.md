@@ -311,7 +311,7 @@ The **History** tab shows completed runs. Filter by project, workflow, date rang
 
 ## Workflow Run Timeline
 
-The **Run Timeline** tab inside any Run Detail panel shows a Gantt-style chart of phase execution. Each phase is rendered as a horizontal bar spanning its wall-clock start and end times. The timeline was introduced in v58.
+The **Run Timeline** tab inside any Run Detail panel shows a Gantt-style chart of phase execution. Each phase is rendered as a horizontal bar spanning its wall-clock start and end times. The timeline was introduced in v58. A scrollbar fix for iOS Safari shipped in v63 (see [Mobile Layout](#mobile-layout)).
 
 ### Reading the Timeline
 
@@ -520,14 +520,27 @@ Long-lived API keys for CLI authentication, CI/CD pipelines, and direct REST API
 
 ## Rate Limiting
 
-The cloud REST API enforces rate limits per API key:
+The cloud REST API enforces rate limits at two levels: by authentication tier and, within authenticated requests, by subscription plan. Limits were tuned in v61.
 
-| Plan | Requests / minute | Burst |
+### Endpoint tiers
+
+| Tier | Applies to | Requests / minute |
 |---|---|---|
-| Starter | 30 | 10 |
-| Pro | 120 | 30 |
-| Team | 600 | 60 |
-| Enterprise | Custom | Custom |
+| **Authenticated** | Requests with a valid `Authorization: Bearer <api-key>` header | 600 |
+| **Public / unauthenticated** | Requests with no `Authorization` header (e.g. status page embeds, public webhook delivery checks) | 100 |
+
+### Per-plan limits (authenticated tier)
+
+The 600 req/min authenticated ceiling is shared across all plans. Within that ceiling, per-plan limits govern burst allocation:
+
+| Plan | Burst | Notes |
+|---|---|---|
+| Starter | 30 | Sustained average must stay below the 600 req/min ceiling |
+| Pro | 60 | — |
+| Team | 200 | — |
+| Enterprise | Custom | Contact support to configure |
+
+In practice the per-plan burst limits constrain short-duration spikes. Long-running clients that stay within their plan burst and below 600 req/min are not throttled.
 
 Exceeded limits return `429 Too Many Requests` with a `Retry-After` header indicating when the next request window opens. The response body includes:
 
@@ -535,11 +548,13 @@ Exceeded limits return `429 Too Many Requests` with a `Retry-After` header indic
 {
   "error": "rate_limit_exceeded",
   "retry_after": 12,
-  "limit": 120,
+  "limit": 600,
   "remaining": 0,
   "reset_at": "2026-04-03T10:16:00Z"
 }
 ```
+
+The `limit` field reflects the tier that was exceeded (`600` for the authenticated ceiling, `100` for the public tier).
 
 SSE stream connections (`/api/v1/runs/{run_id}/stream`) count as one request against the rate limit at connection time and do not accrue additional charges while the stream is held open.
 
@@ -764,6 +779,18 @@ At the mobile breakpoint:
 - Project cards replace the projects table. Each card shows the project name, daemon status badge, and quick-action buttons.
 - Run Detail panels open as full-screen bottom sheets instead of side panels.
 - The command palette opens via the search icon in the top nav bar.
+
+### v61–v68 responsive fixes
+
+Several layout regressions introduced in earlier releases were resolved in the v61–v68 window:
+
+| Fix | Affected area | Version |
+|---|---|---|
+| Workflow DAG canvas overflow on narrow viewports — the ReactFlow canvas now correctly clips to its container instead of bleeding outside the card boundary | DAG tab (mobile) | v62 |
+| Run Timeline horizontal scrollbar missing on iOS Safari — scroll momentum and the native scrollbar are now enabled via `-webkit-overflow-scrolling: touch` | Run Timeline tab (mobile) | v63 |
+| Notification panel overlapping the top nav bar on viewports narrower than 375 px — the panel now anchors below the nav and scrolls independently | Notification panel (mobile) | v64 |
+| Annotation table in Check Runs panel clipping the file-path column — the column now wraps instead of overflowing its cell | Check Runs Annotations panel (tablet + mobile) | v65 |
+| Long project slugs breaking the projects card layout — project names and slugs are now truncated with an ellipsis and a full-text tooltip | Projects card grid (mobile) | v66 |
 
 ---
 

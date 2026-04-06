@@ -2,7 +2,7 @@
 
 The **DAG** (Directed Acyclic Graph) tab on the Workflow Detail page renders your workflow's phase graph as an interactive diagram. It gives an at-a-glance view of phase ordering, dependencies, and execution state — useful for debugging complex multi-phase workflows and for onboarding teammates to an unfamiliar workflow structure.
 
-This feature was introduced in v57.
+This feature was introduced in v57. The graph renderer is built on [ReactFlow](https://reactflow.dev); v62 upgraded to ReactFlow v12 and resolved a canvas overflow issue on mobile viewports.
 
 ---
 

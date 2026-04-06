@@ -2,7 +2,7 @@
 
 Animus Cloud can create and update GitHub Check Runs for every workflow dispatch that originates from a GitHub event. This gives your team live pass/fail feedback directly on pull requests and commits — without writing any custom reporting code.
 
-This guide covers the GitHub Checks integration: the check run lifecycle, dashboard visibility, configuration, and the `github.checks` MCP tool surface. The initial integration shipped in v41; v59 added column-level annotation precision, suggestion blocks, batch annotations, and the in-dashboard Annotations panel.
+This guide covers the GitHub Checks integration: the check run lifecycle, dashboard visibility, configuration, and the `github.checks` MCP tool surface. The initial integration shipped in v41; v59 added column-level annotation precision, suggestion blocks, batch annotations, and the in-dashboard Annotations panel. v62 introduced automatic per-phase progress updates that push each phase's name and token count to the active check run as the workflow executes.
 
 ---
 
@@ -61,6 +61,54 @@ phases:
   - name: cleanup
     agent: operator
 ```
+
+---
+
+## Phase Progress Push (v62+)
+
+Starting in v62, Animus automatically updates the check run's `output.summary` after each phase completes — not just at the start of the run or the final conclusion. This gives reviewers a real-time progress view directly in the GitHub Checks tab without leaving GitHub.
+
+### What gets pushed per phase
+
+After each phase reaches a terminal state (`done` or `failed`), Animus appends a summary row to the check run output:
+
+```
+✅ lint          12 s   1 204 in / 347 out tokens
+✅ type-check    8 s    892 in / 201 out tokens
+⏳ test          running…
+```
+
+Status icons:
+
+| Icon | Phase status |
+|---|---|
+| ✅ | `done` |
+| ❌ | `failed` |
+| ⏳ | `running` (current phase only) |
+| ⬜ | `pending` (not yet started) |
+
+### Disabling phase progress push
+
+Phase progress updates count toward the GitHub Checks API write rate limit. In high-throughput environments with many concurrent runs you may want to disable them:
+
+```yaml
+# .ao/workflows/my-workflow.yaml
+name: my-workflow
+github_checks:
+  phase_progress: false
+```
+
+Or disable globally for a project:
+
+```bash
+animus cloud project config --set github_checks.phase_progress=false
+```
+
+When `phase_progress` is `false`, the check run summary is only updated once at run completion with the final phase table.
+
+### Interaction with manual check run tools
+
+If you use `github.checks.update` manually inside a phase, Animus will not overwrite your update with the automatic progress row. The automatic push resumes on the *next* phase start. Use this to mix custom phase-specific output (e.g. a linter summary) with the automatic progress table.
 
 ---
 
