@@ -1,6 +1,6 @@
 # CLI Command Surface
 
-Complete reference of every `ao` command, subcommand, and key flag. This tree is the authoritative map of the CLI surface area. For global flags that apply to all commands, see [Global Flags](global-flags.md). For exit code semantics, see [Exit Codes](exit-codes.md).
+Complete reference of every `animus` command, subcommand, and key flag. This tree is the authoritative map of the CLI surface area. As of v0.3.0 the binary is named `animus`; the previous name `ao` is kept as an alias. For global flags that apply to all commands, see [Global Flags](global-flags.md). For exit code semantics, see [Exit Codes](exit-codes.md).
 
 ## Global Flags
 
@@ -331,11 +331,13 @@ animus
 │       └── watch            Watch metrics continuously
 │
 ├── cloud                    Cloud deployment and daemon management
-│   ├── login                Authenticate with Animus cloud
-│   ├── push                 Push project to Animus cloud
+│   ├── login                Authenticate with Animus cloud (device, browser, or token)
+│   ├── link                 Link project to Animus cloud (auto-detects git remote)
+│   ├── push                 Push project metadata to Animus cloud
+│   ├── deploy               Push and start in one step
 │   ├── start                Start the cloud-hosted daemon
 │   ├── stop                 Stop the cloud-hosted daemon
-│   ├── status               Show cloud deployment status
+│   ├── status               Show cloud deployment and daemon status
 │   └── logs                 Stream or read cloud daemon logs
 │
 ├── mcp                      MCP server
@@ -351,7 +353,7 @@ animus
 | Metric | Count |
 |---|---|
 | Top-level commands | 29 |
-| Total subcommands (all levels) | ~190+ |
+| Total subcommands (all levels) | ~195+ |
 | `animus fleet` subcommands | 51 |
 | Commands with `--confirmation` pattern | 11 |
 | Commands with `--input-json` | 15+ |

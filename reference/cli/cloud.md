@@ -11,10 +11,12 @@ For global flags (`--json`, `--project-root`) see [Global Flags](global-flags.md
 ```
 animus cloud
 ├── login                     Authenticate with Animus cloud
-├── push                      Push project to Animus cloud
+├── link                      Link project to Animus cloud
+├── push                      Push project metadata to Animus cloud
+├── deploy                    Push and start in one step
 ├── start                     Start the cloud-hosted daemon
 ├── stop                      Stop the cloud-hosted daemon
-├── status                    Show cloud deployment status
+├── status                    Show cloud deployment and daemon status
 └── logs                      Stream or read cloud daemon logs
 ```
 
@@ -24,11 +26,26 @@ animus cloud
 
 ### `animus cloud login`
 
-Authenticate with the Animus cloud service. Opens a browser-based OAuth flow by default; use `--token` to supply a personal access token directly (suitable for CI environments).
+Authenticate with the Animus cloud service. Three authentication modes are supported:
+
+| Mode | When to use |
+|---|---|
+| **Device flow** (default) | Headless or remote machines — no browser required on the device running Animus |
+| **Browser flow** | Interactive workstations with a local browser |
+| **Token** | CI/CD pipelines and service accounts |
+
+**Device flow** (default): Animus prints a short URL and a one-time code. Open the URL on any device, enter the code, and approve the request. The CLI polls until the code is confirmed or expires (15 minutes).
 
 ```bash
+# Device auth flow (default)
 animus cloud login
+
+# Browser-based OAuth — opens the system browser directly
+animus cloud login --browser
+
+# Personal access token — skips interactive flow entirely
 animus cloud login --token <TOKEN>
+
 animus cloud login --json
 ```
 
@@ -36,7 +53,8 @@ animus cloud login --json
 
 | Flag | Description |
 |---|---|
-| `--token <TOKEN>` | Personal access token — skips browser flow |
+| `--browser` | Open system browser directly instead of printing a device code |
+| `--token <TOKEN>` | Personal access token — skips interactive flow (suitable for CI) |
 | `--org <ORG>` | Target organisation slug (required if account belongs to multiple orgs) |
 
 **Output fields:**
@@ -58,6 +76,51 @@ animus cloud login --json
 ```
 
 > Credentials are stored in `~/.ao/cloud/credentials.json`. Re-run `animus cloud login` to refresh an expired session.
+
+---
+
+### `animus cloud link`
+
+Link the current project to an Animus cloud project. By default, Animus inspects the git remote (`origin`) and matches it against projects registered in the authenticated organisation. If a match is found the link is created automatically; if the remote is ambiguous or absent you are prompted to select a project.
+
+```bash
+# Auto-detect from git remote
+animus cloud link
+
+# Explicitly specify a cloud project slug
+animus cloud link --project <SLUG>
+
+animus cloud link --json
+```
+
+**Flags:**
+
+| Flag | Description |
+|---|---|
+| `--project <SLUG>` | Cloud project slug — bypasses auto-detection |
+| `--org <ORG>` | Organisation slug (required if account belongs to multiple orgs) |
+| `--force` | Overwrite an existing link without confirmation |
+
+**Auto-detection logic:**
+
+1. Read the `origin` remote URL from `.git/config`.
+2. Normalise to a canonical `owner/repo` identifier (supports GitHub HTTPS and SSH remotes).
+3. Query the cloud API for a project whose registered repository matches that identifier.
+4. If exactly one match is found, link it. If zero or multiple matches are found, prompt for selection.
+
+The link is written to `.ao/config.json` under the `cloud` key:
+
+```json
+{
+  "cloud": {
+    "org": "acme",
+    "project": "my-project",
+    "linked_at": "2026-04-06T10:00:00Z"
+  }
+}
+```
+
+> Run `animus cloud link` once per project checkout. All subsequent `push`, `deploy`, and `status` commands read the stored link automatically.
 
 ---
 
@@ -96,6 +159,51 @@ animus cloud push --json
   "env": "production",
   "pushed_at": "2026-04-01T10:00:00Z",
   "artifacts": 12,
+  "url": "https://app.ao.dev/acme/my-project/deployments/dep_01HXYZ"
+}
+```
+
+---
+
+### `animus cloud deploy`
+
+Convenience command that runs `animus cloud push` followed by `animus cloud start` in a single step. Use this for the common case of shipping a project update and immediately starting the cloud daemon.
+
+```bash
+animus cloud deploy
+animus cloud deploy --env staging
+animus cloud deploy --wait
+animus cloud deploy --dry-run
+animus cloud deploy --json
+```
+
+**Flags:**
+
+| Flag | Description |
+|---|---|
+| `--env <ENV>` | Target environment (`production`, `staging`, `preview`). Default: `production` |
+| `--wait` | Block until the daemon reports `running` status after the push (polls every 2 s, 60 s timeout) |
+| `--dry-run` | Validate and package without uploading or starting the daemon |
+| `--force` | Skip confirmation when overwriting an existing deployment |
+
+**Output fields:**
+
+| Field | Description |
+|---|---|
+| `deployment_id` | Unique identifier for this deployment |
+| `daemon_id` | Cloud daemon identifier |
+| `env` | Target environment |
+| `pushed_at` | ISO 8601 push timestamp |
+| `daemon_status` | `starting` or `running` |
+| `url` | Cloud dashboard URL for this deployment |
+
+```json
+{
+  "deployment_id": "dep_01HXYZ",
+  "daemon_id": "daemon_ABCD",
+  "env": "production",
+  "pushed_at": "2026-04-06T10:00:00Z",
+  "daemon_status": "starting",
   "url": "https://app.ao.dev/acme/my-project/deployments/dep_01HXYZ"
 }
 ```
@@ -267,7 +375,7 @@ animus cloud logs --json
 
 ## Related
 
-- [Cloud Deployment Guide](../../guides/cloud-deployment.md) — end-to-end workflow: login → push → start → monitor
+- [Cloud Deployment Guide](../../guides/cloud-deployment.md) — end-to-end workflow: login → link → deploy → monitor
 - [Daemon Operations](../../guides/daemon-operations.md) — local daemon equivalent
 - [Fleet Management](../../guides/fleet-management.md) — multi-node distributed deployments
 - [Global Flags](global-flags.md)

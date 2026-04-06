@@ -1,5 +1,9 @@
 # Installation
 
+## Binary Name
+
+As of v0.3.0 the primary binary is **`animus`**. The previous name `ao` is kept as a backward-compatible alias — both names invoke the same binary. All documentation uses `animus`.
+
 ## Build from Source
 
 Animus is a Rust workspace. You need a working Rust toolchain (1.75+ recommended).
@@ -16,7 +20,7 @@ cargo ao-bin-build-release
 cargo ao-bin-build
 ```
 
-The build produces the `ao` binary along with supporting binaries (agent-runner, workflow-runner).
+The build produces the `animus` binary (with `ao` as an alias) along with supporting binaries (`agent-runner`, `workflow-runner`).
 
 ## Run Directly (Development)
 
@@ -47,7 +51,7 @@ Pre-built binaries are available on the [GitHub Releases](https://github.com/lau
 | `aarch64-apple-darwin` | macOS (Apple Silicon) |
 | `x86_64-pc-windows-msvc` | Windows (x86_64) |
 
-Download the appropriate archive, extract it, and place the `ao` binary on your `PATH`.
+Download the appropriate archive, extract it, and place the `animus` binary on your `PATH`. Each archive also contains the `ao` alias binary.
 
 ## Verify Installation
 
