@@ -58,6 +58,7 @@ Practical walkthroughs for day-to-day Animus operations.
 
 - **[CI/CD](ci-cd.md)** -- CI workflows, release pipelines, build commands, and test targets.
 - **[Troubleshooting](troubleshooting.md)** -- Common issues, diagnostics, and fixes.
+- **[Changelog](changelog.md)** -- Release highlights for each Animus CLI version.
 
 ## Tutorials & Quick References
 

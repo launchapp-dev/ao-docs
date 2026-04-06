@@ -2,7 +2,7 @@
 
 Animus cloud lets you run the Animus daemon in a managed cloud environment — no server to provision, no daemon process to babysit locally. You push your project configuration once and the cloud handles scheduling, agent execution, and log storage.
 
-For the full command reference see [ao cloud — CLI Reference](../reference/cli/cloud.md).
+For the full command reference see [animus cloud — CLI Reference](../reference/cli/cloud.md).
 
 ---
 
@@ -22,17 +22,42 @@ Authenticate the CLI against your Animus cloud account:
 animus cloud login
 ```
 
-A browser window opens. Complete the OAuth flow and return to the terminal. The session is stored in `~/.ao/cloud/credentials.json`.
-
-**CI / non-interactive environments:** generate a personal access token in the cloud dashboard and pass it directly:
+By default, `cloud login` uses the **device auth flow**: the CLI prints a short URL and a one-time code. Open the URL on any device (phone, laptop), enter the code, and approve the request. The CLI polls until confirmed. This flow works on headless servers and remote machines with no local browser.
 
 ```bash
+# Device flow — default, works everywhere
+animus cloud login
+
+# Browser flow — opens the system browser directly
+animus cloud login --browser
+
+# Token — CI/CD and service accounts
 animus cloud login --token $AO_CLOUD_TOKEN
+```
+
+Credentials are stored in `~/.ao/cloud/credentials.json`. Re-run `animus cloud login` to refresh an expired session.
+
+---
+
+## 2 — Link the Project
+
+Link the current project to an Animus Cloud project. This only needs to be done once per checkout:
+
+```bash
+animus cloud link
+```
+
+Animus reads the `origin` git remote, matches it against cloud projects in your organisation, and stores the link in `.ao/config.json`. All subsequent `push`, `deploy`, and `status` commands use the stored link automatically.
+
+If auto-detection fails (no git remote, or ambiguous match), specify the project slug explicitly:
+
+```bash
+animus cloud link --project my-project
 ```
 
 ---
 
-## 2 — Push the Project
+## 3 — Push the Project
 
 Upload your project's workflow definitions, personas, and pack configuration to the cloud:
 
@@ -56,7 +81,7 @@ animus cloud push --env staging
 
 ---
 
-## 3 — Start the Cloud Daemon
+## 4 — Start the Cloud Daemon
 
 Once the project is pushed, start the remote daemon:
 
@@ -74,7 +99,7 @@ The daemon is now active in the cloud and will pick up work as soon as tasks are
 
 ---
 
-## 4 — Check Status
+## 5 — Check Status
 
 Verify the deployment is healthy:
 
@@ -99,7 +124,7 @@ animus cloud status --json | jq '.daemon_status'
 
 ---
 
-## 5 — Stream Logs
+## 6 — Stream Logs
 
 Follow live output from the cloud daemon:
 
@@ -133,7 +158,7 @@ animus cloud logs --since 1h --json
 
 ---
 
-## 6 — Stop the Cloud Daemon
+## 7 — Stop the Cloud Daemon
 
 Gracefully drain active agents and stop:
 
@@ -153,6 +178,15 @@ animus cloud stop --force
 
 ### Deploy and Start in One Step
 
+Use `animus cloud deploy` as a single command that runs `push` followed by `start`:
+
+```bash
+animus cloud deploy
+animus cloud deploy --wait           # block until daemon reports running
+```
+
+Or manually:
+
 ```bash
 animus cloud push && animus cloud start --wait
 ```
@@ -170,7 +204,7 @@ animus cloud start --wait
 ### Check Daemon Health in CI
 
 ```bash
-STATUS=$(ao cloud status --json | jq -r '.daemon_status')
+STATUS=$(animus cloud status --json | jq -r '.daemon_status')
 if [ "$STATUS" != "running" ]; then
   echo "Cloud daemon is $STATUS — aborting" >&2
   exit 1
@@ -207,11 +241,15 @@ animus cloud status --env staging
 
 ## Troubleshooting
 
-**`animus cloud login` hangs at browser prompt in a headless environment**
+**`animus cloud login` hangs in a headless environment**
 
-Pass `--token` to skip the browser flow:
+The default device auth flow is headless-safe — it prints a URL and code without opening a browser. If you previously used `--browser` in a headless environment, switch to the default or token flows:
 
 ```bash
+# Default — no browser required
+animus cloud login
+
+# Token — skip interactive flow entirely
 animus cloud login --token $AO_CLOUD_TOKEN
 ```
 
