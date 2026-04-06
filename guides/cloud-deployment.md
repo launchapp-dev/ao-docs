@@ -22,20 +22,20 @@ Authenticate the CLI against your Animus cloud account:
 animus cloud login
 ```
 
-By default, `cloud login` uses the **device auth flow**: the CLI prints a short URL and a one-time code. Open the URL on any device (phone, laptop), enter the code, and approve the request. The CLI polls until confirmed. This flow works on headless servers and remote machines with no local browser.
+`ao cloud login` uses a **browser-based OAuth flow**: the CLI starts a local server on port `19823`, opens your system browser to Animus Cloud, completes GitHub OAuth, and captures the session token automatically.
 
 ```bash
-# Device flow — default, works everywhere
-animus cloud login
+# Default — opens system browser
+ao cloud login
 
-# Browser flow — opens the system browser directly
-animus cloud login --browser
+# Headless / remote — print URL, complete login from another device
+ao cloud login --no-browser
 
-# Token — CI/CD and service accounts
-animus cloud login --token $AO_CLOUD_TOKEN
+# Self-hosted Animus Cloud
+ao cloud login --server https://your-cloud.example.com
 ```
 
-Credentials are stored in `~/.ao/cloud/credentials.json`. Re-run `animus cloud login` to refresh an expired session.
+Credentials are stored in `~/.ao/cloud.json`. Re-run `ao cloud login` to refresh an expired session.
 
 ---
 
@@ -241,17 +241,15 @@ animus cloud status --env staging
 
 ## Troubleshooting
 
-**`animus cloud login` hangs in a headless environment**
+**`ao cloud login` hangs or fails in a headless environment**
 
-The default device auth flow is headless-safe — it prints a URL and code without opening a browser. If you previously used `--browser` in a headless environment, switch to the default or token flows:
+`ao cloud login` opens a system browser to complete GitHub OAuth. On headless servers (no browser available), use `--no-browser` to print the URL instead:
 
 ```bash
-# Default — no browser required
-animus cloud login
-
-# Token — skip interactive flow entirely
-animus cloud login --token $AO_CLOUD_TOKEN
+ao cloud login --no-browser
 ```
+
+Copy the printed URL, open it in a browser on any device, complete GitHub login, and the CLI will receive the token automatically on port `19823`. Ensure port `19823` is reachable on your machine (not blocked by a firewall).
 
 **`animus cloud push` fails with "no project found"**
 

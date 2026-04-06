@@ -26,56 +26,47 @@ animus cloud
 
 ### `animus cloud login`
 
-Authenticate with the Animus cloud service. Three authentication modes are supported:
+Authenticate the CLI with Animus Cloud using the browser-based OAuth flow.
 
-| Mode | When to use |
-|---|---|
-| **Device flow** (default) | Headless or remote machines — no browser required on the device running Animus |
-| **Browser flow** | Interactive workstations with a local browser |
-| **Token** | CI/CD pipelines and service accounts |
+**How it works:**
 
-**Device flow** (default): Animus prints a short URL and a one-time code. Open the URL on any device, enter the code, and approve the request. The CLI polls until the code is confirmed or expires (15 minutes).
+1. The CLI starts a local HTTP server on port `19823` to receive the session token.
+2. The CLI opens your system browser to the Animus Cloud login page, which redirects to GitHub OAuth.
+3. After GitHub authentication, the cloud server redirects back to `localhost:19823` with a session token.
+4. The CLI captures the token and stores it in `~/.ao/cloud.json`.
 
 ```bash
-# Device auth flow (default)
-animus cloud login
+# Standard login — opens system browser
+ao cloud login
 
-# Browser-based OAuth — opens the system browser directly
-animus cloud login --browser
+# Headless / remote — print URL instead of opening browser
+ao cloud login --no-browser
 
-# Personal access token — skips interactive flow entirely
-animus cloud login --token <TOKEN>
+# Connect to a self-hosted Animus Cloud instance
+ao cloud login --server https://your-cloud.example.com
 
-animus cloud login --json
+ao cloud login --json
 ```
 
 **Flags:**
 
 | Flag | Description |
 |---|---|
-| `--browser` | Open system browser directly instead of printing a device code |
-| `--token <TOKEN>` | Personal access token — skips interactive flow (suitable for CI) |
-| `--org <ORG>` | Target organisation slug (required if account belongs to multiple orgs) |
+| `--no-browser` | Print the login URL instead of opening the system browser. Use on headless servers or remote machines. |
+| `--server <URL>` | Animus Cloud server URL. Defaults to `https://animus.launchapp.dev`. |
 
-**Output fields:**
-
-| Field | Description |
-|---|---|
-| `authenticated` | `true` when login succeeded |
-| `user` | Authenticated user email |
-| `org` | Organisation the session is scoped to |
-| `token_expires_at` | ISO 8601 expiry timestamp (`null` for non-expiring PATs) |
+**Output (with `--json`):**
 
 ```json
 {
   "authenticated": true,
-  "user": "sam@example.com",
-  "org": "acme",
-  "token_expires_at": "2026-07-01T00:00:00Z"
+  "user": "sam@example.com"
 }
 ```
 
-> Credentials are stored in `~/.ao/cloud/credentials.json`. Re-run `animus cloud login` to refresh an expired session.
+> Credentials are stored in `~/.ao/cloud.json`. Re-run `ao cloud login` to refresh an expired session.
+
+> **Note:** `ao cloud login` requires a browser with GitHub access for the OAuth handshake. The local callback server listens on port `19823` — ensure this port is not blocked by a firewall on your machine.
 
 ---
 
