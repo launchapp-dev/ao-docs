@@ -8,9 +8,9 @@ This tutorial walks you from a new Animus account through your first cloud deplo
 
 ## Step 1 — Sign Up or Accept an Invite
 
-**New accounts:** Navigate to `app.ao.dev` and click **Sign Up**. Enter your email and create a password, then verify your email address.
+**New accounts:** Navigate to `animus.launchapp.dev` and click **Sign Up**. Sign in with GitHub or create an account with your email address.
 
-**Invited to an existing organisation:** Click the link in the invite email. You will be asked to set a password and then land in the organisation you were invited to.
+**Invited to an existing organisation:** Click the link in the invite email. You will land in the organisation you were invited to.
 
 After sign-in you arrive at the **Projects** overview. If you just created an account it will be empty — that is expected.
 
@@ -18,27 +18,22 @@ After sign-in you arrive at the **Projects** overview. If you just created an ac
 
 ## Step 2 — Authenticate the CLI
 
-The CLI and dashboard share the same credentials. Run:
+The CLI uses OAuth 2.1 with PKCE to authenticate against Animus Cloud. Run:
 
 ```bash
 animus cloud login
 ```
 
-Your browser opens the `app.ao.dev` authentication page. After you confirm, the CLI stores a refresh token in your system keychain. Subsequent CLI commands use this token automatically.
+Your browser opens the Animus authentication page. Sign in with GitHub or email, then approve the requested permissions on the consent page. The CLI stores an access token in `~/.ao/cloud/credentials.json` automatically.
 
-Verify the connection:
+On a headless machine (no browser), use:
 
 ```bash
-animus cloud status
+animus cloud login --no-browser
+# Copy and paste the printed URL into any browser
 ```
 
-Expected output:
-
-```
-Authenticated as: you@example.com
-Organisation:     your-org
-Plan:             Starter
-```
+Access tokens expire after 1 hour. Re-run `animus cloud login` when prompted. For full details on the OAuth flow, scopes, and token management, see the [Cloud Auth Guide](../guides/cloud-auth.md).
 
 ---
 
@@ -135,6 +130,7 @@ Webhook payloads are signed with HMAC-SHA256; see [Cloud Dashboard Guide — Web
 
 | Goal | Where to go |
 |---|---|
+| Understand OAuth flow and token management | [Cloud Auth Guide](../guides/cloud-auth.md) |
 | Understand deployment environments | [Cloud Deployment](../guides/cloud-deployment.md) |
 | Browse pre-built workflow templates | [Workflow Template Gallery](../guides/cloud-dashboard.md#workflow-template-gallery) |
 | Manage team access | [Cloud Dashboard — Team and Access](../guides/cloud-dashboard.md#team-and-access) |
@@ -146,6 +142,7 @@ Webhook payloads are signed with HMAC-SHA256; see [Cloud Dashboard Guide — Web
 
 ## Related
 
+- [Cloud Auth Guide](../guides/cloud-auth.md) — OAuth 2.1 PKCE flow, endpoints, scopes, and token management
 - [Cloud Dashboard Guide](../guides/cloud-dashboard.md) — complete reference for every dashboard section
 - [Cloud Deployment](../guides/cloud-deployment.md) — full `animus cloud push` and environment management reference
 - [Cloud Billing Guide](../guides/cloud-billing.md) — plans, usage metrics, and cost breakdown
