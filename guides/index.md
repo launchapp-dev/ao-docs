@@ -20,6 +20,7 @@ Practical walkthroughs for day-to-day Animus operations.
 
 ## Operations
 
+- **[Autonomous Mode](autonomous-mode.md)** -- How autonomous mode works end-to-end: daemon start, task pickup, cron schedules, event triggers, dashboard visibility, and how it differs from a manual agent run.
 - **[Daemon Operations](daemon-operations.md)** -- Starting, stopping, pausing, configuring, and monitoring the autonomous daemon.
 - **[Pack Management](pack-management.md)** -- Installing, listing, configuring, and troubleshooting Animus plugin packs.
 - **[Fleet Management](fleet-management.md)** -- Getting started with `animus fleet`: registering nodes, sizing pools, running parallel agents, scheduling, and observability across a distributed fleet.
