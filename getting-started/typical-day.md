@@ -65,6 +65,38 @@ animus daemon health
 animus output tail
 ```
 
+## Workflow Runs vs. Agent Runs
+
+A **workflow run** (`WF-xxx`) is the full phase pipeline for a task. The daemon
+dispatches it and `workflow-runner` executes each phase in sequence.
+
+An **agent run** (`RUN-xxx`) is a single phase within that pipeline. Each phase
+spawns one AI CLI process (claude, gemini, etc.) — that process is the agent run.
+One workflow run produces many agent runs.
+
+```
+Workflow run (WF-001)
+  └─ Phase: triage         → Agent run RUN-001  (verdict: advance)
+  └─ Phase: research       → Agent run RUN-002  (verdict: advance)
+  └─ Phase: implementation → Agent run RUN-003  (verdict: advance)
+  └─ Phase: code-review    → Agent run RUN-004  (verdict: rework)
+  └─ Phase: implementation → Agent run RUN-005  (verdict: advance)  ← rework retry
+  └─ Phase: code-review    → Agent run RUN-006  (verdict: advance)
+```
+
+When you watch live output, you are watching an agent run:
+
+```bash
+animus output tail --run-id RUN-003
+```
+
+When you track overall progress, you are tracking the workflow run:
+
+```bash
+animus workflow get --id WF-001
+animus workflow decisions --id WF-001
+```
+
 ## What the Daemon Actually Does
 
 The daemon:

@@ -7,7 +7,7 @@ This section walks you from zero to a running Animus project with autonomous AI 
 ## Pages
 
 - **[Installation](installation.md)** -- Build from source or grab a release binary.
-- **[Quick Start](quick-start.md)** -- First-time setup in under six minutes with time estimates for each step.
+- **[Quick Start](quick-start.md)** -- First-time setup in under six minutes, including the workflow-run vs. agent-run distinction and common pitfalls.
 - **[First Autonomous PR (5 min)](../guides/first-autonomous-pr.md)** -- Get your first autonomous pull request in 5 minutes.
 - **[Project Setup](project-setup.md)** -- Understand what `animus setup` creates and how Animus organizes project state.
 - **[A Typical Day](typical-day.md)** -- End-to-end walkthrough of using Animus to build software, from morning planning to evening PRs.
