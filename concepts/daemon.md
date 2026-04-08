@@ -120,3 +120,21 @@ When started with `--autonomous`, the daemon forks a child process. Stderr is re
 - **Daemon crashes** -- On next startup, orphan recovery detects and cleans up stale subprocesses.
 - **workflow-runner crashes** -- The daemon detects the process exit and emits a failure fact.
 - **Phase fails inside a workflow** -- Handled by workflow-runner's [rework loop](./agents-and-phases.md), not by the daemon.
+
+---
+
+## Cloud-Hosted Daemon
+
+As of v0.3.0, the daemon can also run in Animus Cloud — a managed environment where Animus handles provisioning, scheduling, and log storage. The cloud daemon is deployed and controlled with `animus cloud` commands:
+
+```bash
+animus cloud login          # Authenticate with Animus Cloud
+animus cloud link           # Link project to a cloud project
+animus cloud deploy         # Push configuration and start the cloud daemon
+animus cloud status         # Check cloud daemon health
+animus cloud stop           # Stop the cloud daemon
+```
+
+The cloud daemon has the same tick loop, capacity model, and execution-fact semantics as the local daemon. The difference is operational: no local process to manage, and logs are streamed via `animus cloud logs` rather than read from `.ao/daemon.log`.
+
+See [Cloud Deployment Guide](../guides/cloud-deployment.md) for the full setup walkthrough and [animus cloud — CLI Reference](../reference/cli/cloud.md) for the complete command reference.

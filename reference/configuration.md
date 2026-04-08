@@ -26,7 +26,19 @@ Project pack selection and pinning state, managed by `animus pack ...`.
 
 ### `.ao/config.json`
 
-Project configuration and registry-scoped metadata created during setup.
+Project configuration and registry-scoped metadata created during setup. Also stores cloud linkage data written by `animus cloud link`:
+
+```json
+{
+  "cloud": {
+    "org": "acme",
+    "project": "my-project",
+    "linked_at": "2026-04-06T10:00:00Z"
+  }
+}
+```
+
+Run `animus cloud link` once per checkout to populate the `cloud` key. All subsequent `animus cloud push`, `deploy`, and `status` commands read this value automatically.
 
 ## Bundled and Installed Sources
 
