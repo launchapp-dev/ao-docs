@@ -26,25 +26,17 @@ animus cloud
 
 ### `animus cloud login`
 
-Authenticate with the Animus cloud service. Three authentication modes are supported:
-
-| Mode | When to use |
-|---|---|
-| **Device flow** (default) | Headless or remote machines — no browser required on the device running Animus |
-| **Browser flow** | Interactive workstations with a local browser |
-| **Token** | CI/CD pipelines and service accounts |
-
-**Device flow** (default): Animus prints a short URL and a one-time code. Open the URL on any device, enter the code, and approve the request. The CLI polls until the code is confirmed or expires (15 minutes).
+Authenticate with the Animus cloud service using OAuth 2.1 with PKCE. The CLI starts a local server on port 19823, opens your browser at the Animus authorization page, and exchanges the returned authorization code for an access token. Credentials are stored in `~/.ao/cloud/credentials.json`.
 
 ```bash
-# Device auth flow (default)
+# Open browser automatically (default)
 animus cloud login
 
-# Browser-based OAuth — opens the system browser directly
-animus cloud login --browser
+# Print the authorization URL instead of opening the browser
+animus cloud login --no-browser
 
-# Personal access token — skips interactive flow entirely
-animus cloud login --token <TOKEN>
+# Connect to a self-hosted Animus Cloud instance
+animus cloud login --server https://cloud.example.com
 
 animus cloud login --json
 ```
@@ -53,29 +45,35 @@ animus cloud login --json
 
 | Flag | Description |
 |---|---|
-| `--browser` | Open system browser directly instead of printing a device code |
-| `--token <TOKEN>` | Personal access token — skips interactive flow (suitable for CI) |
-| `--org <ORG>` | Target organisation slug (required if account belongs to multiple orgs) |
+| `--no-browser` | Print the authorization URL instead of opening the system browser — useful on headless machines |
+| `--server <URL>` | Animus Cloud server URL. Defaults to `https://animus.launchapp.dev` |
 
-**Output fields:**
+**What happens during login:**
+
+1. The CLI starts a local HTTP server on `localhost:19823` to receive the OAuth callback.
+2. A PKCE code verifier and SHA-256 code challenge are generated.
+3. Your browser opens at the Animus Cloud authorization endpoint with the PKCE parameters.
+4. You sign in (GitHub or email) and approve the requested scopes on the consent page.
+5. The server redirects to `localhost:19823/callback` with an authorization code.
+6. The CLI exchanges the code + verifier for an access token and stores it locally.
+
+**Output fields (with `--json`):**
 
 | Field | Description |
 |---|---|
 | `authenticated` | `true` when login succeeded |
 | `user` | Authenticated user email |
-| `org` | Organisation the session is scoped to |
-| `token_expires_at` | ISO 8601 expiry timestamp (`null` for non-expiring PATs) |
+| `token_expires_at` | ISO 8601 expiry timestamp (access tokens expire after 1 hour) |
 
 ```json
 {
   "authenticated": true,
   "user": "sam@example.com",
-  "org": "acme",
-  "token_expires_at": "2026-07-01T00:00:00Z"
+  "token_expires_at": "2026-04-07T11:00:00Z"
 }
 ```
 
-> Credentials are stored in `~/.ao/cloud/credentials.json`. Re-run `animus cloud login` to refresh an expired session.
+> Re-run `animus cloud login` to refresh an expired session. For the full OAuth flow details, see the [Cloud Auth Guide](../../guides/cloud-auth.md).
 
 ---
 
@@ -375,6 +373,7 @@ animus cloud logs --json
 
 ## Related
 
+- [Cloud Auth Guide](../../guides/cloud-auth.md) — OAuth 2.1 PKCE flow, endpoints, scopes, and token management
 - [Cloud Deployment Guide](../../guides/cloud-deployment.md) — end-to-end workflow: login → link → deploy → monitor
 - [Daemon Operations](../../guides/daemon-operations.md) — local daemon equivalent
 - [Fleet Management](../../guides/fleet-management.md) — multi-node distributed deployments
